@@ -10,4 +10,6 @@ public class Post : BaseEntity
 
     public required string Text { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 }
