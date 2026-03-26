@@ -10,6 +10,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<Announcement> Announcements { get; set; }
+    public DbSet<AuditLog> AuditLogs { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Post> Posts { get; set; }
