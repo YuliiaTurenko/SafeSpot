@@ -433,3 +433,4 @@ FodyWeavers.xsd
 
 #Project preferences 
 **/Migrations/
+**/appsettings.json
