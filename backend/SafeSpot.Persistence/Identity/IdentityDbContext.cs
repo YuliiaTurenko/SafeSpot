@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SafeSpot.Persistence.Identity;
 
-public class IdentityDbContext : IdentityDbContext<ApplicationUser, IdentityRole<long>, long>
+public class IdentityDbContext : IdentityDbContext<ApplicationUser>
 {
     public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options)
     {

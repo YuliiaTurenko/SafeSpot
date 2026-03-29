@@ -24,5 +24,16 @@ public class AnnouncementConfiguration : IEntityTypeConfiguration<Announcement>
 
         builder.Property(x => x.ImageUrl)
            .HasMaxLength(500);
+
+        builder
+           .HasOne(x => x.User)
+           .WithMany()
+           .HasForeignKey(x => x.UserId)
+           .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+           .HasOne(x => x.Shelter)
+           .WithMany()
+           .HasForeignKey(x => x.ShelterId);
     }
 }

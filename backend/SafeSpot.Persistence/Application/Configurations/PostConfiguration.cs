@@ -19,6 +19,12 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
            .IsRequired();
 
         builder
+           .HasOne(x => x.User)
+           .WithMany()
+           .HasForeignKey(x => x.UserId)
+           .OnDelete(DeleteBehavior.NoAction);
+
+        builder
             .HasMany(x => x.Comments)
             .WithOne(x => x.Post)
             .HasForeignKey(x => x.PostId)

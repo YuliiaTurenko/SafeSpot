@@ -1,6 +1,4 @@
-﻿using SafeSpot.Domain.Enums;
-
-namespace SafeSpot.Domain.Entities;
+﻿namespace SafeSpot.Domain.Entities;
 
 public class User : BaseEntity
 {

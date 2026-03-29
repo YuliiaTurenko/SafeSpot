@@ -2,7 +2,7 @@
 
 public enum EntityType
 {
-    Sheler = 0,
+    Shelter = 0,
     Sensor = 1,
     ShelterResource = 2,
     Announcement = 3,

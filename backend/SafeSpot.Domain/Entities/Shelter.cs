@@ -14,4 +14,5 @@ public class Shelter : BaseEntity
     public virtual ICollection<Sensor> Sensors { get; set; } = new List<Sensor>();
     public virtual ICollection<Announcement> Announcements { get; set; } = new List<Announcement>();
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+    public virtual ICollection<ShelterResource> Resources { get; set; } = new List<ShelterResource>();
 }

@@ -38,5 +38,11 @@ public class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
             .WithOne(x => x.Shelter)
             .HasForeignKey(x => x.ShelterId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasMany(x => x.Resources)
+            .WithOne(x => x.Shelter)
+            .HasForeignKey(x => x.ShelterId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

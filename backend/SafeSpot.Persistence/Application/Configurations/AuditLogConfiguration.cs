@@ -16,5 +16,11 @@ public class AuditLogConfiguration : IEntityTypeConfiguration<AuditLog>
         
         builder.Property(x => x.EntityId)
             .IsRequired();
+
+        builder
+           .HasOne(x => x.User)
+           .WithMany()
+           .HasForeignKey(x => x.UserId)
+           .OnDelete(DeleteBehavior.Restrict);
     }
 }

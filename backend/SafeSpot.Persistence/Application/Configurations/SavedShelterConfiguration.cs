@@ -13,5 +13,16 @@ public class SavedShelterConfiguration : IEntityTypeConfiguration<SavedShelter>
 
         builder.Property(x => x.ShelterId)
             .IsRequired();
+
+        builder
+          .HasOne(x => x.User)
+          .WithMany()
+          .HasForeignKey(x => x.UserId)
+          .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+           .HasOne(x => x.Shelter)
+           .WithMany()
+           .HasForeignKey(x => x.ShelterId);
     }
 }
