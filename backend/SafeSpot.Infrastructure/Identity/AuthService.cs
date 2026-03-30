@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SafeSpot.Application.Abstractions;
 using SafeSpot.Application.DTOs.Auth;
+using SafeSpot.Infrastructure.Services;
 using SafeSpot.Persistence.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,12 +15,14 @@ namespace SafeSpot.Infrastructure.Identity;
 public class AuthService : IAuthService
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IEmailService _emailService;
     private readonly IConfiguration _config;
 
-    public AuthService(UserManager<ApplicationUser> userManager,
-                       IConfiguration config)
+    public AuthService(UserManager<ApplicationUser> userManager, 
+        IEmailService emailService, IConfiguration config)
     {
         _userManager = userManager;
+        _emailService = emailService;
         _config = config;
     }
 
@@ -37,12 +41,20 @@ public class AuthService : IAuthService
 
         await _userManager.AddToRoleAsync(user, "User");
 
-        var token = GenerateToken(user);
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+        var confirmationLink = $"https://localhost:5001/api/auth/confirm-email?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+
+        await _emailService.SendAsync(
+            user.Email,
+            "Confirm your email",
+            $"Click here: {confirmationLink}"
+        );
 
         return new AuthResponse
         {
             Email = user.Email,
-            Token = await token
+            Token = null
         };
     }
 
@@ -52,6 +64,9 @@ public class AuthService : IAuthService
 
         if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
             throw new Exception("Invalid credentials");
+
+        if (!user.EmailConfirmed)
+            throw new Exception("Email not confirmed");
 
         var token = GenerateToken(user);
 
@@ -87,5 +102,39 @@ public class AuthService : IAuthService
             signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public async Task<AuthResponse> LoginWithGoogleAsync(string idToken)
+    {
+        var payload = await GoogleJsonWebSignature.ValidateAsync(idToken);
+
+        var email = payload.Email;
+
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user == null)
+        {
+            user = new ApplicationUser
+            {
+                UserName = email,
+                Email = email,
+                EmailConfirmed = true
+            };
+
+            var result = await _userManager.CreateAsync(user);
+
+            if (!result.Succeeded)
+                throw new Exception("Google registration failed");
+
+            await _userManager.AddToRoleAsync(user, "User");
+        }
+
+        var token = await GenerateToken(user);
+
+        return new AuthResponse
+        {
+            Email = user.Email,
+            Token = token
+        };
     }
 }
