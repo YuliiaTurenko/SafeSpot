@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using SafeSpot.Api.Extensions;
+using SafeSpot.Api.Middleware;
 using SafeSpot.Infrastructure.Identity;
 using System.Text;
 
@@ -11,14 +12,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddProjectServices(builder.Configuration);
-
-var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    await RoleSeeder.SeedAsync(roleManager);
-}
 
 builder.Services.AddAuthentication(options =>
 {
@@ -40,6 +33,15 @@ builder.Services.AddAuthentication(options =>
             Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
+
+var app = builder.Build();
+app.UseMiddleware<ExceptionMiddleware>();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await RoleSeeder.SeedAsync(roleManager);
+}
 
 if (app.Environment.IsDevelopment())
 {
