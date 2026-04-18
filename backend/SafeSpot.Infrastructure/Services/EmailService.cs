@@ -10,11 +10,11 @@ public class EmailService : IEmailService
     {
         var smtp = new SmtpClient("smtp.gmail.com", 587)
         {
-            Credentials = new NetworkCredential("YOUR_EMAIL@gmail.com", "APP_PASSWORD"),
+            Credentials = new NetworkCredential("uliaturenko604@gmail.com", "qzny ugvv bgup zvyd"),
             EnableSsl = true
         };
 
-        var message = new MailMessage("YOUR_EMAIL@gmail.com", to, subject, body);
+        var message = new MailMessage("uliaturenko604@gmail.com", to, subject, body);
 
         await smtp.SendMailAsync(message);
     }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using SafeSpot.Application.Abstractions;
 using SafeSpot.Application.DTOs.Auth;
 using SafeSpot.Persistence.Identity;
+using System.Text;
 
 namespace SafeSpot.Api.Controllers;
 
@@ -45,11 +47,20 @@ public class AuthController : ControllerBase
         if (user == null)
             return BadRequest();
 
-        var result = await _userManager.ConfirmEmailAsync(user, token);
+        var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+
+        var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
 
         if (!result.Succeeded)
             return BadRequest();
 
-        return Ok("Email confirmed");
+        return Ok();
+    }
+
+    [HttpPost("resend-confirmation")]
+    public async Task<IActionResult> ResendConfirmation([FromBody] ResendConfirmationRequest request)
+    {
+        await _authService.ResendConfirmationEmailAsync(request.Email);
+        return Ok();
     }
 }
