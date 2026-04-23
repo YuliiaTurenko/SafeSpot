@@ -1,5 +1,4 @@
 ﻿using Google.Apis.Auth;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
@@ -19,21 +18,22 @@ public class AuthService : IAuthService
     private readonly IEmailService _emailService;
     private readonly IConfiguration _config;
     private readonly ILocalizationService _loc;
-    private readonly IHttpContextAccessor _http;
+    private readonly IUserContext _userContext;
 
     public AuthService(UserManager<ApplicationUser> userManager, 
         IEmailService emailService, IConfiguration config, 
-        ILocalizationService loc, IHttpContextAccessor http)
+        ILocalizationService loc, IUserContext userContext)
     {
         _userManager = userManager;
         _emailService = emailService;
         _config = config;
         _loc = loc;
-        _http = http;
+        _userContext = userContext;
     }
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
     {
+        var lang = _userContext.GetLanguage();
         var user = new ApplicationUser
         {
             UserName = request.Email,
@@ -43,22 +43,20 @@ public class AuthService : IAuthService
         var result = await _userManager.CreateAsync(user, request.Password);
 
         if (!result.Succeeded)
-            throw new Exception("Registration failed");
+            throw new Exception(_loc.Get("RegistrationFailed", lang));
 
         await _userManager.AddToRoleAsync(user, "User");
 
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+        var confirmationLink = $"http://localhost:5173/confirm-email?userId={user.Id}&token={encodedToken}";
 
-        var confirmationLink = $"http://localhost:5173/confirm-email?userId={user.Id}&token={token}";
+        var subject = lang == "uk" ? "Підтвердження пошти" : "Confirm your email";
+        var body = lang == "uk"
+            ? $"Перейдіть за посиланням: {confirmationLink}"
+            : $"Click the link to confirm your email: {confirmationLink}";
 
-        //var subject = _loc.Get("EmailSubject", lang);
-        //var body = string.Format(_loc.Get("EmailBody", lang), confirmationLink);
-
-        await _emailService.SendAsync(
-            user.Email,
-            "Confirm your email",
-            $"Click the link to confirm your email: {confirmationLink}"
-        );
+        await _emailService.SendAsync(user.Email, subject, body);
 
         return new AuthResponse
         {
@@ -69,25 +67,24 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
     {
+        var lang = _userContext.GetLanguage();
         var user = await _userManager.FindByEmailAsync(request.Email);
-        var lang = _http.HttpContext?.Request.Headers["Accept-Language"].ToString() ?? "en";
 
         if (user == null)
             throw new Exception(_loc.Get("UserNotFound", lang));
 
-        //!!!
         if (!await _userManager.CheckPasswordAsync(user, request.Password))
-            throw new Exception("Invalid password");
+            throw new Exception(_loc.Get("InvalidPassword", lang));
 
         if (!user.EmailConfirmed)
             throw new Exception(_loc.Get("EmailNotConfirmed", lang));
 
-        var token = GenerateToken(user);
+        var token = await GenerateToken(user);
 
         return new AuthResponse
         {
             Email = user.Email,
-            Token = await token
+            Token = token
         };
     }
 
@@ -105,9 +102,7 @@ public class AuthService : IAuthService
             new Claim(ClaimTypes.Role, role)));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
         var token = new JwtSecurityToken(
             issuer: _config["Jwt:Issuer"],
             audience: _config["Jwt:Audience"],
@@ -120,10 +115,9 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> LoginWithGoogleAsync(string idToken)
     {
+        var lang = _userContext.GetLanguage();
         var payload = await GoogleJsonWebSignature.ValidateAsync(idToken);
-
         var email = payload.Email;
-
         var user = await _userManager.FindByEmailAsync(email);
 
         if (user == null)
@@ -138,7 +132,7 @@ public class AuthService : IAuthService
             var result = await _userManager.CreateAsync(user);
 
             if (!result.Succeeded)
-                throw new Exception("Google registration failed");
+                throw new Exception(_loc.Get("RegistrationFailed", lang));
 
             await _userManager.AddToRoleAsync(user, "User");
         }
@@ -154,24 +148,24 @@ public class AuthService : IAuthService
 
     public async Task ResendConfirmationEmailAsync(string email)
     {
+        var lang = _userContext.GetLanguage();
         var user = await _userManager.FindByEmailAsync(email);
 
         if (user == null)
-            throw new Exception("User not found");
+            throw new Exception(_loc.Get("UserNotFound", lang));
 
         if (user.EmailConfirmed)
-            throw new Exception("Email already confirmed");
+            throw new Exception(_loc.Get("EmailAreadyConfirmed", lang));
 
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
         var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-
         var confirmationLink = $"http://localhost:5173/confirm-email?userId={user.Id}&token={encodedToken}";
 
-        await _emailService.SendAsync(
-            user.Email,
-            "Confirm your email",
-            $"Click the link to confirm your email: {confirmationLink}"
-        );
+        var subject = lang == "uk" ? "Підтвердження пошти" : "Confirm your email";
+        var body = lang == "uk"
+            ? $"Перейдіть за посиланням: {confirmationLink}"
+            : $"Click the link to confirm your email: {confirmationLink}";
+
+        await _emailService.SendAsync(user.Email, subject, body);
     }
 }

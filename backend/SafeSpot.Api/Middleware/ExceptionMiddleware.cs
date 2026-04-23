@@ -10,19 +10,17 @@ public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionMiddleware> _logger;
-    private readonly ILocalizationService _loc;
 
     public ExceptionMiddleware(
         RequestDelegate next,
-        ILogger<ExceptionMiddleware> logger,
-        ILocalizationService loc)
+        ILogger<ExceptionMiddleware> logger)
     {
         _next = next;
         _logger = logger;
-        _loc = loc;
     }
 
-    public async Task InvokeAsync(HttpContext httpContext)
+    public async Task InvokeAsync(HttpContext httpContext, ILocalizationService loc,
+        IUserContext userContext)
     {
         try
         {
@@ -30,13 +28,13 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(httpContext, ex);
+            await HandleExceptionAsync(httpContext, ex, loc, userContext);
         }
     }
 
-    private async Task HandleExceptionAsync(HttpContext context, Exception ex)
+    private async Task HandleExceptionAsync(HttpContext context, Exception ex, ILocalizationService loc, IUserContext userContext)
     {
-        var lang = context.Request.Headers["Accept-Language"].ToString() ?? "en";
+        var lang = userContext.GetLanguage();
 
         HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
 
@@ -44,7 +42,7 @@ public class ExceptionMiddleware
         {
             Title = "Error",
             Status = (int)statusCode,
-            Message = _loc.Get("ServerError", lang)
+            Message = loc.Get("ServerError", lang)
         };
 
         switch (ex)
@@ -56,7 +54,8 @@ public class ExceptionMiddleware
                 {
                     Title = "Bad Request",
                     Status = (int)statusCode,
-                    Message = badRequest.Message,
+
+                    Message = loc.Get("BadRequest", lang),
                     Errors = badRequest.ValidationErrors
                 };
 
@@ -70,7 +69,7 @@ public class ExceptionMiddleware
                 {
                     Title = "Not Found",
                     Status = (int)statusCode,
-                    Message = _loc.Get("NotFound", lang)
+                    Message = loc.Get("NotFound", lang)
                 };
 
                 _logger.LogWarning(ex, notFound.Message);
@@ -83,7 +82,7 @@ public class ExceptionMiddleware
                 {
                     Title = "Forbidden",
                     Status = (int)statusCode,
-                    Message = _loc.Get("Forbidden", lang)
+                    Message = loc.Get("Forbidden", lang)
                 };
 
                 _logger.LogWarning(ex, forbidden.Message);
@@ -96,7 +95,7 @@ public class ExceptionMiddleware
                 {
                     Title = "Unauthorized",
                     Status = (int)statusCode,
-                    Message = _loc.Get("Unauthorized", lang)
+                    Message = loc.Get("Unauthorized", lang)
                 };
 
                 _logger.LogWarning(ex, "Unauthorized");
@@ -109,7 +108,7 @@ public class ExceptionMiddleware
                 {
                     Title = "Server Error",
                     Status = (int)statusCode,
-                    Message = _loc.Get("ServerError", lang)
+                    Message = loc.Get("ServerError", lang)
                 };
 
                 _logger.LogError(ex, "Server error");

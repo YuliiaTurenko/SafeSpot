@@ -25,13 +25,12 @@ public static class DependencyInjection
             options.SignIn.RequireConfirmedEmail = true;
         }).AddEntityFrameworkStores<IdentityDbContext>().AddDefaultTokenProviders();
 
-        services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<IEmailService, EmailService>();
-        services.AddScoped<ILocalizationService, LocalizationService>();
-
         services.AddHttpContextAccessor();
         services.AddScoped<IUserContext, UserContext>();
-
+        services.AddScoped<ILocalizationService, LocalizationService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IEmailService, EmailService>();
+        
         return services;
     }
 }

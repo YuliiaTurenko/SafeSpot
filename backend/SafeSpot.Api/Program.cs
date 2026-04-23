@@ -8,6 +8,17 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -36,12 +47,25 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
-
-using (var scope = app.Services.CreateScope())
+app.UseExceptionHandler(errorApp =>
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    await RoleSeeder.SeedAsync(roleManager);
-}
+    errorApp.Run(async context =>
+    {
+        var exceptionHandler = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+
+        var error = exceptionHandler?.Error?.Message ?? "Error";
+
+        context.Response.StatusCode = 400;
+        await context.Response.WriteAsync(error);
+    });
+});
+
+app.UseCors("AllowAllOrigins");
+app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
@@ -49,7 +73,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseAuthorization();
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await RoleSeeder.SeedAsync(roleManager);
+}
+
 app.MapControllers();
 app.Run();

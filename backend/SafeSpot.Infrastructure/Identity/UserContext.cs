@@ -18,4 +18,16 @@ public class UserContext : IUserContext
         var claim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
         return claim is not null && long.TryParse(claim.Value, out var id) ? id : null;
     }
+
+    public string GetLanguage()
+    {
+        var lang = _httpContextAccessor.HttpContext?
+            .Request.Headers["Accept-Language"]
+            .ToString();
+
+        if (string.IsNullOrEmpty(lang))
+            return "en";
+
+        return lang.StartsWith("uk") ? "uk" : "en";
+    }
 }

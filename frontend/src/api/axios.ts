@@ -1,14 +1,16 @@
 import axios from "axios";
 
-const BASE_URL = "https://localhost:7298/api";
+const BASE_URL = "https://localhost:7165/api";
 
 export const api = axios.create({
   baseURL: BASE_URL,
+  withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
 
 export const apiAuth = axios.create({
   baseURL: BASE_URL,
+  withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
 

@@ -22,13 +22,13 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
         return Ok(await _authService.RegisterAsync(request));
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         return Ok(await _authService.LoginAsync(request));
     }

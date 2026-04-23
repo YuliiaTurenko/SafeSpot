@@ -3,4 +3,6 @@
 public interface IUserContext
 {
     long? GetApplicationUserId();
+
+    string GetLanguage();
 }
