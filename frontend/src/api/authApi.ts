@@ -9,19 +9,20 @@ import i18n from "i18next";
 apiAuth.interceptors.request.use((config) => {
   const lang = i18n.language || "en";
 
+  config.headers = config.headers || {};
   config.headers["Accept-Language"] = lang;
 
   return config;
 });
 
 export const register = (request: RegisterRequest) =>
-  apiAuth.post("/auth/register", { request });
+  apiAuth.post("/auth/register", request );
 
 export const login = (request: LoginRequest) =>
-  apiAuth.post("/auth/login", { request });
+  apiAuth.post("/auth/login", request);
 
 export const googleLogin = (idToken: string) =>
-  apiAuth.post("/auth/google", { idToken });
+  apiAuth.post("/auth/google", {idToken});
 
 export const confirmEmail = (request: ConfirmEmailRequest) =>
   apiAuth.get("/auth/confirm-email", {
@@ -32,6 +33,6 @@ export const confirmEmail = (request: ConfirmEmailRequest) =>
   });
 
 export const resendConfirmation = (email: string) =>
-  apiAuth.post("/auth/resend-confirmation", { email });
+  apiAuth.post("/auth/resend-confirmation", {email});
 
 export default apiAuth;

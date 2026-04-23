@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { confirmEmail } from "../api/authApi";
 import { useTranslation } from "react-i18next";
+import LanguageButton from "../components/LanguageButton"
 
 export default function ConfirmEmailPage() {
   const [params] = useSearchParams();
@@ -38,6 +39,9 @@ export default function ConfirmEmailPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#354F52]">
       <div className="bg-[#2F3E46] p-8 rounded-2xl w-96 text-center shadow-lg">
+        <div className="absolute top-8 right-12">
+          <LanguageButton />
+        </div>
         {status === "loading" && (
           <p className="text-[#CAD2C5]">{t("confirmingEmail")}</p>
         )}
@@ -50,7 +54,7 @@ export default function ConfirmEmailPage() {
             <p className="text-[#CAD2C5] text-sm">{t("redirecting")}</p>
 
             {/* <button
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/main")}
               className="mt-4 bg-[#84A98C] px-4 py-2 rounded text-[#151A3C]"
             >
               Go to Main page
