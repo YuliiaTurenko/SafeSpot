@@ -10,11 +10,10 @@ public class IdentityDbContext : IdentityDbContext<ApplicationUser>
     {
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(builder);
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(IdentityDbContext).Assembly);
-        modelBuilder.HasDefaultSchema("authentication_schema");
+        builder.HasDefaultSchema("authentication_schema");
     }
 }
