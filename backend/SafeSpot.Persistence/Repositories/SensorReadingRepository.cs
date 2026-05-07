@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SafeSpot.Application.Abstractions;
+﻿using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
+using SafeSpot.Persistence.Application;
 
 namespace SafeSpot.Persistence.Repositories;
 
 public class SensorReadingRepository : Repository<SensorReading>, ISensorReadingRepository
 {
-    public SensorReadingRepository(DbContext context) : base(context) { }
+    public SensorReadingRepository(ApplicationDbContext context) : base(context) { }
 }

@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SafeSpot.Application.Abstractions;
+﻿using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
+using SafeSpot.Persistence.Application;
 
 namespace SafeSpot.Persistence.Repositories;
 
 public class AnnouncementRepository : Repository<Announcement>, IAnnouncementRepository
 {
-    public AnnouncementRepository(DbContext context) : base(context) { }
+    public AnnouncementRepository(ApplicationDbContext context) : base(context) { }
 }

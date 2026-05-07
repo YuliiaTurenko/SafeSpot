@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SafeSpot.Application.Abstractions;
+using SafeSpot.Application.Features.User.Commands.Create;
+using SafeSpot.Application.Features.User.Commands.Update;
 using SafeSpot.Infrastructure.Identity;
 using SafeSpot.Infrastructure.Services;
 using SafeSpot.Persistence.Application;
 using SafeSpot.Persistence.Identity;
+using SafeSpot.Persistence.Repositories;
 
 namespace SafeSpot.Api.Extensions;
 
@@ -30,7 +34,22 @@ public static class DependencyInjection
         services.AddScoped<ILocalizationService, LocalizationService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IEmailService, EmailService>();
-        
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IShelterRepository, ShelterRepository>();
+        services.AddScoped<ISensorRepository, SensorRepository>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
+        services.AddScoped<IPostRepository, PostRepository>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<ISensorReadingRepository, SensorReadingRepository>();
+        services.AddScoped<IShelterResourceRepository, ShelterResourceRepository>();
+        services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+        services.AddScoped<ISavedShelterRepository, SavedShelterRepository>();
+        services.AddScoped<IAuditLogRepository, AuditLogRepository>();
+
+        services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
+        services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
+
         return services;
     }
 }

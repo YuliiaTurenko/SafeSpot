@@ -4,4 +4,5 @@ namespace SafeSpot.Application.Abstractions;
 
 public interface IUserRepository : IRepository<User>
 {
+    public Task<bool> ExistsByIdAsync(long Id);
 }

@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SafeSpot.Application.Abstractions;
+﻿using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
+using SafeSpot.Persistence.Application;
 
 namespace SafeSpot.Persistence.Repositories;
 
 public class UserSettingsRepository : Repository<UserSettings>, IUserSettingsRepository
 {
-    public UserSettingsRepository(DbContext context) : base(context) { }
+    public UserSettingsRepository(ApplicationDbContext context) : base(context) { }
 }

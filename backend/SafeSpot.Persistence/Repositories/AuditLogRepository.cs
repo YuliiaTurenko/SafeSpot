@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SafeSpot.Application.Abstractions;
+﻿using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
+using SafeSpot.Persistence.Application;
 
 namespace SafeSpot.Persistence.Repositories;
 
 public class AuditLogRepository : Repository<AuditLog>, IAuditLogRepository
 {
-    public AuditLogRepository(DbContext context) : base(context) { }
+    public AuditLogRepository(ApplicationDbContext context) : base(context) { }
 }

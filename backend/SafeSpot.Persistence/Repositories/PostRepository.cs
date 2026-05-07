@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SafeSpot.Application.Abstractions;
+﻿using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
+using SafeSpot.Persistence.Application;
 
 namespace SafeSpot.Persistence.Repositories;
 
 public class PostRepository : Repository<Post>, IPostRepository
 {
-    public PostRepository(DbContext context) : base(context) { }
+    public PostRepository(ApplicationDbContext context) : base(context) { }
 }

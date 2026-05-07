@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SafeSpot.Application.Abstractions;
+﻿using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
+using SafeSpot.Persistence.Application;
 
 namespace SafeSpot.Persistence.Repositories;
 
 public class ShelterResourceRepository : Repository<ShelterResource>, IShelterResourceRepository
 {
-    public ShelterResourceRepository(DbContext context) : base(context) { }
+    public ShelterResourceRepository(ApplicationDbContext context) : base(context) { }
 }

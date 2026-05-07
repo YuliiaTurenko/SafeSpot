@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SafeSpot.Application.Abstractions;
+﻿using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
+using SafeSpot.Persistence.Application;
 
 namespace SafeSpot.Persistence.Repositories;
 
 public class NotificationRepository : Repository<Notification>, INotificationRepository
 {
-    public NotificationRepository(DbContext context) : base(context) { }
+    public NotificationRepository(ApplicationDbContext context) : base(context) { }
 }
