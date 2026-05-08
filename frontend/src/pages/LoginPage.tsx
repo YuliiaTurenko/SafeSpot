@@ -8,6 +8,8 @@ import LanguageButton from "../components/LanguageButton";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "../context/ToastContext";
 import { validateEmail } from "../utils/validation";
+import { getRedirectByRole } from "../utils/roleRedirect";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const { setToken } = useAuth();
@@ -21,6 +23,8 @@ export default function LoginPage() {
   const { showToast } = useToast();
   const [cooldown, setCooldown] = useState(0);
 
+  const navigate = useNavigate();
+
   const handleLogin = async () => {
     const emailError = validateEmail(email);
 
@@ -31,7 +35,12 @@ export default function LoginPage() {
 
     try {
       const res = await login({ email, password });
+      const token = res.data.token;
+
       setToken(res.data.token);
+
+      const path = getRedirectByRole(token);
+      navigate(path);
     } catch (e: any) {
       const message = e.response?.data || "Error";
       showToast(message, "error");
@@ -82,7 +91,7 @@ export default function LoginPage() {
                 <input
                   type="email"
                   placeholder="email@example.com"
-                  className="block w-full bg-transparent py-2.5 text-xl text-white placeholder:text-gray-500 focus:outline-none sm:text-sm"
+                  className="block w-full bg-transparent py-2.5 text-xl text-white placeholder:text-gray-300 focus:outline-none sm:text-sm"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -102,7 +111,7 @@ export default function LoginPage() {
               >
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="block w-full bg-transparent py-2.5 text-xl text-white placeholder:text-gray-500 focus:outline-none sm:text-sm"
+                  className="block w-full bg-transparent py-2.5 text-xl text-white placeholder:text-gray-300 focus:outline-none sm:text-sm"
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Введіть пароль"
                 />

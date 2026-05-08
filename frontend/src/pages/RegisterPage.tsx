@@ -60,7 +60,7 @@ export default function RegisterPage() {
                 <input
                   type="email"
                   placeholder="email@example.com"
-                  className="block w-full bg-transparent py-2.5 text-xl text-white placeholder:text-gray-500 focus:outline-none sm:text-sm"
+                  className="block w-full bg-transparent py-2.5 text-xl text-white placeholder:text-gray-300 focus:outline-none sm:text-sm"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -80,7 +80,7 @@ export default function RegisterPage() {
               >
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="block w-full bg-transparent py-2.5 text-xl text-white placeholder:text-gray-500 focus:outline-none sm:text-sm"
+                  className="block w-full bg-transparent py-2.5 text-xl text-white placeholder:text-gray-300 focus:outline-none sm:text-sm"
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Введіть пароль"
                 />

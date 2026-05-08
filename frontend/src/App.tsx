@@ -1,9 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import { ToastProvider } from "./context/ToastContext";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ConfirmEmailPage from "./pages/ConfirmEmailPage";
-import { AuthProvider } from "./context/AuthContext";
-import { ToastProvider } from "./context/ToastContext";
+import CompleteProfilePage from "./pages/CompleteProfilePage";
+import HomePage from "./pages/HomePage";
+import AdminPage from "./pages/AdminPage";
+import OperatorPage from "./pages/OperatorPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -14,6 +19,11 @@ function App() {
             <Route path="/" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/confirm-email" element={<ConfirmEmailPage />} />
+            <Route path="/complete-profile" element={<CompleteProfilePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/operator" element={<OperatorPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </BrowserRouter>
       </ToastProvider>

@@ -26,7 +26,7 @@ export default function ConfirmEmailPage() {
         setStatus("success");
 
         setTimeout(() => {
-          navigate("/");
+          navigate("/complete-profile");
         }, 4000);
       } catch {
         setStatus("error");
