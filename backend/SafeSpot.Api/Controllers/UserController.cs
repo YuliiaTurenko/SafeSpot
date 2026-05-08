@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SafeSpot.Application.Abstractions;
 using SafeSpot.Application.Features.User.Commands.Create;
 using SafeSpot.Application.Features.User.Commands.Update;
 using SafeSpot.Application.Features.User.Queries.GetById;
@@ -12,10 +13,12 @@ namespace SafeSpot.Api.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IUserContext _userContext;
 
-    public UserController(IMediator mediator)
+    public UserController(IMediator mediator, IUserContext userContext)
     {
         _mediator = mediator;
+        _userContext = userContext;
     }
 
     [HttpPost("create")]
@@ -34,10 +37,13 @@ public class UserController : ControllerBase
         return Ok();
     }
 
+    [Authorize]
     [HttpGet("me")]
     public async Task<IActionResult> Get(long id)
     {
-        var result = await _mediator.Send(new GetUserByIdQuery(id));
+        var identityId = _userContext.GetApplicationUserId();
+
+        var result = await _mediator.Send(new GetUserByIdQuery(identityId));
         return Ok(result);
     }
 }

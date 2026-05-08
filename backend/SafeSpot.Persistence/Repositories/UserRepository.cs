@@ -14,6 +14,12 @@ public class UserRepository : Repository<User>, IUserRepository
         _db = context;
     }
 
+    public async Task<User?> GetByIdentityIdAsync(string identityId)
+    {
+        return await _dbSet
+            .FirstOrDefaultAsync(x => x.IdentityId == identityId);
+    }
+
     public async Task<bool> ExistsByIdAsync(long Id)
     {
         return await _db.Users.AnyAsync(x => x.Id == Id);

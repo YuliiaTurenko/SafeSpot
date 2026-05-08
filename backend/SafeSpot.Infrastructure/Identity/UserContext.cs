@@ -13,10 +13,9 @@ public class UserContext : IUserContext
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public long? GetApplicationUserId()
+    public string? GetApplicationUserId()
     {
-        var claim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
-        return claim is not null && long.TryParse(claim.Value, out var id) ? id : null;
+        return _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 
     public string GetLanguage()

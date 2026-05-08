@@ -22,14 +22,20 @@ public class AdminService
 
     public async Task SendAdminRequestAsync(string message)
     {
-        var userId = _userContext.GetApplicationUserId();
+        var identityId = _userContext.GetApplicationUserId();
 
-        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (string.IsNullOrEmpty(identityId))
+            throw new Exception("Unauthorized");
+
+        var identityUser = await _userManager.FindByIdAsync(identityId);
+
+        if (identityUser == null)
+            throw new Exception("User not found");
 
         var body = $@"
         Admin request:
-        Email: {user.Email}
-        UserId: {user.Id}
+        Email: {identityUser.Email}
+        IdentityId: {identityUser.Id}
         Message: {message}
         ";
 

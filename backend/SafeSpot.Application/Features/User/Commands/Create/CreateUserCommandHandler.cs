@@ -20,7 +20,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, long>
 
         var user = new Domain.Entities.User
         {
-            IdentityId = identityId.Value,
+            IdentityId = identityId,
             FirstName = request.FirstName,
             LastName = request.LastName,
             CreatedAt = DateTime.UtcNow

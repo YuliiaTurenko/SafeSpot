@@ -29,6 +29,10 @@ public static class DependencyInjection
             options.SignIn.RequireConfirmedEmail = true;
         }).AddEntityFrameworkStores<IdentityDbContext>().AddDefaultTokenProviders();
 
+        services.AddMediatR(cfg => {
+            cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly);
+        });
+
         services.AddHttpContextAccessor();
         services.AddScoped<IUserContext, UserContext>();
         services.AddScoped<ILocalizationService, LocalizationService>();

@@ -2,7 +2,7 @@
 
 public interface IUserContext
 {
-    long? GetApplicationUserId();
+    string? GetApplicationUserId();
 
     string GetLanguage();
 }

@@ -15,7 +15,7 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDto
 
     public async Task<UserDto> Handle(GetUserByIdQuery request, CancellationToken ct)
     {
-        var user = await _repo.GetByIdAsync(request.Id);
+        var user = await _repo.GetByIdentityIdAsync(request.Id);
 
         return new UserDto
         {

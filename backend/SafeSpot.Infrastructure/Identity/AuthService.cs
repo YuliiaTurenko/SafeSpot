@@ -88,40 +88,17 @@ public class AuthService : IAuthService
         };
     }
 
-    private async Task<string> GenerateToken(ApplicationUser user)
-    {
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.Email),
-            new Claim(ClaimTypes.NameIdentifier, user.Id)
-        };
-
-        var roles = await _userManager.GetRolesAsync(user);
-
-        claims.AddRange(roles.Select(role =>
-            new Claim(ClaimTypes.Role, role)));
-
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var token = new JwtSecurityToken(
-            issuer: _config["Jwt:Issuer"],
-            audience: _config["Jwt:Audience"],
-            claims: claims,
-            expires: DateTime.Now.AddMinutes(double.Parse(_config["Jwt:DurationInMinutes"])),
-            signingCredentials: creds);
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
-
-    public async Task<AuthResponse> LoginWithGoogleAsync(string idToken)
+    public async Task<GoogleAuthResponse> LoginWithGoogleAsync(string idToken)
     {
         var lang = _userContext.GetLanguage();
         var payload = await GoogleJsonWebSignature.ValidateAsync(idToken);
         var email = payload.Email;
         var user = await _userManager.FindByEmailAsync(email);
+        bool requiresCompletion = false;
 
         if (user == null)
         {
+            requiresCompletion = true;
             user = new ApplicationUser
             {
                 UserName = email,
@@ -139,10 +116,11 @@ public class AuthService : IAuthService
 
         var token = await GenerateToken(user);
 
-        return new AuthResponse
+        return new GoogleAuthResponse
         {
             Email = user.Email,
-            Token = token
+            Token = token,
+            RequiresProfileCompletion = requiresCompletion
         };
     }
 
@@ -167,5 +145,30 @@ public class AuthService : IAuthService
             : $"Click the link to confirm your email: {confirmationLink}";
 
         await _emailService.SendAsync(user.Email, subject, body);
+    }
+
+    private async Task<string> GenerateToken(ApplicationUser user)
+    {
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id)
+        };
+
+        var roles = await _userManager.GetRolesAsync(user);
+
+        claims.AddRange(roles.Select(role =>
+            new Claim(ClaimTypes.Role, role)));
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var token = new JwtSecurityToken(
+            issuer: _config["Jwt:Issuer"],
+            audience: _config["Jwt:Audience"],
+            claims: claims,
+            expires: DateTime.Now.AddMinutes(double.Parse(_config["Jwt:DurationInMinutes"])),
+            signingCredentials: creds);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
