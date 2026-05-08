@@ -98,7 +98,6 @@ public class AuthService : IAuthService
 
         if (user == null)
         {
-            requiresCompletion = true;
             user = new ApplicationUser
             {
                 UserName = email,
@@ -107,6 +106,7 @@ public class AuthService : IAuthService
             };
 
             var result = await _userManager.CreateAsync(user);
+            requiresCompletion = true;
 
             if (!result.Succeeded)
                 throw new Exception(_loc.Get("RegistrationFailed", lang));
