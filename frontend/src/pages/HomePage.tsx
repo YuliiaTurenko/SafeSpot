@@ -7,6 +7,7 @@ import LanguageButton from "../components/LanguageButton";
 export default function HomePage() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen flex bg-[#354F52] text-white">
@@ -15,20 +16,23 @@ export default function HomePage() {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 z-50`}
       >
-        <h2 className="text-xl mb-6">Menu</h2>
+        <h2 className="text-xl mb-6">{t("menu")}</h2>
 
         <nav className="flex flex-col gap-4">
-          <button className="text-left hover:text-[#84A98C]">Home</button>
-          <button className="text-left hover:text-[#84A98C]">Shelters</button>
-          <button className="text-left hover:text-[#84A98C]">Favorites</button>
           <button className="text-left hover:text-[#84A98C]">
-            Notifications
+            {t("shelters")}
+          </button>
+          <button className="text-left hover:text-[#84A98C]">
+            {t("saved")}
+          </button>
+          <button className="text-left hover:text-[#84A98C]">
+            {t("notifications")}
           </button>
           <button
             onClick={() => navigate("/profile")}
             className="text-left hover:text-[#84A98C]"
           >
-            Profile
+            {t("profile")}
           </button>
         </nav>
       </div>
@@ -51,7 +55,7 @@ export default function HomePage() {
 
           <input
             type="text"
-            placeholder="Search shelters..."
+            placeholder={t("searchShelters")}
             className="bg-[#2F3E46] px-4 py-2 rounded-lg w-full max-w-xl outline-none"
           />
         </div>

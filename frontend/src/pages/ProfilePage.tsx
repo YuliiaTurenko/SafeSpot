@@ -16,6 +16,7 @@ export default function ProfilePage() {
 
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     loadUser();
@@ -61,20 +62,20 @@ export default function ProfilePage() {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 z-50`}
       >
-        <h2 className="text-xl mb-6">Menu</h2>
+        <h2 className="text-xl mb-6">{t("menu")}</h2>
 
         <nav className="flex flex-col gap-4">
-          <button className="text-left hover:text-[#84A98C]">Home</button>
-          <button className="text-left hover:text-[#84A98C]">Shelters</button>
-          <button className="text-left hover:text-[#84A98C]">Favorites</button>
           <button className="text-left hover:text-[#84A98C]">
-            Notifications
+            {t("home")}
           </button>
-          <button
-            onClick={() => navigate("/profile")}
-            className="text-left hover:text-[#84A98C]"
-          >
-            Profile
+          <button className="text-left hover:text-[#84A98C]">
+            {t("shelters")}
+          </button>
+          <button className="text-left hover:text-[#84A98C]">
+            {t("saved")}
+          </button>
+          <button className="text-left hover:text-[#84A98C]">
+            {t("notifications")}
           </button>
         </nav>
       </div>
@@ -92,43 +93,45 @@ export default function ProfilePage() {
             <Menu size={28} />
           </button>
         </div>
-        
+
         <div className="absolute top-8 right-12">
           <LanguageButton />
         </div>
 
         <h2 className="text-5xl font-bold text-[#CAD2C5] mb-10 text-center">
-          Profile
+          {t("profile")}
         </h2>
 
         <input
           className="w-full mb-3 p-2 rounded bg-[#CAD2C5] text-black"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
-          placeholder="First name"
+          placeholder={t("firstName")}
         />
 
         <input
           className="w-full mb-3 p-2 rounded bg-[#CAD2C5] text-black"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-          placeholder="Last name"
+          placeholder={t("lastName")}
         />
 
-        <div className="text-sm mb-4 opacity-70">Email: {user.email}</div>
+        <div className="text-sm mb-4 opacity-70">
+          {t("email")}: {user.email}
+        </div>
 
         <button
           onClick={handleUpdate}
           className="w-full bg-[#84A98C] text-black p-2 rounded mb-3"
         >
-          Save changes
+          {t("save")}
         </button>
 
         <button
           onClick={() => setShowModal(true)}
           className="w-full bg-[#52796F] p-2 rounded"
         >
-          Request Admin Role
+          {t("adminRequest")}
         </button>
 
         {status && (
@@ -136,11 +139,10 @@ export default function ProfilePage() {
         )}
       </div>
 
-      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-[#2F3E46] p-6 rounded-xl w-full max-w-sm">
-            <h3 className="mb-3">Why do you want to be admin?</h3>
+            <h3 className="mb-3">{t("whyAdmin")}</h3>
 
             <textarea
               className="w-full p-2 rounded bg-[#CAD2C5] text-black mb-3"
@@ -152,14 +154,14 @@ export default function ProfilePage() {
               onClick={handleAdminRequest}
               className="w-full bg-[#84A98C] text-black p-2 rounded mb-2"
             >
-              Send
+              {t("send")}
             </button>
 
             <button
               onClick={() => setShowModal(false)}
               className="w-full bg-[#52796F] p-2 rounded"
             >
-              Cancel
+              {t("cancel")}
             </button>
           </div>
         </div>
