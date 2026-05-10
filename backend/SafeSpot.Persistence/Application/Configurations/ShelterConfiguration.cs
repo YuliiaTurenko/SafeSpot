@@ -8,8 +8,14 @@ public class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
 {
     public void Configure(EntityTypeBuilder<Shelter> builder)
     {
-        builder.Property(x => x.Location)
+        builder.Property(x => x.Address)
             .HasMaxLength(200)
+            .IsRequired();
+
+        builder.Property(x => x.Latitude)
+            .IsRequired();
+
+        builder.Property(x => x.Longitude)
             .IsRequired();
 
         builder.Property(x => x.Description)
