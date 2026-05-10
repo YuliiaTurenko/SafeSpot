@@ -1,0 +1,32 @@
+﻿using MediatR;
+using SafeSpot.Application.Abstractions;
+using SafeSpot.Application.DTOs;
+
+namespace SafeSpot.Application.Features.Shelters.Queries.GetAll;
+
+public class GetAllSheltersQueryHandler : IRequestHandler<GetAllSheltersQuery, List<ShelterDto>>
+{
+    private readonly IShelterRepository _repo;
+
+    public GetAllSheltersQueryHandler(IShelterRepository repo)
+    {
+        _repo = repo;
+    }
+
+    public async Task<List<ShelterDto>> Handle(GetAllSheltersQuery request, CancellationToken ct)
+    {
+        var shelters = await _repo.GetAllAsync();
+
+        return shelters.Select(x => new ShelterDto
+        {
+            Id = x.Id,
+            Address = x.Address,
+            Latitude = x.Latitude,
+            Longitude = x.Longitude,
+            Capacity = x.Capacity,
+            Status = x.Status,
+            Description = x.Description,
+            ImageUrl = x.ImageUrl,
+        }).ToList();
+    }
+}

@@ -16,11 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Shelters\Commands\Create\" />
-    <Folder Include="Features\Shelters\Commands\Delete\" />
-    <Folder Include="Features\Shelters\Commands\Update\" />
     <Folder Include="Features\Shelters\Queries\GetById\" />
-    <Folder Include="Features\Shelters\Queries\GetAll\" />
   </ItemGroup>
 
 </Project>
