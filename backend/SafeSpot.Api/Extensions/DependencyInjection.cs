@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SafeSpot.Application.Abstractions;
+using SafeSpot.Application.Features.Shelters.Commands.Create;
+using SafeSpot.Application.Features.Shelters.Commands.Delete;
+using SafeSpot.Application.Features.Shelters.Commands.Update;
 using SafeSpot.Application.Features.User.Commands.Create;
 using SafeSpot.Application.Features.User.Commands.Update;
 using SafeSpot.Infrastructure.Identity;
@@ -54,6 +57,9 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
 
+        services.AddScoped<IValidator<CreateShelterCommand>, CreateShelterCommandValidator>();
+        services.AddScoped<IValidator<UpdateShelterCommand>, UpdateShelterCommandValidator>();
+        services.AddScoped<IValidator<DeleteShelterCommand>, DeleteShelterCommandValidator>();
         return services;
     }
 }
