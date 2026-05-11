@@ -20,6 +20,14 @@ public class UserRepository : Repository<User>, IUserRepository
             .FirstOrDefaultAsync(x => x.IdentityId == identityId);
     }
 
+    public async Task<long> GetUserIdByIdentityIdAsync(string identityId)
+    {
+        return await _db.Users
+            .Where(x => x.IdentityId == identityId)
+            .Select(x => x.Id)
+            .FirstOrDefaultAsync();
+    }
+
     public async Task<bool> ExistsByIdAsync(long Id)
     {
         return await _db.Users.AnyAsync(x => x.Id == Id);

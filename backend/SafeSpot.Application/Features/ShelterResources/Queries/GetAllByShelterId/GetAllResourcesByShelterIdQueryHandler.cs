@@ -15,7 +15,7 @@ public class GetAllResourcesByShelterIdQueryHandler : IRequestHandler<GetAllReso
 
     public async Task<List<ShelterResourceDto>> Handle(GetAllResourcesByShelterIdQuery request, CancellationToken ct)
     {
-        var resources = await _repo.GetAllAsync();
+        var resources = await _repo.GetAllByShelterIdAsync(request.ShelterId);
 
         return resources.Select(x => new ShelterResourceDto
         {

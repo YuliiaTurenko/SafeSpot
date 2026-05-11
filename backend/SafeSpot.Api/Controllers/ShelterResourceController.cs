@@ -26,7 +26,7 @@ public class ShelterResourceController : ControllerBase
         return Ok(await _mediator.Send(new GetAllResourcesByShelterIdQuery(shelterId)));
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Operator")]
     [HttpPost]
     public async Task<IActionResult> Create(CreateResourceCommand command)
     {
