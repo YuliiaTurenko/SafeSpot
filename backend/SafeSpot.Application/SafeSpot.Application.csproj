@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Announcements\Commands\Create\" />
+    <Folder Include="Features\Announcements\Commands\Delete\" />
+    <Folder Include="Features\Announcements\Commands\Update\" />
+    <Folder Include="Features\Announcements\Queries\GetAllByShelterId\" />
     <Folder Include="Features\Shelters\Queries\GetById\" />
   </ItemGroup>
 

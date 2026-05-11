@@ -14,8 +14,8 @@ public class ShelterRepository : Repository<Shelter>, IShelterRepository
         _db = context;
     }
 
-    public async Task<bool> ExistsByIdAsync(long Id)
+    public async Task<bool> ExistsByIdAsync(long id)
     {
-        return await _db.Shelters.AnyAsync(x => x.Id == Id);
+        return await _db.Shelters.AnyAsync(x => x.Id == id);
     }
 }
