@@ -35,7 +35,7 @@ public class ShelterController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet]
+    [HttpGet("user-{id}")]
     public async Task<IActionResult> GetAllForUser()
     {
         var identityId = _userContext.GetApplicationUserId();

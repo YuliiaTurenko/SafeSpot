@@ -4,8 +4,9 @@ import {
   UpdateAnnouncementRequest,
 } from "./models/requests/AnnouncementRequests";
 
-export const getAnnouncements = () =>
-  api.get("/announcements");
+export const getAnnouncementsByShelterId = (
+  shelterId: number
+) => api.get(`/announcements?shelterId=${shelterId}`);
 
 export const createAnnouncement = (data: CreateAnnouncementRequest) =>
   api.post("/announcements", data);

@@ -4,8 +4,9 @@ import {
   UpdateResourceRequest,
 } from "./models/requests/ShelterResourceRequests";
 
-export const getShelterResources = (shelterId: number) =>
-  api.get(`/shelter-resources/${shelterId}`);
+export const getResourcesByShelterId = (
+  shelterId: number
+) => api.get(`/shelters-resources?shelterId=${shelterId}`);
 
 export const createShelterResource = (data: CreateResourceRequest) =>
   api.post("/shelter-resources", data);
