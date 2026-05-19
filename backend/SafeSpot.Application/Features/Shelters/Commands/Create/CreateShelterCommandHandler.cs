@@ -1,16 +1,20 @@
 ﻿using MediatR;
 using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
+using SafeSpot.Domain.Enums;
 
 namespace SafeSpot.Application.Features.Shelters.Commands.Create;
 
 public class CreateShelterCommandHandler : IRequestHandler<CreateShelterCommand, long>
 {
-    private readonly IShelterRepository _repo;
+    private readonly IShelterRepository _shelterRepo;
+    private readonly ISavedShelterRepository _savedShelterRepo;
 
-    public CreateShelterCommandHandler(IShelterRepository repo)
+    public CreateShelterCommandHandler(IShelterRepository shelterRepo,
+        ISavedShelterRepository savedShelterRepo)
     {
-        _repo = repo;
+        _shelterRepo = shelterRepo;
+        _savedShelterRepo = savedShelterRepo;
     }
 
     public async Task<long> Handle(CreateShelterCommand request, CancellationToken ct)
@@ -26,7 +30,16 @@ public class CreateShelterCommandHandler : IRequestHandler<CreateShelterCommand,
             ImageUrl = request.ImageUrl,
         };
 
-        await _repo.AddAsync(shelter);
+        await _shelterRepo.AddAsync(shelter);
+
+        var savedShelter = new SavedShelter
+        {
+            UserId = request.UserId,
+            ShelterId = shelter.Id,
+            Type = SavedShelterType.Management,
+        };
+
+        await _savedShelterRepo.AddAsync(savedShelter);
 
         return shelter.Id;
     }

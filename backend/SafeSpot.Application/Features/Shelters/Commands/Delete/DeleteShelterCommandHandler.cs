@@ -14,6 +14,7 @@ public class DeleteShelterCommandHandler : IRequestHandler<DeleteShelterCommand>
 
     public async Task Handle(DeleteShelterCommand request, CancellationToken ct)
     {
+        //UserHasPermissionAsync
         var shelter = await _repo.GetByIdAsync(request.Id);
 
         _repo.Delete(shelter);

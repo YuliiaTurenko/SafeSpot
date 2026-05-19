@@ -18,4 +18,11 @@ public class ShelterRepository : Repository<Shelter>, IShelterRepository
     {
         return await _db.Shelters.AnyAsync(x => x.Id == id);
     }
+
+    public async Task<List<Shelter>> GetAllSheltersByIdsAsync(List<long> ids)
+    {
+        return await _db.Shelters
+        .Where(x => ids.Contains(x.Id))
+        .ToListAsync();
+    }
 }

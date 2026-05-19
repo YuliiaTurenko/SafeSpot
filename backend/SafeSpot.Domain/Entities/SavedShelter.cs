@@ -1,4 +1,6 @@
-﻿namespace SafeSpot.Domain.Entities;
+﻿using SafeSpot.Domain.Enums;
+
+namespace SafeSpot.Domain.Entities;
 
 public class SavedShelter : BaseEntity
 {
@@ -8,5 +10,6 @@ public class SavedShelter : BaseEntity
     public long ShelterId { get; set; }
     public virtual Shelter Shelter { get; set; }
 
+    public SavedShelterType Type { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

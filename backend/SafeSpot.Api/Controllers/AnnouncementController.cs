@@ -28,7 +28,7 @@ public class AnnouncementController : ControllerBase
 
     [Authorize]
     [HttpGet]
-    public async Task<IActionResult> GetAll(long shelterId)
+    public async Task<IActionResult> GetByShelterId(long shelterId)
     {
         return Ok(await _mediator.Send(new GetAllAnnouncementsByShelterIdQuery(shelterId)));
     }

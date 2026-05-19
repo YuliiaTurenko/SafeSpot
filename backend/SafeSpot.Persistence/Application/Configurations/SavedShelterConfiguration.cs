@@ -14,6 +14,9 @@ public class SavedShelterConfiguration : IEntityTypeConfiguration<SavedShelter>
         builder.Property(x => x.ShelterId)
             .IsRequired();
 
+        builder.Property(x => x.Type)
+            .IsRequired();
+
         builder
           .HasOne(x => x.User)
           .WithMany()

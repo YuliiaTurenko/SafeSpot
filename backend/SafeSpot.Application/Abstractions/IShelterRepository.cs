@@ -5,4 +5,5 @@ namespace SafeSpot.Application.Abstractions;
 public interface IShelterRepository : IRepository<Shelter>
 {
     public Task<bool> ExistsByIdAsync(long id);
+    public Task<List<Shelter>> GetAllSheltersByIdsAsync(List<long> ids);
 }

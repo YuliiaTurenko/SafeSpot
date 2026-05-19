@@ -21,7 +21,7 @@ public class ShelterResourceController : ControllerBase
 
     [Authorize]
     [HttpGet]
-    public async Task<IActionResult> GetAll(long shelterId)
+    public async Task<IActionResult> GetByShelterId(long shelterId)
     {
         return Ok(await _mediator.Send(new GetAllResourcesByShelterIdQuery(shelterId)));
     }
