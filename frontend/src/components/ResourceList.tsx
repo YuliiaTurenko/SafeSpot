@@ -8,7 +8,7 @@ import {
 import {
   ResourceStatus,
   ResourceType,
-} from "../api/models/requests/ShelterResourceRequests";
+} from "../api/models/ShelterResource";
 import { useTranslation } from "react-i18next";
 
 interface Props {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createShelter, updateShelter } from "../api/shelterApi";
-import { ShelterStatus } from "../api/models/requests/ShelterRequests";
+import { ShelterStatus } from "../api/models/Shelter";
 import { useTranslation } from "react-i18next";
 
 interface Props {

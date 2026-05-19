@@ -3,7 +3,7 @@ import {
   RegisterRequest,
   LoginRequest,
   ConfirmEmailRequest,
-} from "./models/requests/AuthRequests";
+} from "./models/AuthRequests";
 
 
 export const register = (request: RegisterRequest) =>

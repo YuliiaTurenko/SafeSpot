@@ -2,7 +2,7 @@ import { api } from "./axios";
 import {
   CreateResourceRequest,
   UpdateResourceRequest,
-} from "./models/requests/ShelterResourceRequests";
+} from "./models/ShelterResource";
 
 export const getResourcesByShelterId = (
   shelterId: number

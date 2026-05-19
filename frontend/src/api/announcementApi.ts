@@ -2,7 +2,7 @@ import { api } from "./axios";
 import {
   CreateAnnouncementRequest,
   UpdateAnnouncementRequest,
-} from "./models/requests/AnnouncementRequests";
+} from "./models/Announcement";
 
 export const getAnnouncementsByShelterId = (
   shelterId: number

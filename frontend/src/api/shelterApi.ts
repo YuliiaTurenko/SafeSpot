@@ -2,7 +2,7 @@ import { api } from "./axios";
 import {
   CreateShelterRequest,
   UpdateShelterRequest,
-} from "./models/requests/ShelterRequests";
+} from "./models/Shelter";
 
 export const getShelters = () =>
   api.get("/shelters");
