@@ -56,6 +56,21 @@ public class AdminService
         if (await _userManager.IsInRoleAsync(user, "Admin"))
             throw new Exception("Already admin");
 
-        await _userManager.AddToRoleAsync(user, "Admin");
+        if (await _userManager.IsInRoleAsync(user, "User"))
+        {
+            var removeResult = await _userManager.RemoveFromRoleAsync(user, "User");
+            if (!removeResult.Succeeded)
+            {
+                var errors = string.Join(", ", removeResult.Errors.Select(e => e.Description));
+                throw new Exception($"Failed to remove existing User role: {errors}");
+            }
+        }
+
+        var addResult = await _userManager.AddToRoleAsync(user, "Admin");
+        if (!addResult.Succeeded)
+        {
+            var errors = string.Join(", ", addResult.Errors.Select(e => e.Description));
+            throw new Exception($"Failed to add Admin role: {errors}");
+        }
     }
 }

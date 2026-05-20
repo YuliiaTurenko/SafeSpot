@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SafeSpot.Application.Abstractions;
+using SafeSpot.Application.Features.Announcements.Commands.Create;
+using SafeSpot.Application.Features.Announcements.Commands.Delete;
+using SafeSpot.Application.Features.Announcements.Commands.Update;
 using SafeSpot.Application.Features.ShelterResources.Commands.Create;
 using SafeSpot.Application.Features.ShelterResources.Commands.Delete;
 using SafeSpot.Application.Features.ShelterResources.Commands.Update;
@@ -44,6 +47,7 @@ public static class DependencyInjection
         services.AddScoped<ILocalizationService, LocalizationService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<AdminService>();
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();
@@ -67,6 +71,10 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreateResourceCommand>, CreateResourceCommandValidator>();
         services.AddScoped<IValidator<UpdateResourceCommand>, UpdateResourceCommandValidator>();
         services.AddScoped<IValidator<DeleteResourceCommand>, DeleteResourceCommandValidator>();
+
+        services.AddScoped<IValidator<CreateAnnouncementCommand>, CreateAnnouncementCommandValidator>();
+        services.AddScoped<IValidator<UpdateAnnouncementCommand>, UpdateAnnouncementCommandValidator>();
+        services.AddScoped<IValidator<DeleteAnnouncementCommand>, DeleteAnnouncementCommandValidator>();
 
         return services;
     }

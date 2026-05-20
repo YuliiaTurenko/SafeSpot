@@ -24,7 +24,6 @@ public class AdminController : ControllerBase
         return Ok();
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpPost("assign")]
     public async Task<IActionResult> AssignAdmin(AssignAdminDto dto)
     {
