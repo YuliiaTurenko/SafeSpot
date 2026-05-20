@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import AdminPage from "./pages/AdminPage";
 import OperatorPage from "./pages/OperatorPage";
 import ProfilePage from "./pages/ProfilePage";
+import ShelterDetailsPage from "./pages/ShelterDetailsPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/operator" element={<OperatorPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/shelters/:id" element={<ShelterDetailsPage />} />
           </Routes>
         </BrowserRouter>
       </ToastProvider>

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { getMe, updateUser } from "../api/userApi";
 import { sendAdminRequest } from "../api/adminApi";
 import { Menu } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageButton from "../components/LanguageButton";
+import Sidebar from "../components/Sidebar";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
@@ -15,7 +15,6 @@ export default function ProfilePage() {
   const [status, setStatus] = useState("");
 
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -57,37 +56,9 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-[#354F52] text-white flex justify-center items-center">
-      <div
-        className={`fixed top-0 left-0 h-full bg-[#2F3E46] w-64 p-5 transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 z-50`}
-      >
-        <h2 className="text-xl mb-6">{t("menu")}</h2>
+      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
-        <nav className="flex flex-col gap-4">
-          <button className="text-left hover:text-[#84A98C]">
-            {t("home")}
-          </button>
-          <button className="text-left hover:text-[#84A98C]">
-            {t("shelters")}
-          </button>
-          <button className="text-left hover:text-[#84A98C]">
-            {t("saved")}
-          </button>
-          <button className="text-left hover:text-[#84A98C]">
-            {t("notifications")}
-          </button>
-        </nav>
-      </div>
-
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black opacity-40 z-40"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      <div className="bg-[#2F3E46] p-8 rounded-2xl w-full max-w-md">
+      <div className="bg-[#2F3E46] p-8 rounded-2xl w-full max-w-xl">
         <div className="flex items-center gap-4 mb-6">
           <button onClick={() => setIsOpen(true)}>
             <Menu size={28} />
@@ -115,10 +86,6 @@ export default function ProfilePage() {
           onChange={(e) => setLastName(e.target.value)}
           placeholder={t("lastName")}
         />
-
-        <div className="text-sm mb-4 opacity-70">
-          {t("email")}: {user.email}
-        </div>
 
         <button
           onClick={handleUpdate}

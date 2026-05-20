@@ -40,7 +40,6 @@ export default function ShelterList({ onSelectShelter }: Props) {
       </div>
 
       <div className="space-y-4">
-        =
         {shelters.map((s) => (
           <div key={s.id} className="bg-[#2F3E46] p-4 rounded-xl">
             <div className="flex justify-between items-center">

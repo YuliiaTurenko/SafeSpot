@@ -68,6 +68,7 @@ i18n
           title: "Title",
           content: "Content",
           description: "Description",
+          open: "Open",
         },
       },
       uk: {
@@ -126,6 +127,7 @@ i18n
           title: "Заголовок",
           content: "Контент",
           description: "Опис",
+          open: "Відкрити",
         },
       },
     },
