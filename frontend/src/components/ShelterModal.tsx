@@ -79,48 +79,57 @@ export default function ShelterModal({
         </h2>
 
         <div className="space-y-4">
+          <label className="block mb-2 text-sm text-gray-300">
+            {t("address")}
+          </label>
           <input
-            placeholder={t("address")}
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             className="w-full p-3 rounded bg-[#354F52]"
           />
-
+          <label className="block mb-2 text-sm text-gray-300">
+            {t("description")}
+          </label>
           <textarea
-            placeholder={t("description")}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="w-full p-3 rounded bg-[#354F52]"
           />
-
+          <label className="block mb-2 text-sm text-gray-300">
+            {t("capacity")}
+          </label>
           <input
             type="number"
-            placeholder={t("capacity")}
             value={capacity}
             onChange={(e) => setCapacity(Number(e.target.value))}
             className="w-full p-3 rounded bg-[#354F52]"
           />
 
           <div className="grid grid-cols-2 gap-3">
+            <label className="block mb-2 text-sm text-gray-300">
+              {t("latitude")}
+            </label>
             <input
               type="number"
               step="any"
-              placeholder={t("latitude")}
               value={latitude}
               onChange={(e) => setLatitude(Number(e.target.value))}
               className="p-3 rounded bg-[#354F52]"
             />
-
+            <label className="block mb-2 text-sm text-gray-300">
+              {t("longitude")}
+            </label>
             <input
               type="number"
               step="any"
-              placeholder={t("longitude")}
               value={longitude}
               onChange={(e) => setLongitude(Number(e.target.value))}
               className="p-3 rounded bg-[#354F52]"
             />
           </div>
-
+          <label className="block mb-2 text-sm text-gray-300">
+            {t("status")}
+          </label>
           <select
             value={status}
             onChange={(e) => setStatus(Number(e.target.value))}
@@ -135,12 +144,20 @@ export default function ShelterModal({
               ))}
           </select>
 
+          <div>
+          <label className="block mb-2 text-sm text-gray-300">
+            Shelter image
+          </label>
+
           <input
             type="file"
             accept="image/*"
-            onChange={handleImageUpload}
+            onChange={
+              handleImageUpload
+            }
             className="w-full"
           />
+        </div>
 
           {imageUrl && (
             <img

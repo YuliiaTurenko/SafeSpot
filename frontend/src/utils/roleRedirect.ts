@@ -1,13 +1,16 @@
 import { jwtDecode } from "jwt-decode";
 
 type JwtPayload = {
-  role?: string | string[];
+  [key: string]: any;
 };
 
 export const getRedirectByRole = (token: string) => {
   const decoded = jwtDecode<JwtPayload>(token);
 
-  const roles = decoded.role;
+  const roles =
+    decoded[
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+    ];
 
   if (!roles) return "/home";
 

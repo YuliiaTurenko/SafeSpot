@@ -6,13 +6,13 @@ import {
 
 export const getResourcesByShelterId = (
   shelterId: number
-) => api.get(`/shelters-resources?shelterId=${shelterId}`);
+) => api.get(`/shelter-resources?shelterId=${shelterId}`);
 
 export const createShelterResource = (data: CreateResourceRequest) =>
   api.post("/shelter-resources", data);
 
 export const updateShelterResource = (data: UpdateResourceRequest) =>
-  api.put("/shelters", data);
+  api.put("/shelter-resources", data);
 
 export const deleteShelterResource = (id: number) =>
-  api.delete(`/shelters/${id}`);
+  api.delete(`/shelter-resources/${id}`);

@@ -71,7 +71,7 @@ export default function AnnouncementList({ shelterId }: Props) {
   };
 
   return (
-    <div>
+    <div className="mt-10">
       <h2 className="text-2xl font-semibold mb-5">{t("announcements")}</h2>
 
       <div className="bg-[#2F3E46] p-5 rounded-2xl mb-6">

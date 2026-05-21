@@ -9,7 +9,7 @@ using SafeSpot.Application.Features.ShelterResources.Queries.GetAllByShelterId;
 namespace SafeSpot.Api.Controllers;
 
 [ApiController]
-[Route("api/shelters-resources")]
+[Route("api/shelter-resources")]
 public class ShelterResourceController : ControllerBase
 {
     private readonly IMediator _mediator;

@@ -155,7 +155,7 @@ export default function ResourceList({ shelterId }: Props) {
               </p>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-2">
               <button
                 onClick={() => handleEdit(r)}
                 className="bg-[#52796F] px-3 py-2 rounded"

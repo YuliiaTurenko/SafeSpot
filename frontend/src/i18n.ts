@@ -69,6 +69,7 @@ i18n
           content: "Content",
           description: "Description",
           open: "Open",
+          select: "Select",
         },
       },
       uk: {
@@ -128,6 +129,7 @@ i18n
           content: "Контент",
           description: "Опис",
           open: "Відкрити",
+          select: "Обрати",
         },
       },
     },
