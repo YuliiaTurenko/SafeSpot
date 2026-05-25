@@ -138,14 +138,14 @@ export default function AnnouncementList({ shelterId }: Props) {
               <div className="flex flex-col gap-2">
                 <button
                   onClick={() => handleEdit(a)}
-                  className="bg-[#52796F] px-3 py-2 rounded"
+                  className="bg-[#678ABE] hover:bg-[#5C858D] text-white px-3 py-2 rounded transition-colors"
                 >
                   {t("edit")}
                 </button>
 
                 <button
                   onClick={() => handleDelete(a.id)}
-                  className="bg-red-500 px-3 py-2 rounded"
+                  className="bg-red-500 hover:bg-red-600 px-3 py-2 rounded transition-colors"
                 >
                   {t("delete")}
                 </button>

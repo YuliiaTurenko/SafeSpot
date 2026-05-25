@@ -51,18 +51,20 @@ export default function ShelterModal({
 
   const handleSubmit = async () => {
     const data = {
-      id: shelter?.id,
       address,
-      latitude,
-      longitude,
-      capacity,
+      latitude: Number(latitude),
+      longitude: Number(longitude),
+      capacity: Number(capacity),
       status,
       description,
       imageUrl,
     };
 
     if (shelter) {
-      await updateShelter(data);
+      await updateShelter({
+        id: shelter.id,
+        ...data,
+      });
     } else {
       await createShelter(data);
     }
@@ -145,19 +147,17 @@ export default function ShelterModal({
           </select>
 
           <div>
-          <label className="block mb-2 text-sm text-gray-300">
-            Shelter image
-          </label>
+            <label className="block mb-2 text-sm text-gray-300">
+              Shelter image
+            </label>
 
-          <input
-            type="file"
-            accept="image/*"
-            onChange={
-              handleImageUpload
-            }
-            className="w-full"
-          />
-        </div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="w-full"
+            />
+          </div>
 
           {imageUrl && (
             <img

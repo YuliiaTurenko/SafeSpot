@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { deleteShelter, getShelters } from "../api/shelterApi";
 import ShelterModal from "./ShelterModal";
 import { useTranslation } from "react-i18next";
+import { ShelterStatus } from "../api/models/Shelter";
 
 interface Props {
   onSelectShelter: (id: number) => void;
@@ -11,6 +12,9 @@ export default function ShelterList({ onSelectShelter }: Props) {
   const { t } = useTranslation();
   const [shelters, setShelters] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
+
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<ShelterStatus | "all">("all",);
 
   const load = async () => {
     const res = await getShelters();
@@ -26,10 +30,38 @@ export default function ShelterList({ onSelectShelter }: Props) {
     load();
   };
 
+  const [
+    editingShelter,
+    setEditingShelter,
+  ] = useState<any | null>(
+    null
+  );
+
+  const filteredShelters =
+  shelters.filter((shelter) => {
+    const matchesSearch =
+      shelter.address
+        .toLowerCase()
+        .includes(
+          search.toLowerCase()
+        );
+
+    const matchesStatus =
+      statusFilter === "all"
+        ? true
+        : shelter.status ===
+          statusFilter;
+
+    return (
+      matchesSearch &&
+      matchesStatus
+    );
+  });
+
   return (
     <div>
       <div className="flex justify-between mb-5">
-        <h2 className="text-2xl font-semibold">{t("shelters")}</h2>
+        <h2 className="text-2xl font-semibold">{t("sheltersTitle")}</h2>
 
         <button
           onClick={() => setOpen(true)}
@@ -39,24 +71,65 @@ export default function ShelterList({ onSelectShelter }: Props) {
         </button>
       </div>
 
+      <div className="flex flex-col md:flex-row gap-3 mb-6">
+        <input
+          type="text"
+          placeholder={t("searchShelters")}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="bg-white text-black text-lg p-3 rounded-xl flex-1 border border-gray-200"
+        />
+
+        <select
+          value={statusFilter}
+          onChange={(e) =>
+            setStatusFilter(
+              e.target.value === "all" ? "all" : Number(e.target.value),
+            )
+          }
+          className="bg-[#354F52] p-3 rounded-xl"
+        >
+          <option value="all">{t("allStatuses")}</option>
+
+          {Object.entries(ShelterStatus)
+            .filter(([k]) => isNaN(Number(k)))
+            .map(([key, value]) => (
+              <option key={value} value={value}>
+                {key}
+              </option>
+            ))}
+        </select>
+      </div>
+
       <div className="space-y-4">
-        {shelters.map((s) => (
+        {filteredShelters.map((s) => (
           <div key={s.id} className="bg-[#2F3E46] p-4 rounded-xl">
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="text-xl">{s.name}</h3>
-                <p>{s.address}</p>
+                <h3>{s.address}</h3>
                 <p>
-                  {t("capacity")}: {s.capacity}
+                  {" "}
+                  {t("capacity")}: {s.capacity}{" "}
+                </p>
+                <p>
+                  {" "}
+                  {t("status")}: {s.status}{" "}
                 </p>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <button
                   onClick={() => onSelectShelter(s.id)}
                   className="bg-[#354F52] hover:bg-[#52796F] text-white px-3 py-2 rounded transition-colors"
                 >
                   {t("select") || "Вибрати"}
+                </button>
+
+                <button
+                  onClick={() => setEditingShelter(s)}
+                  className="bg-[#678ABE] hover:bg-[#5C858D] text-white px-3 py-2 rounded transition-colors"
+                >
+                  {t("edit") || "Редагувати"}
                 </button>
 
                 <button
@@ -70,10 +143,22 @@ export default function ShelterList({ onSelectShelter }: Props) {
           </div>
         ))}
       </div>
+      {editingShelter && (
+        <ShelterModal
+          open={true}
+          shelter={editingShelter}
+          onClose={() =>
+            setEditingShelter(null)
+          }
+          onCreated={load}
+        />
+      )}
 
       <ShelterModal
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() =>
+          setOpen(false)
+        }
         onCreated={load}
       />
     </div>
