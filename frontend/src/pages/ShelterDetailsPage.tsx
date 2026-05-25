@@ -11,6 +11,7 @@ import {
 } from "../api/models/ShelterResource";
 import { AnnouncementDto } from "../api/models/Announcement";
 import LanguageButton from "../components/LanguageButton";
+import { useTranslation } from "react-i18next";
 
 export default function ShelterDetailsPage() {
   const { id } = useParams();
@@ -18,6 +19,7 @@ export default function ShelterDetailsPage() {
   const [resources, setResources] = useState<ShelterResourceDto[]>([]);
   const [announcements, setAnnouncements] = useState<AnnouncementDto[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!id) return;
@@ -46,7 +48,7 @@ export default function ShelterDetailsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#2F3E46] text-white p-10">
-        Loading...
+        {t("loading")}
       </div>
     );
   }
@@ -54,7 +56,7 @@ export default function ShelterDetailsPage() {
   if (!shelter) {
     return (
       <div className="min-h-screen bg-[#2F3E46] text-white p-10">
-        Shelter not found
+        {t("shelterNotFound")}
       </div>
     );
   }
@@ -62,7 +64,7 @@ export default function ShelterDetailsPage() {
   return (
     <div className="min-h-screen bg-[#2F3E46] text-white p-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">Shelter Details</h1>
+        <h1 className="text-4xl font-bold">{t("shelterDetails")}</h1>
 
         <LanguageButton />
       </div>
@@ -70,7 +72,7 @@ export default function ShelterDetailsPage() {
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           <div className="bg-[#354F52] rounded-2xl p-6">
-            <h2 className="text-2xl font-semibold mb-5">Main Information</h2>
+            <h2 className="text-2xl font-semibold mb-5">{t("mainInformation")}</h2>
 
             {shelter.imageUrl && (
               <img
@@ -82,28 +84,28 @@ export default function ShelterDetailsPage() {
 
             <div className="space-y-3">
               <p>
-                <span className="font-semibold">Address:</span>{" "}
+                <span className="font-semibold">{t("address")}:</span>{" "}
                 {shelter.address}
               </p>
 
               <p>
-                <span className="font-semibold">Capacity:</span>{" "}
+                <span className="font-semibold">{t("capacity")}:</span>{" "}
                 {shelter.capacity}
               </p>
 
               <p>
-                <span className="font-semibold">Status:</span>{" "}
+                <span className="font-semibold">{t("status")}:</span>{" "}
                 {ShelterStatus[shelter.status]}
               </p>
 
               <p>
-                <span className="font-semibold">Coordinates:</span>{" "}
+                <span className="font-semibold">{t("latitude")} & {t("longitude")}:</span>{" "}
                 {shelter.latitude}, {shelter.longitude}
               </p>
 
               {shelter.description && (
                 <p>
-                  <span className="font-semibold">Description:</span>{" "}
+                  <span className="font-semibold">{t("description")}:</span>{" "}
                   {shelter.description}
                 </p>
               )}
@@ -112,13 +114,13 @@ export default function ShelterDetailsPage() {
 
           <div className="bg-[#354F52] rounded-2xl p-6">
             <div className="flex justify-between items-center mb-5">
-              <h2 className="text-2xl font-semibold">Announcements</h2>
+              <h2 className="text-2xl font-semibold">{t("announcements")}</h2>
 
               <Link
                 to={`/shelters/${id}/posts`}
                 className="bg-[#84A98C] px-4 py-2 rounded-lg"
               >
-                Open Posts
+                {t("openPosts")}
               </Link>
             </div>
 
@@ -144,50 +146,50 @@ export default function ShelterDetailsPage() {
                 </div>
               ))}
 
-              {announcements.length === 0 && <p>No announcements</p>}
+              {announcements.length === 0 && <p>{t("noAnnouncements")}</p>}
             </div>
           </div>
         </div>
 
         <div className="space-y-8">
           <div className="bg-[#354F52] rounded-2xl p-6">
-            <h2 className="text-2xl font-semibold mb-5">Resources</h2>
+            <h2 className="text-2xl font-semibold mb-5">{t("resourcesTitle")}</h2>
 
             <div className="space-y-3">
               {resources.map((resource) => (
                 <div key={resource.id} className="bg-[#2F3E46] rounded-xl p-4">
                   <p>
-                    <span className="font-semibold">Type:</span>{" "}
+                    <span className="font-semibold">{t("type")}:</span>{" "}
                     {ResourceType[resource.type]}
                   </p>
 
                   <p>
-                    <span className="font-semibold">Status:</span>{" "}
+                    <span className="font-semibold">{t("status")}:</span>{" "}
                     {ResourceStatus[resource.status]}
                   </p>
 
                   <p>
-                    <span className="font-semibold">Amount:</span>{" "}
+                    <span className="font-semibold">{t("amount")}:</span>{" "}
                     {resource.amount}
                   </p>
                 </div>
               ))}
 
-              {resources.length === 0 && <p>No resources</p>}
+              {resources.length === 0 && <p>{t("noResources")}</p>}
             </div>
           </div>
 
           <div className="bg-[#354F52] rounded-2xl p-6">
-            <h2 className="text-2xl font-semibold mb-5">Sensor Readings</h2>
+            <h2 className="text-2xl font-semibold mb-5">{t("sensorReadings")}</h2>
 
             <div className="space-y-3">
-              <div className="bg-[#2F3E46] p-4 rounded-xl">Temperature: --</div>
+              <div className="bg-[#2F3E46] p-4 rounded-xl">{t("temperature")}: --</div>
 
-              <div className="bg-[#2F3E46] p-4 rounded-xl">Humidity: --</div>
+              <div className="bg-[#2F3E46] p-4 rounded-xl">{t("humidity")}: --</div>
 
-              <div className="bg-[#2F3E46] p-4 rounded-xl">Air quality: --</div>
+              <div className="bg-[#2F3E46] p-4 rounded-xl">{t("co2Level")}: --</div>
 
-              <div className="bg-[#2F3E46] p-4 rounded-xl">Occupancy: --</div>
+              <div className="bg-[#2F3E46] p-4 rounded-xl">{t("occupancy")}: --</div>
             </div>
           </div>
         </div>
