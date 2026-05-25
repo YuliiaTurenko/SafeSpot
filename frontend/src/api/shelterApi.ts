@@ -10,6 +10,9 @@ export const getShelters = () =>
 export const getSheltersByUserId = (userId: number) =>
   api.get(`/shelters/user-${userId}`);
 
+export const getShelterById = (id: number) =>
+  api.get(`/shelters/shelter-details?id=${id}`);
+
 export const createShelter = (data: CreateShelterRequest) =>
   api.post("/shelters", data);
 

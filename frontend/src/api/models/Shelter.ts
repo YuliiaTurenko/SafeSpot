@@ -1,11 +1,11 @@
 export enum ShelterStatus {
-  Unknown = 0,
-  Active = 1,
+  Available = 0,
+  Closed = 1,
   Full = 2,
-  Closed = 3,
+  Maintenance = 3,
 }
 
-export type Shelter = {
+export type ShelterDto = {
   id: number;
   address: string;
   latitude: number;
@@ -14,6 +14,15 @@ export type Shelter = {
   status: ShelterStatus;
   description?: string | null;
   imageUrl?: string | null;
+};
+
+export type ShelterPreviewDto = {
+  id: number;
+  address: string;
+  latitude: number;
+  longitude: number;
+  capacity: number;
+  status: ShelterStatus;
 };
 
 export type CreateShelterRequest = {

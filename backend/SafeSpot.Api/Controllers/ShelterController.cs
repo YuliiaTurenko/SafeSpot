@@ -8,6 +8,7 @@ using SafeSpot.Application.Features.Shelters.Commands.Delete;
 using SafeSpot.Application.Features.Shelters.Commands.Update;
 using SafeSpot.Application.Features.Shelters.Queries.GetAll;
 using SafeSpot.Application.Features.Shelters.Queries.GetByUserId;
+using SafeSpot.Application.Features.Shelters.Queries.GetById;
 
 namespace SafeSpot.Api.Controllers;
 
@@ -41,6 +42,14 @@ public class ShelterController : ControllerBase
         var identityId = _userContext.GetApplicationUserId();
         long userId = await _userRepo.GetUserIdByIdentityIdAsync(identityId);
         var result = await _mediator.Send(new GetSheltersByUserIdQuery(userId));
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("shelter-details")]
+    public async Task<IActionResult> GetById(long id)
+    {
+        var result = await _mediator.Send(new GetShelterByIdQuery(id));
         return Ok(result);
     }
 

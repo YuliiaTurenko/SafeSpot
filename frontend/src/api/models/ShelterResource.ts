@@ -17,6 +17,13 @@ export enum ResourceStatus {
   Unavailable = 3,
 }
 
+export type ShelterResourceDto = {
+  id: number;
+  type: ResourceType;
+  status: ResourceStatus;
+  amount: number;
+};
+
 export type CreateResourceRequest = {
   shelterId: number;
   type: ResourceType;

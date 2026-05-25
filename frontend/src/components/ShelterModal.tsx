@@ -20,7 +20,7 @@ export default function ShelterModal({
   const [capacity, setCapacity] = useState(0);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-  const [status, setStatus] = useState<ShelterStatus>(ShelterStatus.Active);
+  const [status, setStatus] = useState<ShelterStatus>(ShelterStatus.Available);
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const { t } = useTranslation();
