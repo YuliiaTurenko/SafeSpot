@@ -39,7 +39,7 @@ i18n
           lastNameExample: "Shevchenko",
           menu: "Menu",
           home: "Home",
-          shelters: "Shelters",
+          sheltersTitle: "Shelters",
           savedShelters: "Saved",
           profile: "Profile",
           notifications: "Notifications",
@@ -82,6 +82,36 @@ i18n
           humidity: "Humidity",
           co2Level: "CO2 Level",
           occupancy: "Occupancy",
+          allStatuses: "All statuses",
+
+          shelters: {
+            statuses: {
+              closed: "Closed",
+              available: "Available",
+              full: "Full",
+              maintenance: "Maintenance"
+            },
+          },
+          
+          resources: {
+            types: {
+              water: "Water",
+              electricity: "Electricity",
+              wifi: "Internet / Wi-Fi",
+              generator: "Generator",
+              heating: "Heating",
+              medicalKit: "Medical Kit",
+              food: "Food Rations",
+              toilet: "Restroom / Toilet",
+              ventilation: "Ventilation"
+            },
+            statuses: {
+              unknown: "Unknown",
+              available: "Available",
+              limited: "Limited",
+              unavailable: "Unavailable"
+            }
+          }
         },
       },
       uk: {
@@ -111,7 +141,7 @@ i18n
           lastNameExample: "Шевченко",
           menu: "Меню",
           home: "Головна",
-          shelters: "Укриття",
+          sheltersTitle: "Укриття",
           savedShelters: "Збережені",
           profile: "Профіль",
           notifications: "Повідомлення",
@@ -146,7 +176,7 @@ i18n
           shelterNotFound: "Укриття не знайдено",
           shelterDetails: "Деталі укриття",
           mainInformation: "Основна інформація",
-          openPosts: "Відкриті публікації",
+          openPosts: "Відкрити публікації",
           noAnnouncements: "Немає оголошень",
           noResources: "Немає ресурсів",
           sensorReadings: "Показники датчиків",
@@ -154,6 +184,36 @@ i18n
           humidity: "Вологість",
           co2Level: "Рівень CO2",
           occupancy: "Заповненість",
+          allStatuses: "Всі статуси",
+
+          shelters: {
+            statuses: {
+              closed: "Закрито",
+              available: "В наявності",
+              full: "Заповнено",
+              maintenance: "Обслуговування"
+            },
+          },
+
+          resources: {
+            types: {
+              water: "Вода",
+              electricity: "Електроенергія",
+              wifi: "Інтернет / Wi-Fi",
+              generator: "Генератор",
+              heating: "Опалення",
+              medicalKit: "Аптечка",
+              food: "Їжа / Сухпайки",
+              toilet: "Санітарна зона / Туалет",
+              ventilation: "Вентиляція"
+            },
+            statuses: {
+              unknown: "Невідомо",
+              available: "В наявності",
+              limited: "Обмежено",
+              unavailable: "Відсутній"
+            }
+          }
         },
       },
     },

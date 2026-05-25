@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { getShelterById } from "../api/shelterApi";
 import { getResourcesByShelterId } from "../api/shelterResourceApi";
 import { getAnnouncementsByShelterId } from "../api/announcementApi";
-import { ShelterDto, ShelterStatus } from "../api/models/Shelter";
+import { ShelterDto, ShelterStatus, statusLabels } from "../api/models/Shelter";
 import {
   ShelterResourceDto,
   ResourceType,
   ResourceStatus,
+  resourceTypeLabels,
+  resourceStatusLabels
 } from "../api/models/ShelterResource";
 import { AnnouncementDto } from "../api/models/Announcement";
 import LanguageButton from "../components/LanguageButton";
@@ -95,11 +97,11 @@ export default function ShelterDetailsPage() {
 
               <p>
                 <span className="font-semibold">{t("status")}:</span>{" "}
-                {ShelterStatus[shelter.status]}
+                {t(statusLabels[shelter.status as ShelterStatus])}
               </p>
 
               <p>
-                <span className="font-semibold">{t("latitude")} & {t("longitude")}:</span>{" "}
+                <span className="font-semibold">{t("latitude")}, {t("longitude")}:</span>{" "}
                 {shelter.latitude}, {shelter.longitude}
               </p>
 
@@ -118,7 +120,7 @@ export default function ShelterDetailsPage() {
 
               <Link
                 to={`/shelters/${id}/posts`}
-                className="bg-[#84A98C] px-4 py-2 rounded-lg"
+                className="bg-[#84A98C] hover:bg-[#678ABE] text-center !text-white px-4 py-2 rounded-lg"
               >
                 {t("openPosts")}
               </Link>
@@ -160,12 +162,12 @@ export default function ShelterDetailsPage() {
                 <div key={resource.id} className="bg-[#2F3E46] rounded-xl p-4">
                   <p>
                     <span className="font-semibold">{t("type")}:</span>{" "}
-                    {ResourceType[resource.type]}
+                    {t(resourceTypeLabels[resource.type as ResourceType])}
                   </p>
 
                   <p>
                     <span className="font-semibold">{t("status")}:</span>{" "}
-                    {ResourceStatus[resource.status]}
+                    {t(resourceStatusLabels[resource.status as ResourceStatus])}
                   </p>
 
                   <p>

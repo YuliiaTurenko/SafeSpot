@@ -17,6 +17,25 @@ export enum ResourceStatus {
   Unavailable = 3,
 }
 
+export const resourceTypeLabels: Record<ResourceType, string> = {
+  [ResourceType.Water]: "resources.types.water",
+  [ResourceType.Electricity]: "resources.types.electricity",
+  [ResourceType.Wifi]: "resources.types.wifi",
+  [ResourceType.Generator]: "resources.types.generator",
+  [ResourceType.Heating]: "resources.types.heating",
+  [ResourceType.MedicalKit]: "resources.types.medicalKit",
+  [ResourceType.Food]: "resources.types.food",
+  [ResourceType.Toilet]: "resources.types.toilet",
+  [ResourceType.Ventilation]: "resources.types.ventilation",
+};
+
+export const resourceStatusLabels: Record<ResourceStatus, string> = {
+  [ResourceStatus.Unknown]: "resources.statuses.unknown",
+  [ResourceStatus.Available]: "resources.statuses.available",
+  [ResourceStatus.Limited]: "resources.statuses.limited",
+  [ResourceStatus.Unavailable]: "resources.statuses.unavailable",
+};
+
 export type ShelterResourceDto = {
   id: number;
   type: ResourceType;

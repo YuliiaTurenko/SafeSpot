@@ -5,6 +5,13 @@ export enum ShelterStatus {
   Maintenance = 3,
 }
 
+export const statusLabels: Record<ShelterStatus, string> = {
+  [ShelterStatus.Available]: "shelters.statuses.available",
+  [ShelterStatus.Closed]: "shelters.statuses.closed",
+  [ShelterStatus.Full]: "shelters.statuses.full",
+  [ShelterStatus.Maintenance]: "shelters.statuses.maintenance",
+};
+
 export type ShelterDto = {
   id: number;
   address: string;
