@@ -28,6 +28,7 @@ public class GetSensorReadingsQueryHandler : IRequestHandler<GetSensorReadingsQu
                     Value = x.Value,
                     Timestamp = x.Timestamp
                 })
+            .Take(100)
             .ToList();
     }
 }

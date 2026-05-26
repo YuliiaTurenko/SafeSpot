@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 
 namespace SafeSpot.Infrastructure.Realtime;
 
+[Authorize]
 public class SensorHub : Hub
 {
     public async Task JoinShelter(long shelterId)

@@ -8,7 +8,7 @@ using SafeSpot.Api.Contracts.SensorReadings;
 namespace SafeSpot.Api.Controllers;
 
 [ApiController]
-[Route("api/sensor-readings")]
+[Route("api/с")]
 public class SensorReadingsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -20,7 +20,7 @@ public class SensorReadingsController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet]
+    [HttpGet("{sensorId}")]
     public async Task<IActionResult> GetBySensorId(long sensorId)
     {
         return Ok(await _mediator.Send(
