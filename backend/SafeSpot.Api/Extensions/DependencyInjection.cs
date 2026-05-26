@@ -17,6 +17,7 @@ using SafeSpot.Application.Features.Shelters.Commands.Update;
 using SafeSpot.Application.Features.User.Commands.Create;
 using SafeSpot.Application.Features.User.Commands.Update;
 using SafeSpot.Infrastructure.Identity;
+using SafeSpot.Infrastructure.IoT;
 using SafeSpot.Infrastructure.Services;
 using SafeSpot.Persistence.Application;
 using SafeSpot.Persistence.Identity;
@@ -51,6 +52,7 @@ public static class DependencyInjection
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<AdminService>();
+        services.AddHostedService<MqttHostedService>();
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();
