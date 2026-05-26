@@ -1,0 +1,95 @@
+{
+  "devices": [
+    {
+      "sensorId": 1,
+      "shelterId": 1,
+      "type": "Temperature",
+      "min": 18,
+      "max": 30
+    },
+    {
+      "sensorId": 2,
+      "shelterId": 1,
+      "type": "Humidity",
+      "min": 30,
+      "max": 80
+    },
+    {
+      "sensorId": 3,
+      "shelterId": 1,
+      "type": "CO2",
+      "min": 300,
+      "max": 1500
+    },
+    {
+      "sensorId": 4,
+      "shelterId": 1,
+      "type": "AirQuality",
+      "min": 0,
+      "max": 500
+    },
+    {
+      "sensorId": 5,
+      "shelterId": 1,
+      "type": "Occupancy",
+      "min": 0,
+      "max": 150
+    },
+    {
+      "sensorId": 6,
+      "shelterId": 2,
+      "type": "Temperature",
+      "min": 18,
+      "max": 30
+    },
+    {
+      "sensorId": 7,
+      "shelterId": 2,
+      "type": "Humidity",
+      "min": 30,
+      "max": 80
+    },
+    {
+      "sensorId": 8,
+      "shelterId": 2,
+      "type": "CO2",
+      "min": 300,
+      "max": 1500
+    },
+    {
+      "sensorId": 9,
+      "shelterId": 2,
+      "type": "Occupancy",
+      "min": 0,
+      "max": 200
+    },
+    {
+      "sensorId": 10,
+      "shelterId": 3,
+      "type": "Temperature",
+      "min": 18,
+      "max": 30
+    },
+    {
+      "sensorId": 11,
+      "shelterId": 3,
+      "type": "CO2",
+      "min": 300,
+      "max": 1500
+    },
+    {
+      "sensorId": 12,
+      "shelterId": 3,
+      "type": "AirQuality",
+      "min": 0,
+      "max": 500
+    },
+    {
+      "sensorId": 13,
+      "shelterId": 3,
+      "type": "Occupancy",
+      "min": 0,
+      "max": 100
+    }
+  ]
+}
