@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MQTTnet;
+using SafeSpot.Infrastructure.Realtime;
 using SafeSpot.Domain.Entities;
 using SafeSpot.Domain.Enums;
 using SafeSpot.Infrastructure.IoT.Models;
@@ -14,10 +16,12 @@ public class MqttHostedService : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private IMqttClient _client;
+    private readonly IHubContext<SensorHub> _hub;
 
-    public MqttHostedService(IServiceScopeFactory scopeFactory)
+    public MqttHostedService(IServiceScopeFactory scopeFactory, IHubContext<SensorHub> hub)
     {
         _scopeFactory = scopeFactory;
+        _hub = hub;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -44,8 +48,6 @@ public class MqttHostedService : BackgroundService
         try
         {
             var topic = args.ApplicationMessage.Topic;
-
-            // shelters/1/sensors/5
             var parts = topic.Split('/');
 
             long shelterId = long.Parse(parts[1]);
@@ -76,6 +78,17 @@ public class MqttHostedService : BackgroundService
             db.SensorReadings.Add(reading);
 
             sensor.Status = SensorStatus.Active;
+
+            await _hub.Clients.Group($"shelter-{sensor.ShelterId}")
+                .SendAsync("ReceiveSensorReading", new
+                {
+                    sensorId = sensor.Id,
+                    shelterId = sensor.ShelterId,
+                    type = sensor.Type,
+                    value = reading.Value,
+                    timestamp = reading.Timestamp,
+                    status = sensor.Status
+                });
 
             await db.SaveChangesAsync();
         }

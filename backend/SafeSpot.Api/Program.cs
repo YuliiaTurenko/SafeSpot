@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using SafeSpot.Api.Extensions;
 using SafeSpot.Api.Middleware;
+using SafeSpot.Infrastructure.Realtime;
 using SafeSpot.Infrastructure.Identity;
 using System.Text;
 
@@ -66,6 +67,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHub<SensorHub>("/hubs/sensors");
 
 if (app.Environment.IsDevelopment())
 {
