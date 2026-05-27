@@ -94,7 +94,7 @@ i18n
           chart: "Chart",
           historicalReadings: "Historical sensor readings",
           sensorType: "Sensor type",
-          
+          markRead: "Mark as read",
 
           shelters: {
             statuses: {
@@ -223,6 +223,7 @@ i18n
           chart: "Таблиця",
           historicalReadings: "Історичні показники датчиків",
           sensorType: "Тип датчика",
+          markRead: "Позначити як прочитане",
 
           shelters: {
             statuses: {

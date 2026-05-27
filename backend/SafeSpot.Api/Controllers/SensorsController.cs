@@ -12,8 +12,7 @@ namespace SafeSpot.Api.Controllers;
 
 [ApiController]
 [Route("api/sensors")]
-public class SensorsController
-    : ControllerBase
+public class SensorsController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IUserContext _userContext;
