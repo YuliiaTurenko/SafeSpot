@@ -37,3 +37,17 @@ export type SensorDto = {
   minValue: number;
   maxValue: number;
 };
+
+export type CreateSensorRequest = {
+  shelterId: number;
+  type: SensorType;
+  minValue: number;
+  maxValue: number;
+};
+
+export type UpdateSensorRequest = {
+  id: number;
+  minValue: number;
+  maxValue: number;
+  status: SensorStatus;
+};

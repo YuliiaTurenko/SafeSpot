@@ -8,7 +8,7 @@ using SafeSpot.Api.Contracts.SensorReadings;
 namespace SafeSpot.Api.Controllers;
 
 [ApiController]
-[Route("api/с")]
+[Route("api/sensor-readings")]
 public class SensorReadingsController : ControllerBase
 {
     private readonly IMediator _mediator;
