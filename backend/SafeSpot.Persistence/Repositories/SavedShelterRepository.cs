@@ -28,4 +28,14 @@ public class SavedShelterRepository : Repository<SavedShelter>, ISavedShelterRep
             .Select(x => x.ShelterId)
             .ToListAsync();
     }
+
+    public async Task<List<long>> GetManagementUserIdsAsync(long shelterId)
+    {
+        return await _db.SavedShelters
+            .Where(x =>
+                x.ShelterId == shelterId &&
+                x.Type == SavedShelterType.Management)
+            .Select(x => x.UserId)
+            .ToListAsync();
+    }
 }

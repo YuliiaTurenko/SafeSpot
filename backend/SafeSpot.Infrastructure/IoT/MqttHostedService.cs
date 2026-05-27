@@ -2,10 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MQTTnet;
-using SafeSpot.Infrastructure.Realtime;
+using Newtonsoft.Json.Linq;
+using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
 using SafeSpot.Domain.Enums;
 using SafeSpot.Infrastructure.IoT.Models;
+using SafeSpot.Infrastructure.Realtime;
 using SafeSpot.Persistence.Application;
 using System.Text;
 using System.Text.Json;
@@ -17,11 +19,16 @@ public class MqttHostedService : BackgroundService
     private readonly IServiceScopeFactory _scopeFactory;
     private IMqttClient _client;
     private readonly IHubContext<SensorHub> _hub;
+    private readonly INotificationService _notificationService;
 
-    public MqttHostedService(IServiceScopeFactory scopeFactory, IHubContext<SensorHub> hub)
+    public MqttHostedService(
+        IServiceScopeFactory scopeFactory, 
+        IHubContext<SensorHub> hub,
+        INotificationService notificationService)
     {
         _scopeFactory = scopeFactory;
         _hub = hub;
+        _notificationService = notificationService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -78,6 +85,7 @@ public class MqttHostedService : BackgroundService
             db.SensorReadings.Add(reading);
 
             sensor.Status = SensorStatus.Active;
+            await db.SaveChangesAsync();
 
             await _hub.Clients.Group($"shelter-{sensor.ShelterId}")
                 .SendAsync("ReceiveSensorReading", new
@@ -90,7 +98,39 @@ public class MqttHostedService : BackgroundService
                     status = sensor.Status
                 });
 
-            await db.SaveChangesAsync();
+            if (reading.Value < -50 || reading.Value > 100000)
+            {
+                sensor.Status = SensorStatus.Error;
+
+                await _notificationService
+                    .CreateSensorAlertAsync(
+                        sensor.ShelterId,
+                        "Sensor Error",
+                        $"{sensor.Type} sensor produced invalid value: {reading.Value}"
+                    );
+
+                return;
+            }
+
+            if (reading.Value > sensor.MaxValue)
+            {
+                await _notificationService
+                    .CreateSensorAlertAsync(
+                        sensor.ShelterId,
+                        "Critical Sensor Value",
+                        $"{sensor.Type} exceeded max value ({reading.Value})"
+                    );
+            }
+
+            if (reading.Value < sensor.MinValue)
+            {
+                await _notificationService
+                    .CreateSensorAlertAsync(
+                        sensor.ShelterId,
+                        "Critical Sensor Value",
+                        $"{sensor.Type} below min value ({reading.Value})"
+                    );
+            }
         }
         catch (Exception ex)
         {

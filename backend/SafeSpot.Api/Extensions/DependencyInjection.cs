@@ -54,6 +54,7 @@ public static class DependencyInjection
         services.AddScoped<AdminService>();
         services.AddHostedService<MqttHostedService>();
         services.AddSignalR();
+        services.AddScoped<INotificationService, NotificationService>();
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();
