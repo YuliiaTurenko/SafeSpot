@@ -53,6 +53,7 @@ public static class DependencyInjection
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<AdminService>();
         services.AddHostedService<MqttHostedService>();
+        services.AddHostedService<SensorOfflineWatcherService>();
         services.AddSignalR();
         services.AddScoped<INotificationService, NotificationService>();
 

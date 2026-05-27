@@ -11,6 +11,8 @@ public class Sensor : BaseEntity
     public SensorStatus Status { get; set; } = SensorStatus.Maintenance;
     public double MinValue { get; set; }
     public double MaxValue { get; set; }
+    public double? CurrentValue { get; set; }
+    public DateTime? LastSeenAt { get; set; }
     public DateTime InstalledAt { get; set; } = DateTime.UtcNow;
 
     public virtual ICollection<SensorReading> SensorReadings { get; set; } = new List<SensorReading>();

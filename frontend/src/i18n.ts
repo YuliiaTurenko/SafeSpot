@@ -95,6 +95,7 @@ i18n
           historicalReadings: "Historical sensor readings",
           sensorType: "Sensor type",
           markRead: "Mark as read",
+          shelterAnalytics: "Shelter Analytics",
 
           shelters: {
             statuses: {
@@ -224,6 +225,7 @@ i18n
           historicalReadings: "Історичні показники датчиків",
           sensorType: "Тип датчика",
           markRead: "Позначити як прочитане",
+          shelterAnalytics: "Аналітика укриття",
 
           shelters: {
             statuses: {

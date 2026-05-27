@@ -39,8 +39,7 @@ public class NotificationService : INotificationService
 
             await _notificationRepo.AddAsync(notification);
 
-            await _hub.Clients
-                .Group($"shelter-{shelterId}")
+            await _hub.Clients.All
                 .SendAsync("ReceiveNotification", new
                 {
                     notification.Title,

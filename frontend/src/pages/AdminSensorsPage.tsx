@@ -102,7 +102,7 @@ export default function AdminSensorsPage({ shelterId }: Props) {
 
       <div>
         <h2 className="text-2xl font-semibold mb-4">
-          Shelter Analytics
+          {t("shelterAnalytics")}
         </h2>
 
         <ShelterAnalyticsTable

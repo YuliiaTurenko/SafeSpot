@@ -60,11 +60,11 @@ public class MqttHostedService : BackgroundService
             long shelterId = long.Parse(parts[1]);
             long sensorId = long.Parse(parts[3]);
 
-            var payload = Encoding.UTF8.GetString(args.ApplicationMessage.Payload);
+            var json = Encoding.UTF8.GetString(args.ApplicationMessage.Payload);
 
-            var message = JsonSerializer.Deserialize<SensorReadingMessage>(payload);
+            var payload = JsonSerializer.Deserialize<SensorReadingMessage>(json);
 
-            if (message == null)
+            if (payload == null)
                 return;
 
             using var scope = _scopeFactory.CreateScope();
@@ -78,13 +78,21 @@ public class MqttHostedService : BackgroundService
             var reading = new SensorReading
             {
                 SensorId = sensorId,
-                Value = message.Value,
-                Timestamp = message.Timestamp
+                Value = payload.Value,
+                Timestamp = payload.Timestamp
             };
 
             db.SensorReadings.Add(reading);
 
             sensor.Status = SensorStatus.Active;
+            sensor.LastSeenAt = DateTime.UtcNow;
+            sensor.CurrentValue = payload.Value;
+
+            if (sensor.Status == SensorStatus.Offline)
+            {
+                sensor.Status = SensorStatus.Active;
+            }
+
             await db.SaveChangesAsync();
 
             await _hub.Clients.Group($"shelter-{sensor.ShelterId}")

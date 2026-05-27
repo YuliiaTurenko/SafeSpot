@@ -67,7 +67,7 @@ export default function ShelterDetailsPage() {
   }
 
   useEffect(() => {
-    sensorHub.start();
+    sensorHub.start(Number(id));
 
     sensorHub.onSensorReading((reading) => {
       setSensors((prev) =>
@@ -83,7 +83,7 @@ export default function ShelterDetailsPage() {
     });
 
     return () => {
-      sensorHub.stop();
+      sensorHub.leaveShelter(Number(id));
     };
   }, []);
 

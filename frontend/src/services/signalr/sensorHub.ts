@@ -5,8 +5,14 @@ const BASE_URL = "https://localhost:7165";
 class SensorHubService {
   private connection: signalR.HubConnection | null = null;
 
-  async start() {
-    if (this.connection) return;
+  async start(shelterId?: number) {
+    if (this.connection) {
+      if (shelterId) {
+        await this.connection.invoke("JoinShelter", shelterId);
+      }
+
+      return;
+    }
 
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(`${BASE_URL}/hubs/sensors`, {
@@ -16,6 +22,16 @@ class SensorHubService {
       .build();
 
     await this.connection.start();
+
+    if (shelterId) {
+      await this.connection.invoke("JoinShelter", shelterId);
+    }
+  }
+
+  async leaveShelter(shelterId: number) {
+    if (!this.connection) return;
+
+    await this.connection.invoke("LeaveShelter", shelterId);
   }
 
   onSensorReading(callback: (data: any) => void) {
@@ -28,6 +44,7 @@ class SensorHubService {
 
   stop() {
     this.connection?.stop();
+    this.connection = null;
   }
 }
 

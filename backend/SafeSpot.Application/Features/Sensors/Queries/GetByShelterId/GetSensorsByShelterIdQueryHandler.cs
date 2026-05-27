@@ -26,7 +26,8 @@ public class GetSensorsByShelterIdQueryHandler : IRequestHandler<GetSensorsByShe
                 Type = x.Type,
                 Status = x.Status,
                 MinValue = x.MinValue,
-                MaxValue = x.MaxValue
+                MaxValue = x.MaxValue,
+                CurrentValue = x.CurrentValue,
             })
             .ToList();
     }

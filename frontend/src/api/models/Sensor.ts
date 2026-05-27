@@ -36,6 +36,7 @@ export type SensorDto = {
   status: SensorStatus;
   minValue: number;
   maxValue: number;
+  currentValue: number;
 };
 
 export type CreateSensorRequest = {
