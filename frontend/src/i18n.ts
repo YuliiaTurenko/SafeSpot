@@ -78,11 +78,10 @@ i18n
           noAnnouncements: "No announcements",
           noResources: "No resources",
           sensorReadings: "Sensor Readings",
-          temperature: "Temperature",
-          humidity: "Humidity",
-          co2Level: "CO2 Level",
-          occupancy: "Occupancy",
           allStatuses: "All statuses",
+          error: "Error",
+          range: "Range",
+          sensorsTitle: "Sensors",
 
           shelters: {
             statuses: {
@@ -110,6 +109,21 @@ i18n
               available: "Available",
               limited: "Limited",
               unavailable: "Unavailable"
+            }
+          },
+
+          sensors: {
+            types: {
+              occupancy: "Occupancy",
+              temperature: "Temperature",
+              humidity: "Humidity",
+              co2Level: "CO2 Level",
+              airQuality: "AirQuality",
+            },
+            statuses: {
+              active: "Active",
+              inactive: "Inactive",
+              offline: "Offline"
             }
           }
         },
@@ -180,11 +194,10 @@ i18n
           noAnnouncements: "Немає оголошень",
           noResources: "Немає ресурсів",
           sensorReadings: "Показники датчиків",
-          temperature: "Температура",
-          humidity: "Вологість",
-          co2Level: "Рівень CO2",
-          occupancy: "Заповненість",
           allStatuses: "Всі статуси",
+          error: "Помилка",
+          range: "Діапазон",
+          sensorsTitle: "Сенсори",
 
           shelters: {
             statuses: {
@@ -212,6 +225,21 @@ i18n
               available: "В наявності",
               limited: "Обмежено",
               unavailable: "Відсутній"
+            }
+          },
+
+          sensors: {
+            types: {
+              occupancy: "Заповненість",
+              temperature: "Температура",
+              humidity: "Вологість",
+              co2Level: "Рівень CO2",
+              airQuality: "Якість повітря",
+            },
+            statuses: {
+              active: "Активний",
+              inactive: "Неактивний",
+              offline: "Поза мережею"
             }
           }
         },

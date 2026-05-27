@@ -9,9 +9,11 @@ import {
   ResourceType,
   ResourceStatus,
   resourceTypeLabels,
-  resourceStatusLabels
+  resourceStatusLabels,
 } from "../api/models/ShelterResource";
 import { AnnouncementDto } from "../api/models/Announcement";
+import { sensorHub } from "../services/signalr/sensorHub";
+import SensorCard from "../components/SensorCard";
 import LanguageButton from "../components/LanguageButton";
 import { useTranslation } from "react-i18next";
 
@@ -20,6 +22,7 @@ export default function ShelterDetailsPage() {
   const [shelter, setShelter] = useState<ShelterDto | null>(null);
   const [resources, setResources] = useState<ShelterResourceDto[]>([]);
   const [announcements, setAnnouncements] = useState<AnnouncementDto[]>([]);
+  const [sensors, setSensors] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
 
@@ -63,6 +66,27 @@ export default function ShelterDetailsPage() {
     );
   }
 
+  useEffect(() => {
+    sensorHub.start();
+
+    sensorHub.onSensorReading((reading) => {
+      setSensors((prev) =>
+        prev.map((s) =>
+          s.id === reading.sensorId
+            ? {
+                ...s,
+                currentValue: reading.value,
+              }
+            : s,
+        ),
+      );
+    });
+
+    return () => {
+      sensorHub.stop();
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#2F3E46] text-white p-8">
       <div className="flex justify-between items-center mb-8">
@@ -74,7 +98,9 @@ export default function ShelterDetailsPage() {
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           <div className="bg-[#354F52] rounded-2xl p-6">
-            <h2 className="text-2xl font-semibold mb-5">{t("mainInformation")}</h2>
+            <h2 className="text-2xl font-semibold mb-5">
+              {t("mainInformation")}
+            </h2>
 
             {shelter.imageUrl && (
               <img
@@ -101,7 +127,9 @@ export default function ShelterDetailsPage() {
               </p>
 
               <p>
-                <span className="font-semibold">{t("latitude")}, {t("longitude")}:</span>{" "}
+                <span className="font-semibold">
+                  {t("latitude")}, {t("longitude")}:
+                </span>{" "}
                 {shelter.latitude}, {shelter.longitude}
               </p>
 
@@ -155,7 +183,9 @@ export default function ShelterDetailsPage() {
 
         <div className="space-y-8">
           <div className="bg-[#354F52] rounded-2xl p-6">
-            <h2 className="text-2xl font-semibold mb-5">{t("resourcesTitle")}</h2>
+            <h2 className="text-2xl font-semibold mb-5">
+              {t("resourcesTitle")}
+            </h2>
 
             <div className="space-y-3">
               {resources.map((resource) => (
@@ -181,17 +211,13 @@ export default function ShelterDetailsPage() {
             </div>
           </div>
 
-          <div className="bg-[#354F52] rounded-2xl p-6">
-            <h2 className="text-2xl font-semibold mb-5">{t("sensorReadings")}</h2>
+          <div className="bg-[#354F52] rounded-2xl p-6 mt-8">
+            <h2 className="text-2xl font-semibold mb-4">{t("sensorsTitle")}</h2>
 
-            <div className="space-y-3">
-              <div className="bg-[#2F3E46] p-4 rounded-xl">{t("temperature")}: --</div>
-
-              <div className="bg-[#2F3E46] p-4 rounded-xl">{t("humidity")}: --</div>
-
-              <div className="bg-[#2F3E46] p-4 rounded-xl">{t("co2Level")}: --</div>
-
-              <div className="bg-[#2F3E46] p-4 rounded-xl">{t("occupancy")}: --</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {sensors.map((s) => (
+                <SensorCard key={s.id} sensor={s} />
+              ))}
             </div>
           </div>
         </div>
