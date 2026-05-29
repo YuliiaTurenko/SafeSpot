@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MQTTnet;
-using Newtonsoft.Json.Linq;
 using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
 using SafeSpot.Domain.Enums;

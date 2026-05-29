@@ -11,6 +11,7 @@ public class MqttPublisher : IAsyncDisposable
     private readonly IMqttClient _client;
     private readonly string _host;
     private readonly int _port;
+    private readonly SensorCommandHandler _commandHandler;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -20,10 +21,11 @@ public class MqttPublisher : IAsyncDisposable
 
     public bool IsConnected => _client.IsConnected;
 
-    public MqttPublisher(string host, int port)
+    public MqttPublisher(string host, int port, SensorCommandHandler commandHandler)
     {
         _host = host;
         _port = port;
+        _commandHandler = commandHandler;
 
         var factory = new MqttFactory();
         _client = factory.CreateMqttClient();
@@ -40,6 +42,14 @@ public class MqttPublisher : IAsyncDisposable
             await Task.Delay(5000);
             await ConnectAsync();
         };
+
+        _client.ApplicationMessageReceivedAsync += async e =>
+        {
+            var topic = e.ApplicationMessage.Topic;
+            var payload = Encoding.UTF8.GetString(e.ApplicationMessage.PayloadSegment);
+            Console.WriteLine($"Command received: {topic} {payload}");
+            await _commandHandler.HandleAsync(topic, payload);
+        };
     }
 
     public async Task ConnectAsync()
@@ -54,6 +64,7 @@ public class MqttPublisher : IAsyncDisposable
         try
         {
             await _client.ConnectAsync(options);
+            await _client.SubscribeAsync("shelters/+/sensors/+/commands");
         }
         catch (Exception ex)
         {

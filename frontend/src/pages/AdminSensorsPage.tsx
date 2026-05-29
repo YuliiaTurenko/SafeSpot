@@ -73,7 +73,7 @@ export default function AdminSensorsPage({ shelterId }: Props) {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {sensors.map((s) => (
           <div key={s.id} className="space-y-2">
-            <SensorCard sensor={s} />
+            <SensorCard sensor={s} onUpdated={load}/>
 
             <div className="flex gap-2">
                 <button

@@ -8,6 +8,7 @@ using SafeSpot.Application.Features.Announcements.Commands.Update;
 using SafeSpot.Application.Features.Sensors.Commands.Create;
 using SafeSpot.Application.Features.Sensors.Commands.Delete;
 using SafeSpot.Application.Features.Sensors.Commands.Update;
+using SafeSpot.Application.Features.Sensors.Queries.GetById;
 using SafeSpot.Application.Features.ShelterResources.Commands.Create;
 using SafeSpot.Application.Features.ShelterResources.Commands.Delete;
 using SafeSpot.Application.Features.ShelterResources.Commands.Update;
@@ -87,6 +88,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreateSensorCommand>, CreateSensorCommandValidator>();
         services.AddScoped<IValidator<UpdateSensorCommand>, UpdateSensorCommandValidator>();
         services.AddScoped<IValidator<DeleteSensorCommand>, DeleteSensorCommandValidator>();
+        services.AddScoped<IValidator<GetSensorByIdQuery>, GetSensorByIdQueryValidator>();
 
         return services;
     }

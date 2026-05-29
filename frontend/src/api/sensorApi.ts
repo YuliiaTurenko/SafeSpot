@@ -21,3 +21,9 @@ export const getSensorReadings = (sensorId: number) =>
 
 export const getShelterAnalytics = (shelterId: number) =>
   api.get(`/sensor-analytics?shelterId=${shelterId}`);
+
+export const disableSensor = (id: number) =>
+  api.post(`/sensors/${id}/disable`);
+
+export const enableSensor = (id: number) =>
+  api.post(`/sensors/${id}/enable`);

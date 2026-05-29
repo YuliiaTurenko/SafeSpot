@@ -32,7 +32,8 @@ PrintBanner(sensors, mqttHost, mqttPort);
 var generator = new SensorValueGenerator();
 var rng = new Random();
 
-await using var publisher = new MqttPublisher(mqttHost, mqttPort);
+var commandHandler = new SensorCommandHandler(sensors);
+await using var publisher = new MqttPublisher(mqttHost, mqttPort, commandHandler);
 using var cts = new CancellationTokenSource();
 Console.CancelKeyPress += (_, e) =>
 {
@@ -63,6 +64,12 @@ while (!cts.Token.IsCancellationRequested)
 
     foreach (var sensor in sensors)
     {
+        if (!sensor.IsEnabled)
+        {
+            skipped++;
+            continue;
+        }
+
         double? value = generator.Generate(sensor);
 
         if (value is null)

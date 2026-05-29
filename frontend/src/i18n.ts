@@ -96,6 +96,8 @@ i18n
           sensorType: "Sensor type",
           markRead: "Mark as read",
           shelterAnalytics: "Shelter Analytics",
+          disable: "Disable",
+          enable: "Enable",
 
           shelters: {
             statuses: {
@@ -226,6 +228,8 @@ i18n
           sensorType: "Тип датчика",
           markRead: "Позначити як прочитане",
           shelterAnalytics: "Аналітика укриття",
+          disable: "Вимкнути",
+          enable: "Увімкнути",
 
           shelters: {
             statuses: {

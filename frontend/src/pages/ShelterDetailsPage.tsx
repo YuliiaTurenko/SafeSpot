@@ -216,7 +216,7 @@ export default function ShelterDetailsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {sensors.map((s) => (
-                <SensorCard key={s.id} sensor={s} />
+                <SensorCard key={s.id} sensor={s} onUpdated={loadData}/>
               ))}
             </div>
           </div>

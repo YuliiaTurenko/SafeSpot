@@ -13,5 +13,7 @@ public class SensorDevice
     public bool IsOffline { get; set; } = false;
     public int OfflineCyclesLeft { get; set; } = 0;
 
+    public bool IsEnabled { get; set; } = true;
+
     public string Topic => $"shelters/{ShelterId}/sensors/{SensorId}";
 }
