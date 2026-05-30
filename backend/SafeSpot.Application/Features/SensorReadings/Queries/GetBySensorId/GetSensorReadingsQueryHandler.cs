@@ -1,15 +1,14 @@
 ﻿using MediatR;
 using SafeSpot.Application.Abstractions;
 using SafeSpot.Application.DTOs;
-using SafeSpot.Domain.Entities;
 
 namespace SafeSpot.Application.Features.SensorReadings.Queries.GetBySensorId;
 
 public class GetSensorReadingsQueryHandler : IRequestHandler<GetSensorReadingsQuery, List<SensorReadingDto>>
 {
-    private readonly IRepository<SensorReading> _repo;
+    private readonly ISensorReadingRepository _repo;
 
-    public GetSensorReadingsQueryHandler(IRepository<SensorReading> repo)
+    public GetSensorReadingsQueryHandler(ISensorReadingRepository repo)
     {
         _repo = repo;
     }

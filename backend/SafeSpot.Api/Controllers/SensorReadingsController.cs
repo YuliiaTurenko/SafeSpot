@@ -13,13 +13,11 @@ public class SensorReadingsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public SensorReadingsController(
-        IMediator mediator)
+    public SensorReadingsController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
-    [Authorize]
     [HttpGet("{sensorId}")]
     public async Task<IActionResult> GetBySensorId(long sensorId)
     {

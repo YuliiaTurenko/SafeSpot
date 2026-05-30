@@ -52,12 +52,12 @@ public static class DependencyInjection
         services.AddScoped<ILocalizationService, LocalizationService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<AdminService>();
+        services.AddSignalR();
         services.AddHostedService<MqttHostedService>();
         services.AddHostedService<SensorOfflineWatcherService>();
-        services.AddSignalR();
-        services.AddScoped<INotificationService, NotificationService>();
-
+        
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();
         services.AddScoped<ISensorRepository, SensorRepository>();

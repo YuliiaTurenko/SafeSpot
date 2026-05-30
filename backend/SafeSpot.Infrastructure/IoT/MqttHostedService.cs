@@ -18,16 +18,12 @@ public class MqttHostedService : BackgroundService
     private readonly IServiceScopeFactory _scopeFactory;
     private IMqttClient _client;
     private readonly IHubContext<SensorHub> _hub;
-    private readonly INotificationService _notificationService;
-
     public MqttHostedService(
         IServiceScopeFactory scopeFactory, 
-        IHubContext<SensorHub> hub,
-        INotificationService notificationService)
+        IHubContext<SensorHub> hub)
     {
         _scopeFactory = scopeFactory;
         _hub = hub;
-        _notificationService = notificationService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -105,11 +101,14 @@ public class MqttHostedService : BackgroundService
                     status = sensor.Status
                 });
 
+            var notificationService =scope.ServiceProvider
+                .GetRequiredService<INotificationService>();
+
             if (reading.Value < -50 || reading.Value > 100000)
             {
                 sensor.Status = SensorStatus.Error;
 
-                await _notificationService
+                await notificationService
                     .CreateSensorAlertAsync(
                         sensor.ShelterId,
                         "Sensor Error",
@@ -121,7 +120,7 @@ public class MqttHostedService : BackgroundService
 
             if (reading.Value > sensor.MaxValue)
             {
-                await _notificationService
+                await notificationService
                     .CreateSensorAlertAsync(
                         sensor.ShelterId,
                         "Critical Sensor Value",
@@ -131,7 +130,7 @@ public class MqttHostedService : BackgroundService
 
             if (reading.Value < sensor.MinValue)
             {
-                await _notificationService
+                await notificationService
                     .CreateSensorAlertAsync(
                         sensor.ShelterId,
                         "Critical Sensor Value",

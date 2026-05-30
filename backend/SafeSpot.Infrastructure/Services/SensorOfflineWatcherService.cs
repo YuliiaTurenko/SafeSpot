@@ -13,14 +13,12 @@ public class SensorOfflineWatcherService : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
 
-    public SensorOfflineWatcherService(
-        IServiceScopeFactory scopeFactory)
+    public SensorOfflineWatcherService(IServiceScopeFactory scopeFactory)
     {
         _scopeFactory = scopeFactory;
     }
 
-    protected override async Task ExecuteAsync(
-        CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {

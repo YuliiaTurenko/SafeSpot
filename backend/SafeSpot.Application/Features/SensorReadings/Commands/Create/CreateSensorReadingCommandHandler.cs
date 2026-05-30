@@ -6,9 +6,9 @@ namespace SafeSpot.Application.Features.SensorReadings.Commands.Create;
 
 public class CreateSensorReadingCommandHandler : IRequestHandler<CreateSensorReadingCommand, long>
 {
-    private readonly IRepository<SensorReading> _repo;
+    private readonly ISensorReadingRepository _repo;
 
-    public CreateSensorReadingCommandHandler(IRepository<SensorReading> repo)
+    public CreateSensorReadingCommandHandler(ISensorReadingRepository repo)
     {
         _repo = repo;
     }
