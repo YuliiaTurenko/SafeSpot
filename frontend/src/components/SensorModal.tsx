@@ -61,8 +61,14 @@ export default function SensorModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div className="bg-[#1F2937] w-[500px] rounded-2xl p-6 text-white">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 cursor-pointer"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-[#1F2937] w-[500px] rounded-2xl p-6 text-white cursor-default shadow-2xl"
+      >
         <h2 className="text-2xl font-semibold mb-6">
           {isEdit ? t("editSensor") : t("addSensor")}
         </h2>
@@ -70,15 +76,10 @@ export default function SensorModal({
         <div className="space-y-4">
           {!isEdit && (
             <div>
-              <label className="block mb-2">
-                {t("sensorType")}
-              </label>
-
+              <label className="block mb-2">{t("sensorType")}</label>
               <select
                 value={type}
-                onChange={(e) =>
-                  setType(Number(e.target.value))
-                }
+                onChange={(e) => setType(Number(e.target.value))}
                 className="w-full bg-[#374151] p-3 rounded"
               >
                 {Object.entries(SensorType)
@@ -93,46 +94,31 @@ export default function SensorModal({
           )}
 
           <div>
-            <label className="block mb-2">
-              {t("minValue")}
-            </label>
-
+            <label className="block mb-2">{t("minValue")}</label>
             <input
               type="number"
               value={minValue}
-              onChange={(e) =>
-                setMinValue(Number(e.target.value))
-              }
+              onChange={(e) => setMinValue(Number(e.target.value))}
               className="w-full bg-[#374151] p-3 rounded"
             />
           </div>
 
           <div>
-            <label className="block mb-2">
-              {t("maxValue")}
-            </label>
-
+            <label className="block mb-2">{t("maxValue")}</label>
             <input
               type="number"
               value={maxValue}
-              onChange={(e) =>
-                setMaxValue(Number(e.target.value))
-              }
+              onChange={(e) => setMaxValue(Number(e.target.value))}
               className="w-full bg-[#374151] p-3 rounded"
             />
           </div>
 
           {isEdit && (
             <div>
-              <label className="block mb-2">
-                {t("status")}
-              </label>
-
+              <label className="block mb-2">{t("status")}</label>
               <select
                 value={status}
-                onChange={(e) =>
-                  setStatus(Number(e.target.value))
-                }
+                onChange={(e) => setStatus(Number(e.target.value))}
                 className="w-full bg-[#374151] p-3 rounded"
               >
                 {Object.entries(SensorStatus)
@@ -148,7 +134,7 @@ export default function SensorModal({
 
           <button
             onClick={handleSubmit}
-            className="w-full bg-[#52796F] hover:bg-[#84A98C] py-3 rounded transition-colors"
+            className="w-full bg-[#52796F] hover:bg-[#84A98C] py-3 rounded transition-colors mt-4"
           >
             {isEdit ? t("edit") : t("create")}
           </button>

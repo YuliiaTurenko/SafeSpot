@@ -11,6 +11,7 @@ import OperatorPage from "./pages/OperatorPage";
 import ProfilePage from "./pages/ProfilePage";
 import ShelterDetailsPage from "./pages/ShelterDetailsPage";
 import ShelterPostsPage from "./pages/ShelterPostsPage";
+import AdminSensorsPage from "./pages/AdminSensorsPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/complete-profile" element={<CompleteProfilePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/admin/shelter/:shelterId/sensors" element={<AdminSensorsPage />} />
             <Route path="/operator" element={<OperatorPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/shelters/:id" element={<ShelterDetailsPage />} />

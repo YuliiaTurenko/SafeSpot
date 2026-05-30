@@ -31,7 +31,6 @@ export default function AdminPage() {
             <AnnouncementList
               shelterId={selectedShelterId}
             />
-
             <ResourceList
               shelterId={selectedShelterId}
             />

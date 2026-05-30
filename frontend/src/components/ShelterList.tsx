@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { deleteShelter, getShelters } from "../api/shelterApi";
 import ShelterModal from "./ShelterModal";
 import { useTranslation } from "react-i18next";
-import { ShelterStatus } from "../api/models/Shelter";
+import { ShelterStatus, statusLabels } from "../api/models/Shelter";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   onSelectShelter: (id: number) => void;
@@ -14,7 +15,11 @@ export default function ShelterList({ onSelectShelter }: Props) {
   const [open, setOpen] = useState(false);
 
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<ShelterStatus | "all">("all",);
+  const [statusFilter, setStatusFilter] = useState<ShelterStatus | "all">(
+    "all",
+  );
+
+  const navigate = useNavigate();
 
   const load = async () => {
     const res = await getShelters();
@@ -30,32 +35,17 @@ export default function ShelterList({ onSelectShelter }: Props) {
     load();
   };
 
-  const [
-    editingShelter,
-    setEditingShelter,
-  ] = useState<any | null>(
-    null
-  );
+  const [editingShelter, setEditingShelter] = useState<any | null>(null);
 
-  const filteredShelters =
-  shelters.filter((shelter) => {
-    const matchesSearch =
-      shelter.address
-        .toLowerCase()
-        .includes(
-          search.toLowerCase()
-        );
+  const filteredShelters = shelters.filter((shelter) => {
+    const matchesSearch = shelter.address
+      .toLowerCase()
+      .includes(search.toLowerCase());
 
     const matchesStatus =
-      statusFilter === "all"
-        ? true
-        : shelter.status ===
-          statusFilter;
+      statusFilter === "all" ? true : shelter.status === statusFilter;
 
-    return (
-      matchesSearch &&
-      matchesStatus
-    );
+    return matchesSearch && matchesStatus;
   });
 
   return (
@@ -113,7 +103,7 @@ export default function ShelterList({ onSelectShelter }: Props) {
                 </p>
                 <p>
                   {" "}
-                  {t("status")}: {s.status}{" "}
+                  {t("status")}: {t(statusLabels[s.status as ShelterStatus])}{" "}
                 </p>
               </div>
 
@@ -123,6 +113,13 @@ export default function ShelterList({ onSelectShelter }: Props) {
                   className="bg-[#354F52] hover:bg-[#52796F] text-white px-3 py-2 rounded transition-colors"
                 >
                   {t("select") || "Вибрати"}
+                </button>
+
+                <button
+                  onClick={() => navigate(`/admin/shelter/${s.id}/sensors`)}
+                  className="bg-[#354F52] hover:bg-[#52796F] text-white px-3 py-2 rounded transition-colors"
+                >
+                  {t("sensorsTitle")}
                 </button>
 
                 <button
@@ -147,18 +144,14 @@ export default function ShelterList({ onSelectShelter }: Props) {
         <ShelterModal
           open={true}
           shelter={editingShelter}
-          onClose={() =>
-            setEditingShelter(null)
-          }
+          onClose={() => setEditingShelter(null)}
           onCreated={load}
         />
       )}
 
       <ShelterModal
         open={open}
-        onClose={() =>
-          setOpen(false)
-        }
+        onClose={() => setOpen(false)}
         onCreated={load}
       />
     </div>

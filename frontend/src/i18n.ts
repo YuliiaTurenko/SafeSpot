@@ -98,6 +98,8 @@ i18n
           shelterAnalytics: "Shelter Analytics",
           disable: "Disable",
           enable: "Enable",
+          back: "Back",
+          noSensors: "No sensors for this shelter.",
 
           shelters: {
             statuses: {
@@ -230,6 +232,8 @@ i18n
           shelterAnalytics: "Аналітика укриття",
           disable: "Вимкнути",
           enable: "Увімкнути",
+          back: "Назад",
+          noSensors: "Немає сенсорів цього укриття.",
 
           shelters: {
             statuses: {
