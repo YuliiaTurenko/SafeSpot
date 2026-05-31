@@ -57,7 +57,9 @@ public static class DependencyInjection
         services.AddSignalR();
         services.AddHostedService<MqttHostedService>();
         services.AddHostedService<SensorOfflineWatcherService>();
-        
+        services.AddSingleton<IMqttCommandClient, MqttCommandClient>();
+        services.AddScoped<ISensorCommandPublisher, SensorCommandPublisher>();
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();
         services.AddScoped<ISensorRepository, SensorRepository>();

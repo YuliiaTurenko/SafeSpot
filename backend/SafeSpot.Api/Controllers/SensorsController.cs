@@ -8,6 +8,7 @@ using SafeSpot.Application.Features.Sensors.Commands.Delete;
 using SafeSpot.Application.Features.Sensors.Commands.Update;
 using SafeSpot.Application.Features.Sensors.Queries.GetById;
 using SafeSpot.Application.Features.Sensors.Queries.GetByShelterId;
+using SafeSpot.Domain.Enums;
 
 namespace SafeSpot.Api.Controllers;
 
@@ -102,6 +103,15 @@ public class SensorsController : ControllerBase
 
         var sensor = await _mediator.Send(new GetSensorByIdQuery(id, userId));
 
+        await _mediator.Send(
+            new UpdateSensorCommand(
+                userId,
+                sensor.Id,
+                SensorStatus.Inactive,
+                sensor.MinValue,
+                sensor.MaxValue
+            ));
+
         await _commandPublisher.PublishDisableAsync(
             sensor.ShelterId,
             sensor.Id);
@@ -118,6 +128,15 @@ public class SensorsController : ControllerBase
         long userId = await _userRepo.GetUserIdByIdentityIdAsync(identityId);
 
         var sensor = await _mediator.Send(new GetSensorByIdQuery(id, userId));
+
+        await _mediator.Send(
+            new UpdateSensorCommand(
+                userId,
+                sensor.Id,
+                SensorStatus.Active,
+                sensor.MinValue,
+                sensor.MaxValue
+            ));
 
         await _commandPublisher.PublishEnableAsync(
             sensor.ShelterId,

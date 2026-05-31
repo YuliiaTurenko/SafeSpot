@@ -42,7 +42,7 @@ public class SensorOfflineWatcherService : BackgroundService
             {
                 var diff = now - sensor.LastSeenAt.Value;
 
-                if (diff.TotalSeconds > 30)
+                if (diff.TotalSeconds > 200)
                 {
                     sensor.Status = SensorStatus.Offline;
 
@@ -72,7 +72,7 @@ public class SensorOfflineWatcherService : BackgroundService
             await db.SaveChangesAsync(stoppingToken);
 
             await Task.Delay(
-                TimeSpan.FromSeconds(15),
+                TimeSpan.FromSeconds(80),
                 stoppingToken
             );
         }

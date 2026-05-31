@@ -6,5 +6,5 @@ public class SensorReading : BaseEntity
     public virtual Sensor Sensor { get; set; }
 
     public double Value { get; set; }
-    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+    public DateTime Timestamp { get; set; }
 }

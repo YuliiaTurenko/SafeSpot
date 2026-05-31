@@ -16,7 +16,7 @@ public class SensorReadingRepository : Repository<SensorReading>, ISensorReading
 
     public async Task<List<SensorReading>> GetLatestByShelterIdAsync(long shelterId)
     {
-        return await _dbSet
+        return await _db.SensorReadings
             .Include(x => x.Sensor)
             .Where(x => x.Sensor.ShelterId == shelterId)
             .GroupBy(x => x.SensorId)

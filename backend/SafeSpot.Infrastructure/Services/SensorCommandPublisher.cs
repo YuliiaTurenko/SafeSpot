@@ -1,14 +1,13 @@
-﻿using MQTTnet;
-using SafeSpot.Application.Abstractions;
+﻿using SafeSpot.Application.Abstractions;
 using System.Text.Json;
 
 namespace SafeSpot.Infrastructure.Services;
 
 public class SensorCommandPublisher : ISensorCommandPublisher
 {
-    private readonly IMqttClient _mqttClient;
+    private readonly IMqttCommandClient _mqttClient;
 
-    public SensorCommandPublisher(IMqttClient mqttClient)
+    public SensorCommandPublisher(IMqttCommandClient mqttClient)
     {
         _mqttClient = mqttClient;
     }
@@ -27,14 +26,14 @@ public class SensorCommandPublisher : ISensorCommandPublisher
     {
         var topic = $"shelters/{shelterId}/sensors/{sensorId}/commands";
 
-        var payload = JsonSerializer.Serialize(new { action });
+        //var payload = JsonSerializer.Serialize(new { action });
 
-        var message =
-            new MqttApplicationMessageBuilder()
-            .WithTopic(topic)
-            .WithPayload(payload)
-            .Build();
+        //var message =
+        //    new MqttApplicationMessageBuilder()
+        //    .WithTopic(topic)
+        //    .WithPayload(payload)
+        //    .Build();
 
-        await _mqttClient.PublishAsync(message);
+        await _mqttClient.PublishAsync(topic, JsonSerializer.Serialize(new { action }));
     }
 }
