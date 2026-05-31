@@ -9,7 +9,7 @@ import {
 import SensorCard from "../components/SensorCard";
 import SensorModal from "../components/SensorModal";
 import SensorChartModal from "../components/SensorChartModal";
-import ShelterAnalyticsTable from "../components/ShelterAnalyticsTable";
+import ShelterAnalyticsCards from "../components/ShelterAnalyticsCards";
 import LanguageButton from "../components/LanguageButton";
 import { useTranslation } from "react-i18next";
 
@@ -18,7 +18,7 @@ export default function AdminSensorsPage() {
   const shelterIdNumber = Number(shelterId);
 
   const [sensors, setSensors] = useState<any[]>([]);
-  const [analytics, setAnalytics] = useState<any[]>([]);
+  const [analytics, setAnalytics] = useState<any | null>(null);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingSensor, setEditingSensor] = useState<any>(null);
@@ -93,7 +93,7 @@ export default function AdminSensorsPage() {
           {sensors.length === 0 ? (
             <p className="text-[#CAD2C5] italic text-sm">{t("noSensors")}</p>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {sensors.map((s) => (
                 <div
                   key={s.id}
@@ -128,14 +128,12 @@ export default function AdminSensorsPage() {
           )}
         </div>
 
-        <div className="bg-[#2F3E46] border border-[#52796F]/30 p-6 rounded-xl shadow-lg space-y-4">
+        <div className="bg-[#2F3E46] border border-[#52796F]/30 p-6 rounded-xl shadow-lg space-y-5">
           <h2 className="text-2xl font-bold tracking-wide text-gray-100">
             {t("shelterAnalytics")}
           </h2>
 
-          <div className="overflow-x-auto rounded-lg border border-[#52796F]/20">
-            <ShelterAnalyticsTable analytics={analytics} />
-          </div>
+            <ShelterAnalyticsCards analytics={analytics}/>
         </div>
 
         <SensorModal

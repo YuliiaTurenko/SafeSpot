@@ -100,6 +100,12 @@ i18n
           enable: "Enable",
           back: "Back",
           noSensors: "No sensors for this shelter.",
+          avgTemperature: "Average Temperature",
+          avgHumidity: "Average Humidity",
+          avgCO2: "Average CO₂",
+          avgAirQuality: "Average Air Quality",
+          activeSensors: "Active Sensors",
+          offlineSensors: "Offline Sensors",
 
           shelters: {
             statuses: {
@@ -234,6 +240,12 @@ i18n
           enable: "Увімкнути",
           back: "Назад",
           noSensors: "Немає сенсорів цього укриття.",
+          avgTemperature: "Середня температура",
+          avgHumidity: "Середня вологість",
+          avgCO2: "Середній рівень CO₂",
+          avgAirQuality: "Середня якість повітря",
+          activeSensors: "Активні сенсори",
+          offlineSensors: "Сенсори офлайн",
 
           shelters: {
             statuses: {
