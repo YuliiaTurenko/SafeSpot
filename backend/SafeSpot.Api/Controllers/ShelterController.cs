@@ -35,7 +35,7 @@ public class ShelterController : ControllerBase
         return Ok(await _mediator.Send(new GetAllSheltersQuery()));
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin, Operator")]
     [HttpGet("user-{id}")]
     public async Task<IActionResult> GetAllForUser()
     {

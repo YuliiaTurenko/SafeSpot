@@ -41,7 +41,7 @@ public class SensorsController : ControllerBase
                 new GetSensorsByShelterIdQuery(shelterId)));
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin, Operator")]
     [HttpPost]
     public async Task<IActionResult> Create(CreateSensorRequest request)
     {
@@ -60,7 +60,7 @@ public class SensorsController : ControllerBase
                 )));
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin, Operator")]
     [HttpPut]
     public async Task<IActionResult> Update(UpdateSensorRequest request)
     {
@@ -80,7 +80,7 @@ public class SensorsController : ControllerBase
         return Ok();
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin, Operator")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(long id)
     {
@@ -93,7 +93,7 @@ public class SensorsController : ControllerBase
         return Ok();
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin, Operator")]
     [HttpPost("{id}/disable")]
     public async Task<IActionResult> Disable(long id)
     {
@@ -119,7 +119,7 @@ public class SensorsController : ControllerBase
         return Ok();
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin, Operator")]
     [HttpPost("{id}/enable")]
     public async Task<IActionResult> Enable(long id)
     {

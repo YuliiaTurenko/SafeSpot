@@ -32,4 +32,18 @@ public class UserRepository : Repository<User>, IUserRepository
     {
         return await _db.Users.AnyAsync(x => x.Id == Id);
     }
+
+    public async Task<List<User>> GetUsersByIdsAsync(List<long> ids)
+    {
+        return await _db.Users
+            .Where(x => ids.Contains(x.Id))
+            .ToListAsync();
+    }
+
+    public async Task<List<User>> GetUsersByIdentityIdsAsync(List<string> identityIds)
+    {
+        return await _db.Users
+            .Where(x => identityIds.Contains(x.IdentityId))
+            .ToListAsync();
+    }
 }

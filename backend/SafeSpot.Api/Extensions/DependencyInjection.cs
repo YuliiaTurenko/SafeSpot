@@ -15,6 +15,8 @@ using SafeSpot.Application.Features.ShelterResources.Commands.Update;
 using SafeSpot.Application.Features.Shelters.Commands.Create;
 using SafeSpot.Application.Features.Shelters.Commands.Delete;
 using SafeSpot.Application.Features.Shelters.Commands.Update;
+using SafeSpot.Application.Features.Admin.Commands.AssignModerator;
+using SafeSpot.Application.Features.Admin.Commands.RevokeModerator;
 using SafeSpot.Application.Features.User.Commands.Create;
 using SafeSpot.Application.Features.User.Commands.Update;
 using SafeSpot.Infrastructure.Identity;
@@ -51,6 +53,7 @@ public static class DependencyInjection
         services.AddScoped<IUserContext, UserContext>();
         services.AddScoped<ILocalizationService, LocalizationService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserRoleService, UserRoleService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<AdminService>();
@@ -91,6 +94,9 @@ public static class DependencyInjection
         services.AddScoped<IValidator<UpdateSensorCommand>, UpdateSensorCommandValidator>();
         services.AddScoped<IValidator<DeleteSensorCommand>, DeleteSensorCommandValidator>();
         services.AddScoped<IValidator<GetSensorByIdQuery>, GetSensorByIdQueryValidator>();
+
+        services.AddScoped<IValidator<AssignModeratorCommand>, AssignModeratorCommandValidator>();
+        services.AddScoped<IValidator<RevokeModeratorCommand>, RevokeModeratorCommandValidator>();
 
         return services;
     }
