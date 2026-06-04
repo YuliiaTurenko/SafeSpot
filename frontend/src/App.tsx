@@ -12,6 +12,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ShelterDetailsPage from "./pages/ShelterDetailsPage";
 import ShelterPostsPage from "./pages/ShelterPostsPage";
 import AdminSensorsPage from "./pages/AdminSensorsPage";
+import NotificationPage from "./pages/NotificationPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/admin/shelter/:shelterId/sensors" element={<AdminSensorsPage />} />
             <Route path="/operator" element={<OperatorPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/notification" element={<NotificationPage />} />
             <Route path="/shelters/:id" element={<ShelterDetailsPage />} />
             <Route path="/shelters/:id/posts" element={<ShelterPostsPage />} />
           </Routes>

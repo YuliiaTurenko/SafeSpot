@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MQTTnet;
 using SafeSpot.Application.Abstractions;
 using SafeSpot.Domain.Entities;
@@ -18,12 +19,16 @@ public class MqttHostedService : BackgroundService
     private readonly IServiceScopeFactory _scopeFactory;
     private IMqttClient _client;
     private readonly IHubContext<SensorHub> _hub;
+    private readonly ILogger<MqttHostedService> _logger;
+
     public MqttHostedService(
         IServiceScopeFactory scopeFactory, 
-        IHubContext<SensorHub> hub)
+        IHubContext<SensorHub> hub,
+        ILogger<MqttHostedService> logger)
     {
         _scopeFactory = scopeFactory;
         _hub = hub;
+        _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -140,7 +145,7 @@ public class MqttHostedService : BackgroundService
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.LogInformation(ex.Message);
         }
     }
 }

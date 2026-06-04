@@ -8,5 +8,5 @@ public class SensorReadingMessage
     public double Value { get; set; }
 
     [JsonPropertyName("timestamp")]
-    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+    public DateTime Timestamp { get; set; }
 }

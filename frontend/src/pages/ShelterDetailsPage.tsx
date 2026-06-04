@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getShelterById } from "../api/shelterApi";
 import { getResourcesByShelterId } from "../api/shelterResourceApi";
 import { getAnnouncementsByShelterId } from "../api/announcementApi";
+import { getSensorsByShelterId } from "../api/sensorApi";
 import { ShelterDto, ShelterStatus, statusLabels } from "../api/models/Shelter";
 import {
   ShelterResourceDto,
@@ -28,14 +29,30 @@ export default function ShelterDetailsPage() {
 
   useEffect(() => {
     if (!id) return;
-
     loadData();
   }, [id]);
+
+  useEffect(() => {
+    if (loading || !id) return;
+
+    sensorHub.start(Number(id));
+
+    sensorHub.onSensorReading((reading) => {
+      setSensors((prev) =>
+        prev.map((s) =>
+          s.id === reading.sensorId ? { ...s, currentValue: reading.value } : s,
+        ),
+      );
+    });
+
+    return () => {
+      sensorHub.leaveShelter(Number(id));
+    };
+  }, [loading, id]);
 
   const loadData = async () => {
     try {
       setLoading(true);
-
       const [shelterRes, resourcesRes, announcementsRes] = await Promise.all([
         getShelterById(Number(id)),
         getResourcesByShelterId(Number(id)),
@@ -45,6 +62,9 @@ export default function ShelterDetailsPage() {
       setShelter(shelterRes.data);
       setResources(resourcesRes.data);
       setAnnouncements(announcementsRes.data);
+
+      const res = await getSensorsByShelterId(Number(id));
+      setSensors(res.data);
     } finally {
       setLoading(false);
     }
@@ -65,27 +85,6 @@ export default function ShelterDetailsPage() {
       </div>
     );
   }
-
-  useEffect(() => {
-    sensorHub.start(Number(id));
-
-    sensorHub.onSensorReading((reading) => {
-      setSensors((prev) =>
-        prev.map((s) =>
-          s.id === reading.sensorId
-            ? {
-                ...s,
-                currentValue: reading.value,
-              }
-            : s,
-        ),
-      );
-    });
-
-    return () => {
-      sensorHub.leaveShelter(Number(id));
-    };
-  }, []);
 
   return (
     <div className="min-h-screen bg-[#2F3E46] text-white p-8">
@@ -216,7 +215,7 @@ export default function ShelterDetailsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {sensors.map((s) => (
-                <SensorCard key={s.id} sensor={s} onUpdated={loadData}/>
+                <SensorCard key={s.id} sensor={s} onUpdated={loadData} canManage={false}/>
               ))}
             </div>
           </div>

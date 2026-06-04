@@ -1,7 +1,12 @@
-﻿namespace SafeSpot.Infrastructure.IoT.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace SafeSpot.Infrastructure.IoT.Models;
 
 public class SensorReadingMessage
 {
+    [JsonPropertyName("value")]
     public double Value { get; set; }
+
+    [JsonPropertyName("timestamp")]
     public DateTime Timestamp { get; set; }
 }

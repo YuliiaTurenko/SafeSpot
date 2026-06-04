@@ -15,6 +15,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     onClose();
   };
 
+  const handleNotificationClick = () => {
+    navigate("/notification");
+    onClose();
+  };
+
   return (
     <>
       <div
@@ -26,12 +31,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         <nav className="flex flex-col gap-4">
           <button className="text-left hover:text-[#84A98C]">
-            {t("shelters")}
-          </button>
-          <button className="text-left hover:text-[#84A98C]">
             {t("savedShelters")}
           </button>
-          <button className="text-left hover:text-[#84A98C]">
+          <button 
+            onClick={handleNotificationClick}
+            className="text-left hover:text-[#84A98C]">
             {t("notifications")}
           </button>
           <button

@@ -19,7 +19,8 @@ public class CreateSensorReadingCommandHandler : IRequestHandler<CreateSensorRea
             new SensorReading
             {
                 SensorId = request.SensorId,
-                Value = request.Value
+                Value = request.Value,
+                Timestamp = DateTime.UtcNow
             };
 
         await _repo.AddAsync(reading);

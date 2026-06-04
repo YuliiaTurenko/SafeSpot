@@ -10,6 +10,7 @@ import SensorCard from "../components/SensorCard";
 import SensorModal from "../components/SensorModal";
 import SensorChartModal from "../components/SensorChartModal";
 import ShelterAnalyticsCards from "../components/ShelterAnalyticsCards";
+import { sensorHub } from "../services/signalr/sensorHub";
 import LanguageButton from "../components/LanguageButton";
 import { useTranslation } from "react-i18next";
 
@@ -26,21 +27,45 @@ export default function AdminSensorsPage() {
   const [selectedSensor, setSelectedSensor] = useState<any>(null);
   const [chartReadings, setChartReadings] = useState<any[]>([]);
 
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const load = async () => {
-    const res = await getSensorsByShelterId(shelterIdNumber);
-    setSensors(res.data);
-
-    const analyticsRes = await getShelterAnalytics(shelterIdNumber);
-
-    setAnalytics(analyticsRes.data);
-  };
-
   useEffect(() => {
+    if (!shelterIdNumber) return;
     load();
   }, [shelterIdNumber]);
+
+  useEffect(() => {
+    if (loading || !shelterIdNumber) return;
+
+    sensorHub.start(shelterIdNumber);
+
+    sensorHub.onSensorReading((reading) => {
+      setSensors((prev) =>
+        prev.map((s) =>
+          s.id === reading.sensorId ? { ...s, currentValue: reading.value } : s,
+        ),
+      );
+    });
+
+    return () => {
+      sensorHub.leaveShelter(shelterIdNumber);
+    };
+  }, [loading, shelterIdNumber]);
+
+  const load = async () => {
+    try {
+      setLoading(true);
+      const res = await getSensorsByShelterId(shelterIdNumber);
+      setSensors(res.data);
+
+      const analyticsRes = await getShelterAnalytics(shelterIdNumber);
+      setAnalytics(analyticsRes.data);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDelete = async (id: number) => {
     await deleteSensor(id);
@@ -100,7 +125,7 @@ export default function AdminSensorsPage() {
                   className="bg-[#2F3E46] border border-[#52796F]/30 p-5 rounded-xl shadow-lg flex flex-col justify-between space-y-4 hover:border-[#52796F] transition-all duration-200"
                 >
                   <div className="flex-1">
-                    <SensorCard sensor={s} onUpdated={load} />
+                    <SensorCard sensor={s} onUpdated={load} canManage={true}/>
                   </div>
 
                   <div className="flex gap-2 pt-2 border-t border-[#52796F]/20">
@@ -133,7 +158,7 @@ export default function AdminSensorsPage() {
             {t("shelterAnalytics")}
           </h2>
 
-            <ShelterAnalyticsCards analytics={analytics}/>
+          <ShelterAnalyticsCards analytics={analytics} />
         </div>
 
         <SensorModal

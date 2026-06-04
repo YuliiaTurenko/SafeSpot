@@ -51,7 +51,7 @@ public class SensorOfflineWatcherService : BackgroundService
                         UserId = 1,
                         Title = "Sensor Offline",
                         Message =
-                            $"Sensor {sensor.Id} is offline",
+                            $"Sensor {sensor.Type} is offline",
                         Type = NotificationType.SensorAlert
                     };
 

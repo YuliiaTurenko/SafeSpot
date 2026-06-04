@@ -24,13 +24,6 @@
     {
       "sensorId": 4,
       "shelterId": 1,
-      "type": "AirQuality",
-      "min": 0,
-      "max": 500
-    },
-    {
-      "sensorId": 5,
-      "shelterId": 1,
       "type": "Occupancy",
       "min": 0,
       "max": 150
@@ -62,34 +55,6 @@
       "type": "Occupancy",
       "min": 0,
       "max": 200
-    },
-    {
-      "sensorId": 10,
-      "shelterId": 3,
-      "type": "Temperature",
-      "min": 18,
-      "max": 30
-    },
-    {
-      "sensorId": 11,
-      "shelterId": 3,
-      "type": "CO2",
-      "min": 300,
-      "max": 1500
-    },
-    {
-      "sensorId": 12,
-      "shelterId": 3,
-      "type": "AirQuality",
-      "min": 0,
-      "max": 500
-    },
-    {
-      "sensorId": 13,
-      "shelterId": 3,
-      "type": "Occupancy",
-      "min": 0,
-      "max": 100
     }
   ]
 }

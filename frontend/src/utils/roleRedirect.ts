@@ -17,9 +17,11 @@ export const getRedirectByRole = (token: string) => {
   if (Array.isArray(roles)) {
     if (roles.includes("Admin")) return "/admin";
     if (roles.includes("Operator")) return "/operator";
+    if (roles.includes("User")) return "/home";
   } else {
     if (roles === "Admin") return "/admin";
     if (roles === "Operator") return "/operator";
+    if (roles === "User") return "/home";
   }
 
   return "/";

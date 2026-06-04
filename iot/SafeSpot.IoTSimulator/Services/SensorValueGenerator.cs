@@ -100,7 +100,8 @@ public class SensorValueGenerator
         double delta = sensor.Trend * bigStep * _rng.NextDouble()
                        + ((_rng.NextDouble() - 0.5) * bigStep * 0.2);
 
-        double next = Clamp(sensor.CurrentValue + delta, sensor.Min, sensor.Max);
+        double random = Clamp(sensor.CurrentValue + delta, sensor.Min, sensor.Max);
+        double next = Math.Round(random);
 
         _shelterOccupancy[sensor.ShelterId] = next / sensor.Max;
 
