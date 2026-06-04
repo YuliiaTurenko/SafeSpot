@@ -12,6 +12,7 @@ import SensorChartModal from "../components/SensorChartModal";
 import ShelterAnalyticsCards from "../components/ShelterAnalyticsCards";
 import { sensorHub } from "../services/signalr/sensorHub";
 import LanguageButton from "../components/LanguageButton";
+import NotificationToast from "../components/NotificationToast";
 import { useTranslation } from "react-i18next";
 
 export default function AdminSensorsPage() {
@@ -94,6 +95,15 @@ export default function AdminSensorsPage() {
             ← {t("back")}
           </button>
 
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigate("/notification")}
+              className="bg-[#84A98C] hover:bg-[#6B9080] text-white px-4 py-2 rounded-lg font-medium transition-all"
+            >
+              {t("notifications")}
+            </button>
+          </div>
+
           <div className="absolute top-8 right-12">
             <LanguageButton />
           </div>
@@ -175,6 +185,8 @@ export default function AdminSensorsPage() {
           sensor={selectedSensor}
           readings={chartReadings}
         />
+
+        <NotificationToast shelterId={shelterIdNumber} />
       </div>
     </div>
   );

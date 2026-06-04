@@ -1,20 +1,41 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ShelterList from "../components/ShelterList";
 import AnnouncementList from "../components/AnnouncementList";
 import ResourceList from "../components/ResourceList";
 import LanguageButton from "../components/LanguageButton";
+import NotificationToast from "../components/NotificationToast";
 import { useTranslation } from "react-i18next";
 
 export default function AdminPage() {
   const [selectedShelterId, setSelectedShelterId] = useState<number | null>(null);
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
     <div className="flex min-h-screen bg-[#354F52] text-white">
       <div className="flex-1 p-6 overflow-y-auto">
-        <h1 className="text-3xl font-bold mb-6">
-          {t("dashboard")}
-        </h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">
+            {t("dashboard")}
+          </h1>
+
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigate("/notification")}
+              className="bg-[#84A98C] hover:bg-[#6B9080] text-white px-4 py-2 rounded-lg font-medium transition-all"
+            >
+              {t("notifications")}
+            </button>
+
+            <button
+              onClick={() => navigate("/admin/moderators")}
+              className="bg-[#84A98C] hover:bg-[#6B9080] text-white px-4 py-2 rounded-lg font-medium transition-all"
+            >
+              Manage Moderators
+            </button>
+          </div>
+        </div>
 
         <div className="absolute top-8 right-12">
           <LanguageButton />
@@ -28,6 +49,7 @@ export default function AdminPage() {
 
         {selectedShelterId && (
           <>
+            <NotificationToast shelterId={selectedShelterId} />
             <AnnouncementList
               shelterId={selectedShelterId}
             />
