@@ -15,6 +15,11 @@ import {
 import { AnnouncementDto } from "../api/models/Announcement";
 import { sensorHub } from "../services/signalr/sensorHub";
 import SensorCard from "../components/SensorCard";
+import {
+  saveShelter,
+  removeSavedShelter,
+  isShelterSaved,
+} from "../api/savedShelterApi";
 import LanguageButton from "../components/LanguageButton";
 import { useTranslation } from "react-i18next";
 
@@ -24,6 +29,10 @@ export default function ShelterDetailsPage() {
   const [resources, setResources] = useState<ShelterResourceDto[]>([]);
   const [announcements, setAnnouncements] = useState<AnnouncementDto[]>([]);
   const [sensors, setSensors] = useState<any[]>([]);
+
+  const [saved, setSaved] = useState(false);
+  const [loadingSave, setLoadingSave] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
 
@@ -63,10 +72,29 @@ export default function ShelterDetailsPage() {
       setResources(resourcesRes.data);
       setAnnouncements(announcementsRes.data);
 
+      const savedRes = await isShelterSaved(Number(id));
+      setSaved(savedRes.data);
+
       const res = await getSensorsByShelterId(Number(id));
       setSensors(res.data);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      setLoadingSave(true);
+
+      if (saved) {
+        await removeSavedShelter(Number(id));
+        setSaved(false);
+      } else {
+        await saveShelter(Number(id));
+        setSaved(true);
+      }
+    } finally {
+      setLoadingSave(false);
     }
   };
 
@@ -110,10 +138,27 @@ export default function ShelterDetailsPage() {
             )}
 
             <div className="space-y-3">
-              <p>
-                <span className="font-semibold">{t("address")}:</span>{" "}
-                {shelter.address}
-              </p>
+              <div className="flex justify-between items-start gap-4">
+                <div>
+                  <p>
+                    <span className="font-semibold">{t("address")}:</span>{" "}
+                    {shelter.address}
+                  </p>
+                </div>
+
+                <button
+                  onClick={handleSave}
+                  disabled={loadingSave}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition
+                    ${
+                      saved
+                        ? "bg-red-500 hover:bg-red-600"
+                        : "bg-[#84A98C] hover:bg-[#52796F]"
+                    }`}
+                >
+                  {saved ? t("removeFromSaved") : t("saveShelter")}
+                </button>
+              </div>
 
               <p>
                 <span className="font-semibold">{t("capacity")}:</span>{" "}
@@ -215,7 +260,12 @@ export default function ShelterDetailsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {sensors.map((s) => (
-                <SensorCard key={s.id} sensor={s} onUpdated={loadData} canManage={false}/>
+                <SensorCard
+                  key={s.id}
+                  sensor={s}
+                  onUpdated={loadData}
+                  canManage={false}
+                />
               ))}
             </div>
           </div>

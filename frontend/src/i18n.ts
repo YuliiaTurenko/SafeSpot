@@ -123,6 +123,11 @@ i18n
           currentModerators: "Current Moderators",
           searchModeratorsByName: "Search moderators by name...",
           revoke: "Revoke",
+          saveShelter: "Save shelter",
+          removeFromSaved: "Remove",
+          noSavedShelters: "No saved shelters",
+          details: "Details",
+          remove: "Remove",
 
           shelters: {
             statuses: {
@@ -280,6 +285,11 @@ i18n
           currentModerators: "Поточні модератори",
           searchModeratorsByName: "Пошук модераторів за ім'ям...",
           revoke: "Забрати роль",
+          saveShelter: "Зберегти укриття",
+          removeFromSaved: "Видалити",
+          noSavedShelters: "У вас немає збережених укриттів",
+          details: "Деталі",
+          remove: "Видалити",
 
           shelters: {
             statuses: {

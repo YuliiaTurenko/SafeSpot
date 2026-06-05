@@ -20,6 +20,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     onClose();
   };
 
+  const handleSavedClick = () => {
+    navigate("/saved-shelters");
+    onClose();
+  };
+
   return (
     <>
       <div
@@ -30,7 +35,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <h2 className="text-xl mb-6">{t("menu")}</h2>
 
         <nav className="flex flex-col gap-4">
-          <button className="text-left hover:text-[#84A98C]">
+          <button
+            onClick={handleSavedClick}
+            className="text-left hover:text-[#84A98C]">
             {t("savedShelters")}
           </button>
           <button 

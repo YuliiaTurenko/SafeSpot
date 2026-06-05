@@ -14,6 +14,7 @@ import ShelterPostsPage from "./pages/ShelterPostsPage";
 import AdminSensorsPage from "./pages/AdminSensorsPage";
 import NotificationPage from "./pages/NotificationPage";
 import ModeratorManagementPage from "./pages/ModeratorManagementPage";
+import SavedSheltersPage from "./pages/SavedSheltersPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/operator" element={<OperatorPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/notification" element={<NotificationPage />} />
+            <Route path="/saved-shelters" element={<SavedSheltersPage />}/>
             <Route path="/shelters/:id" element={<ShelterDetailsPage />} />
             <Route path="/shelters/:id/posts" element={<ShelterPostsPage />} />
           </Routes>
