@@ -1,3 +1,4 @@
+import NotificationBadge from "../components/NotificationBadge";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -40,11 +41,16 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             className="text-left hover:text-[#84A98C]">
             {t("savedShelters")}
           </button>
-          <button 
-            onClick={handleNotificationClick}
-            className="text-left hover:text-[#84A98C]">
-            {t("notifications")}
-          </button>
+          <div className="relative inline-block">
+            <button
+              onClick={handleNotificationClick}
+              className="text-left hover:text-[#84A98C]"
+            >
+              {t("notifications")}
+            </button>
+
+            <NotificationBadge />
+          </div>
           <button
             onClick={handleProfileClick}
             className="text-left hover:text-[#84A98C]"

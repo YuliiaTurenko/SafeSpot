@@ -42,7 +42,6 @@ public class NotificationsController : ControllerBase
     public async Task<IActionResult> GetUnread()
     {
         var identityId = _userContext.GetApplicationUserId();
-
         var userId = await _userRepo.GetUserIdByIdentityIdAsync(identityId);
 
         return Ok(await _repo.GetUnreadCountAsync(userId));

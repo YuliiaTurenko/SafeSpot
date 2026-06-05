@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ShelterList from "../components/ShelterList";
 import AnnouncementList from "../components/AnnouncementList";
 import ResourceList from "../components/ResourceList";
+import NotificationBadge from "../components/NotificationBadge";
 import LanguageButton from "../components/LanguageButton";
 import NotificationToast from "../components/NotificationToast";
 import { useTranslation } from "react-i18next";
@@ -21,12 +22,16 @@ export default function AdminPage() {
           </h1>
 
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigate("/notification")}
-              className="bg-[#84A98C] hover:bg-[#6B9080] text-white px-4 py-2 rounded-lg font-medium transition-all"
-            >
-              {t("notifications")}
-            </button>
+            <div className="relative inline-block">
+              <button
+                onClick={() => navigate("/notification")}
+                className="bg-[#84A98C] hover:bg-[#6B9080] text-white px-4 py-2 rounded-lg font-medium transition-all"
+              >
+                {t("notifications")}
+              </button>
+
+              <NotificationBadge />
+            </div>
 
             <button
               onClick={() => navigate("/admin/moderators")}
