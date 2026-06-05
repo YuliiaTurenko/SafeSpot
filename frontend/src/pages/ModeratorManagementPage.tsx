@@ -107,21 +107,20 @@ export default function ModeratorManagementPage() {
         </div>
 
         <h1 className="text-3xl font-bold mb-6">
-          {t("dashboard")} - Moderators
+          {t("dashboard")} - {t("moderators")}
         </h1>
 
         {loading ? (
           <p className="text-[#CAD2C5]">{t("loading")}</p>
         ) : (
           <div className="space-y-8">
-            {/* Assign Moderator Section */}
             <div className="bg-[#2F3E46] border border-[#52796F]/30 p-6 rounded-xl shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Assign Moderator</h2>
+              <h2 className="text-2xl font-bold mb-4">{t("assignModerators")}</h2>
               
               <div className="space-y-4">
                 <input
                   type="text"
-                  placeholder="Search users by name..."
+                  placeholder={t("searchUsersByName")}
                   value={userSearch}
                   onChange={(e) => setUserSearch(e.target.value)}
                   className="w-full bg-white text-black p-3 rounded-xl border border-gray-200"
@@ -132,7 +131,7 @@ export default function ModeratorManagementPage() {
                   onChange={(e) => setSelectedShelter(Number(e.target.value))}
                   className="w-full bg-[#354F52] p-3 rounded-xl border border-[#52796F]/30"
                 >
-                  <option value="">Select shelter...</option>
+                  <option value="">{t("selectShelter")}</option>
                   {shelters.map((shelter) => (
                     <option key={shelter.id} value={shelter.id}>
                       {shelter.address}
@@ -165,18 +164,17 @@ export default function ModeratorManagementPage() {
                   className="w-full bg-[#84A98C] hover:bg-[#6B9080] disabled:bg-gray-500 
                   disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-all"
                 >
-                  Assign as Moderator
+                  {t("assignAsModeratorButton")}
                 </button>
               </div>
             </div>
 
-            {/* Moderators List Section */}
             <div className="bg-[#2F3E46] border border-[#52796F]/30 p-6 rounded-xl shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Current Moderators</h2>
+              <h2 className="text-2xl font-bold mb-4">{t("currentModerators")}</h2>
               
               <input
                 type="text"
-                placeholder="Search moderators by name..."
+                placeholder={t("searchModeratorsByName")}
                 value={moderatorSearch}
                 onChange={(e) => setModeratorSearch(e.target.value)}
                 className="w-full bg-white text-black p-3 rounded-xl border border-gray-200 mb-4"
@@ -201,7 +199,7 @@ export default function ModeratorManagementPage() {
                       onClick={() => handleRevokeModerator(moderator.id)}
                       className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
                     >
-                      Revoke
+                      {t("revoke")}
                     </button>
                   </div>
                 ))}

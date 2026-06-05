@@ -20,7 +20,7 @@ export default function AdminPage() {
             {t("dashboard")}
           </h1>
 
-          <div className="flex gap-3">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => navigate("/notification")}
               className="bg-[#84A98C] hover:bg-[#6B9080] text-white px-4 py-2 rounded-lg font-medium transition-all"
@@ -32,13 +32,13 @@ export default function AdminPage() {
               onClick={() => navigate("/admin/moderators")}
               className="bg-[#84A98C] hover:bg-[#6B9080] text-white px-4 py-2 rounded-lg font-medium transition-all"
             >
-              Manage Moderators
+              {t("manageModerators")}
             </button>
-          </div>
-        </div>
 
-        <div className="absolute top-8 right-12">
-          <LanguageButton />
+            <div className="ml-1">
+              <LanguageButton />
+            </div>
+          </div>
         </div>
 
         <ShelterList

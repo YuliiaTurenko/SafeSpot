@@ -102,6 +102,13 @@ export default function OperatorShelterList({ onSelectShelter }: Props) {
                 </button>
 
                 <button
+                  onClick={() => navigate(`/shelters/${s.id}/posts`)}
+                  className="bg-[#354F52] hover:bg-[#52796F] text-white px-3 py-2 rounded transition-colors"
+                >
+                  {t("posts") || "Пости"}
+                </button>
+
+                <button
                   onClick={() => navigate(`/admin/shelter/${s.id}/sensors`)}
                   className="bg-[#354F52] hover:bg-[#52796F] text-white px-3 py-2 rounded transition-colors"
                 >

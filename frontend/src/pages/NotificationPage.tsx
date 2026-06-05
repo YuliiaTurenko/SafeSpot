@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { getNotifications, markNotificationAsRead } from "../api/notificationApi";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 export default function NotificationPage() {
   const [notifications, setNotifications] = useState<any[]>([]);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const load = async () => {
     const res = await getNotifications();
@@ -25,8 +27,16 @@ export default function NotificationPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 text-white">
-      <h1 className="text-4xl font-bold mb-8">{t("notifications")}</h1>
+    <div className="max-w-5xl mx-auto p-6  bg-[#354F52] text-white">
+        <div>
+          <button
+            onClick={() => navigate(-1)}
+            className="bg-[#52796F] hover:bg-[#2F3E46] text-white px-4 py-2 rounded-lg font-medium shadow-md transition-all mb-4"
+          >
+            ← {t("back")}
+          </button>
+          <h1 className="text-3xl font-bold mb-8"> {t("notifications")}</h1>
+        </div>
 
       <div className="space-y-4">
         {notifications.map((n) => (
