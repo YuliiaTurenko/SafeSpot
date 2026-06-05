@@ -26,8 +26,8 @@ public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPost
             string? userName = null;
             if (comment.User != null)
             {
-                string firstName = await _userRepo.GetUserFirstNameByIdentityIdAsync(request.IdentityId);
-                string lastName = await _userRepo.GetUserLastNameByIdentityIdAsync(request.IdentityId);
+                string firstName = await _userRepo.GetUserFirstNameByUserIdAsync(comment.UserId);
+                string lastName = await _userRepo.GetUserLastNameByUserIdAsync(comment.UserId);
 
                 userName = $"{firstName} {lastName}".Trim();
             }

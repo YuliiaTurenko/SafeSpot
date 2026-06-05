@@ -17,11 +17,9 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
 
     public async Task<long> Handle(CreateCommentCommand request, CancellationToken ct)
     {
-        long userId = await _userRepo.GetUserIdByIdentityIdAsync(request.IdentityId);
-
         var comment = new Comment
         {
-            UserId = userId,
+            UserId = request.UserId,
             PostId = request.PostId,
             Text = request.Text
         };

@@ -47,18 +47,18 @@ public class UserRepository : Repository<User>, IUserRepository
             .ToListAsync();
     }
 
-    public async Task<string> GetUserFirstNameByIdentityIdAsync(string identityId)
+    public async Task<string> GetUserFirstNameByUserIdAsync(long? userId)
     {
         return await _db.Users
-            .Where(x => x.IdentityId == identityId)
+            .Where(x => x.Id == userId)
             .Select(x => x.FirstName)
             .FirstOrDefaultAsync();
     }
 
-    public async Task<string> GetUserLastNameByIdentityIdAsync(string identityId)
+    public async Task<string> GetUserLastNameByUserIdAsync(long? userId)
     {
         return await _db.Users
-            .Where(x => x.IdentityId == identityId)
+            .Where(x => x.Id == userId)
             .Select(x => x.LastName)
             .FirstOrDefaultAsync();
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SafeSpot.Application.Abstractions;
+using SafeSpot.Application.DTOs;
 using SafeSpot.Domain.Entities;
 using SafeSpot.Domain.Enums;
 using SafeSpot.Persistence.Application;
@@ -98,5 +99,40 @@ public class SavedShelterRepository : Repository<SavedShelter>, ISavedShelterRep
         return links
             .GroupBy(x => x.UserId)
             .ToDictionary(g => g.Key, g => g.Select(x => x.ShelterId).Distinct().ToList());
+    }
+
+    public async Task<bool> IsShelterSavedAsync(long userId, long shelterId, SavedShelterType type)
+    {
+        return await _context.SavedShelters
+            .AnyAsync(x =>
+                x.UserId == userId &&
+                x.ShelterId == shelterId &&
+                x.Type == type);
+    }
+
+    public async Task<List<SavedShelterDto>> GetFavoriteSheltersAsync(long userId)
+    {
+        return await _context.SavedShelters
+            .Where(x =>
+                x.UserId == userId &&
+                x.Type == SavedShelterType.Favorite)
+            .Select(x => new SavedShelterDto
+            {
+                ShelterId = x.Shelter.Id,
+                Address = x.Shelter.Address,
+                Capacity = x.Shelter.Capacity,
+                Status = x.Shelter.Status,
+                ImageUrl = x.Shelter.ImageUrl
+            })
+            .ToListAsync();
+    }
+
+    public async Task<SavedShelter?> GetSavedShelterAsync(long userId, long shelterId, SavedShelterType type)
+    {
+        return await _context.SavedShelters
+            .FirstOrDefaultAsync(x =>
+                x.UserId == userId &&
+                x.ShelterId == shelterId &&
+                x.Type == type);
     }
 }

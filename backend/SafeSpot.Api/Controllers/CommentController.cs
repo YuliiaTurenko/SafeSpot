@@ -39,9 +39,10 @@ public class CommentController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateCommentRequest request)
     {
         var identityId = _userContext.GetApplicationUserId();
+        long userId = await _userRepo.GetUserIdByIdentityIdAsync(identityId);
 
         var command = new CreateCommentCommand(
-            IdentityId: identityId,
+            UserId: userId,
             PostId: request.PostId,
             Text: request.Text
         );

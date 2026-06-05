@@ -1,4 +1,6 @@
-﻿using SafeSpot.Domain.Entities;
+﻿using SafeSpot.Application.DTOs;
+using SafeSpot.Domain.Entities;
+using SafeSpot.Domain.Enums;
 
 namespace SafeSpot.Application.Abstractions;
 
@@ -13,4 +15,7 @@ public interface ISavedShelterRepository : IRepository<SavedShelter>
     Task<bool> HasAnyManagementLinkAsync(long userId);
     Task DeleteManagementLinksAsync(long userId, IEnumerable<long> shelterIds);
     Task<Dictionary<long, List<long>>> GetManagementSheltersByUserIdsForShelterIdsAsync(List<long> shelterIds);
+    Task<bool> IsShelterSavedAsync(long userId, long shelterId, SavedShelterType type);
+    Task<List<SavedShelterDto>> GetFavoriteSheltersAsync(long userId);
+    Task<SavedShelter?> GetSavedShelterAsync(long userId, long shelterId, SavedShelterType type);
 }

@@ -39,9 +39,10 @@ public class PostController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreatePostRequest request)
     {
         var identityId = _userContext.GetApplicationUserId();
+        long userId = await _userRepo.GetUserIdByIdentityIdAsync(identityId);
 
         var command = new CreatePostCommand(
-            IdentityId: identityId,
+            UserId: userId,
             ShelterId: request.ShelterId,
             Text: request.Text
         );

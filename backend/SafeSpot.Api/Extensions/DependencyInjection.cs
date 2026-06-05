@@ -2,9 +2,19 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SafeSpot.Application.Abstractions;
+using SafeSpot.Application.Features.Admin.Commands.AssignModerator;
+using SafeSpot.Application.Features.Admin.Commands.RevokeModerator;
 using SafeSpot.Application.Features.Announcements.Commands.Create;
 using SafeSpot.Application.Features.Announcements.Commands.Delete;
 using SafeSpot.Application.Features.Announcements.Commands.Update;
+using SafeSpot.Application.Features.Comments.Commands.Create;
+using SafeSpot.Application.Features.Comments.Commands.Delete;
+using SafeSpot.Application.Features.Comments.Commands.Update;
+using SafeSpot.Application.Features.Posts.Commands.Create;
+using SafeSpot.Application.Features.Posts.Commands.Delete;
+using SafeSpot.Application.Features.Posts.Commands.Update;
+using SafeSpot.Application.Features.SavedShelters.Commands.Create;
+using SafeSpot.Application.Features.SavedShelters.Commands.Delete;
 using SafeSpot.Application.Features.Sensors.Commands.Create;
 using SafeSpot.Application.Features.Sensors.Commands.Delete;
 using SafeSpot.Application.Features.Sensors.Commands.Update;
@@ -15,14 +25,6 @@ using SafeSpot.Application.Features.ShelterResources.Commands.Update;
 using SafeSpot.Application.Features.Shelters.Commands.Create;
 using SafeSpot.Application.Features.Shelters.Commands.Delete;
 using SafeSpot.Application.Features.Shelters.Commands.Update;
-using SafeSpot.Application.Features.Admin.Commands.AssignModerator;
-using SafeSpot.Application.Features.Admin.Commands.RevokeModerator;
-using SafeSpot.Application.Features.Posts.Commands.Create;
-using SafeSpot.Application.Features.Posts.Commands.Update;
-using SafeSpot.Application.Features.Posts.Commands.Delete;
-using SafeSpot.Application.Features.Comments.Commands.Create;
-using SafeSpot.Application.Features.Comments.Commands.Update;
-using SafeSpot.Application.Features.Comments.Commands.Delete;
 using SafeSpot.Application.Features.User.Commands.Create;
 using SafeSpot.Application.Features.User.Commands.Update;
 using SafeSpot.Infrastructure.Identity;
@@ -112,6 +114,9 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreateCommentCommand>, CreateCommentCommandValidator>();
         services.AddScoped<IValidator<UpdateCommentCommand>, UpdateCommentCommandValidator>();
         services.AddScoped<IValidator<DeleteCommentCommand>, DeleteCommentCommandValidator>();
+
+        services.AddScoped<IValidator<CreateSavedShelterCommand>, CreateSavedShelterCommandValidator>();
+        services.AddScoped<IValidator<DeleteSavedShelterCommand>, DeleteSavedShelterCommandValidator>();
 
         return services;
     }

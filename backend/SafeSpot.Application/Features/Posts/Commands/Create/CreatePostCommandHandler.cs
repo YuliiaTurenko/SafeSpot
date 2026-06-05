@@ -20,11 +20,9 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, long>
 
     public async Task<long> Handle(CreatePostCommand request, CancellationToken ct)
     {
-        long userId = await _userRepo.GetUserIdByIdentityIdAsync(request.IdentityId);
-
         var post = new Post
         {
-            UserId = userId,
+            UserId = request.UserId,
             ShelterId = request.ShelterId,
             Text = request.Text
         };
@@ -32,14 +30,10 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, long>
         await _postRepo.AddAsync(post);
 
         string? userName = null;
+        string firstName = await _userRepo.GetUserFirstNameByUserIdAsync(request.UserId);
+        string lastName = await _userRepo.GetUserLastNameByUserIdAsync(request.UserId);
 
-        if (request.IdentityId != null)
-        {
-            string firstName = await _userRepo.GetUserFirstNameByIdentityIdAsync(request.IdentityId);
-            string lastName = await _userRepo.GetUserLastNameByIdentityIdAsync(request.IdentityId);
-
-            userName = $"{firstName} {lastName}".Trim();
-        }
+        userName = $"{firstName} {lastName}".Trim();
 
         var postDto = new PostDto
         {

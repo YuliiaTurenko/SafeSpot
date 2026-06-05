@@ -6,6 +6,7 @@ public class CreateCommentCommandValidator : AbstractValidator<CreateCommentComm
 {
     public CreateCommentCommandValidator()
     {
+        RuleFor(x => x.UserId).NotEmpty();
         RuleFor(x => x.PostId).NotEmpty();
         RuleFor(x => x.Text).NotEmpty().MaximumLength(1000);
     }
