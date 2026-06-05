@@ -4,4 +4,5 @@ namespace SafeSpot.Application.Abstractions;
 
 public interface IPostRepository : IRepository<Post>
 {
+    Task<List<Post>> GetByShelterIdAsync(long shelterId);
 }

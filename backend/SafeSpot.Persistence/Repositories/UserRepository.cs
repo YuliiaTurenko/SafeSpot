@@ -46,4 +46,20 @@ public class UserRepository : Repository<User>, IUserRepository
             .Where(x => identityIds.Contains(x.IdentityId))
             .ToListAsync();
     }
+
+    public async Task<string> GetUserFirstNameByIdentityIdAsync(string identityId)
+    {
+        return await _db.Users
+            .Where(x => x.IdentityId == identityId)
+            .Select(x => x.FirstName)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<string> GetUserLastNameByIdentityIdAsync(string identityId)
+    {
+        return await _db.Users
+            .Where(x => x.IdentityId == identityId)
+            .Select(x => x.LastName)
+            .FirstOrDefaultAsync();
+    }
 }

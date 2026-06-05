@@ -17,6 +17,12 @@ using SafeSpot.Application.Features.Shelters.Commands.Delete;
 using SafeSpot.Application.Features.Shelters.Commands.Update;
 using SafeSpot.Application.Features.Admin.Commands.AssignModerator;
 using SafeSpot.Application.Features.Admin.Commands.RevokeModerator;
+using SafeSpot.Application.Features.Posts.Commands.Create;
+using SafeSpot.Application.Features.Posts.Commands.Update;
+using SafeSpot.Application.Features.Posts.Commands.Delete;
+using SafeSpot.Application.Features.Comments.Commands.Create;
+using SafeSpot.Application.Features.Comments.Commands.Update;
+using SafeSpot.Application.Features.Comments.Commands.Delete;
 using SafeSpot.Application.Features.User.Commands.Create;
 using SafeSpot.Application.Features.User.Commands.Update;
 using SafeSpot.Infrastructure.Identity;
@@ -56,6 +62,7 @@ public static class DependencyInjection
         services.AddScoped<IUserRoleService, UserRoleService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IPostNotificationService, PostNotificationService>();
         services.AddScoped<AdminService>();
         services.AddSignalR();
         services.AddHostedService<MqttHostedService>();
@@ -97,6 +104,14 @@ public static class DependencyInjection
 
         services.AddScoped<IValidator<AssignModeratorCommand>, AssignModeratorCommandValidator>();
         services.AddScoped<IValidator<RevokeModeratorCommand>, RevokeModeratorCommandValidator>();
+
+        services.AddScoped<IValidator<CreatePostCommand>, CreatePostCommandValidator>();
+        services.AddScoped<IValidator<UpdatePostCommand>, UpdatePostCommandValidator>();
+        services.AddScoped<IValidator<DeletePostCommand>, DeletePostCommandValidator>();
+
+        services.AddScoped<IValidator<CreateCommentCommand>, CreateCommentCommandValidator>();
+        services.AddScoped<IValidator<UpdateCommentCommand>, UpdateCommentCommandValidator>();
+        services.AddScoped<IValidator<DeleteCommentCommand>, DeleteCommentCommandValidator>();
 
         return services;
     }

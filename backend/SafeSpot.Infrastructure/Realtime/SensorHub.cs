@@ -21,4 +21,14 @@ public class SensorHub : Hub
             $"shelter-{shelterId}"
         );
     }
+
+    public async Task SendPostNotification(long shelterId, object post)
+    {
+        await Clients.Group($"shelter-{shelterId}").SendAsync("ReceivePost", post);
+    }
+
+    public async Task SendCommentNotification(long shelterId, object comment)
+    {
+        await Clients.Group($"shelter-{shelterId}").SendAsync("ReceiveComment", comment);
+    }
 }
