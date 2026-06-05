@@ -25,6 +25,6 @@ public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand>
         
         post.Text = request.Text;
         
-        await _postRepo.UpdateAsync(post);
+        _postRepo.Update(post);
     }
 }

@@ -23,6 +23,6 @@ public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand>
         if (post.UserId != request.UserId)
             throw new ForbiddenException("You can only delete your own posts");
         
-        await _postRepo.DeleteAsync(post);
+        _postRepo.Delete(post);
     }
 }

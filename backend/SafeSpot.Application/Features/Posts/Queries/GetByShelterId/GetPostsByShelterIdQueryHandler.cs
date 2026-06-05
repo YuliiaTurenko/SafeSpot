@@ -24,6 +24,7 @@ public class GetPostsByShelterIdQueryHandler : IRequestHandler<GetPostsByShelter
         foreach (var post in posts)
         {
             string? userName = null;
+
             if (post.User != null)
             {
                 string firstName = await _userRepo.GetUserFirstNameByIdentityIdAsync(request.IdentityId);

@@ -3,7 +3,7 @@ using MediatR;
 namespace SafeSpot.Application.Features.Posts.Commands.Create;
 
 public record CreatePostCommand(
-    long UserId,
+    string IdentityId,
     long ShelterId,
     string Text
 ) : IRequest<long>;

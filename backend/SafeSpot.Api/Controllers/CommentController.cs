@@ -38,15 +38,10 @@ public class CommentController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateCommentRequest request)
     {
-        long? userId = null;
         var identityId = _userContext.GetApplicationUserId();
-        if (identityId != null)
-        {
-            userId = await _userRepo.GetUserIdByIdentityIdAsync(identityId);
-        }
 
         var command = new CreateCommentCommand(
-            UserId: userId,
+            IdentityId: identityId,
             PostId: request.PostId,
             Text: request.Text
         );
@@ -59,12 +54,8 @@ public class CommentController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateCommentRequest request)
     {
-        long? userId = null;
         var identityId = _userContext.GetApplicationUserId();
-        if (identityId != null)
-        {
-            userId = await _userRepo.GetUserIdByIdentityIdAsync(identityId);
-        }
+        long userId = await _userRepo.GetUserIdByIdentityIdAsync(identityId);
 
         var command = new UpdateCommentCommand(
             UserId: userId,
@@ -80,12 +71,8 @@ public class CommentController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(long id)
     {
-        long? userId = null;
         var identityId = _userContext.GetApplicationUserId();
-        if (identityId != null)
-        {
-            userId = await _userRepo.GetUserIdByIdentityIdAsync(identityId);
-        }
+        long userId = await _userRepo.GetUserIdByIdentityIdAsync(identityId);
 
         await _mediator.Send(new DeleteCommentCommand(userId, id));
         return Ok();

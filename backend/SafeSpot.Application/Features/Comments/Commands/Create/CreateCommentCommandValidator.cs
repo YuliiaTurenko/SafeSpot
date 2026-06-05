@@ -1,5 +1,4 @@
 using FluentValidation;
-using SafeSpot.Application.Features.Comments.Commands.Create;
 
 namespace SafeSpot.Application.Features.Comments.Commands.Create;
 

@@ -10,23 +10,21 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
     private readonly ICommentRepository _commentRepo;
     private readonly IPostRepository _postRepo;
     private readonly IUserRepository _userRepo;
-    private readonly IUserRoleService _userRoleService;
-    private readonly IPostNotificationService _notificationService;
 
-    public CreateCommentCommandHandler(ICommentRepository commentRepo, IPostRepository postRepo, IUserRepository userRepo, IUserRoleService userRoleService, IPostNotificationService notificationService)
+    public CreateCommentCommandHandler(ICommentRepository commentRepo, IPostRepository postRepo, IUserRepository userRepo)
     {
         _commentRepo = commentRepo;
         _postRepo = postRepo;
         _userRepo = userRepo;
-        _userRoleService = userRoleService;
-        _notificationService = notificationService;
     }
 
     public async Task<long> Handle(CreateCommentCommand request, CancellationToken ct)
     {
+        long userId = await _userRepo.GetUserIdByIdentityIdAsync(request.IdentityId);
+
         var comment = new Comment
         {
-            UserId = request.UserId,
+            UserId = userId,
             PostId = request.PostId,
             Text = request.Text
         };
@@ -37,13 +35,13 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
         if (post != null)
         {
             string? userName = null;
-            if (request.UserId.HasValue)
+
+            if (request.IdentityId != null)
             {
-                var user = await _userRepo.GetByIdAsync(request.UserId.Value);
-                if (user != null)
-                {
-                    userName = await _userRoleService.GetEmailByIdentityIdAsync(user.IdentityId);
-                }
+                string firstName = await _userRepo.GetUserFirstNameByIdentityIdAsync(request.IdentityId);
+                string lastName = await _userRepo.GetUserLastNameByIdentityIdAsync(request.IdentityId);
+
+                userName = $"{firstName} {lastName}".Trim();
             }
 
             var commentDto = new CommentDto
@@ -55,8 +53,6 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
                 Text = comment.Text,
                 CreatedAt = comment.CreatedAt
             };
-
-            await _notificationService.NotifyNewCommentAsync(post.ShelterId, commentDto);
         }
 
         return comment.Id;

@@ -23,6 +23,6 @@ public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand>
         if (comment.UserId != request.UserId)
             throw new ForbiddenException("You can only delete your own comments");
         
-        await _commentRepo.DeleteAsync(comment);
+        _commentRepo.Delete(comment);
     }
 }

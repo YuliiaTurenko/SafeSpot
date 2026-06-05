@@ -9,34 +9,36 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, long>
 {
     private readonly IPostRepository _postRepo;
     private readonly IUserRepository _userRepo;
-    private readonly IUserRoleService _userRoleService;
     private readonly IPostNotificationService _notificationService;
 
-    public CreatePostCommandHandler(IPostRepository postRepo, IUserRepository userRepo, IUserRoleService userRoleService, IPostNotificationService notificationService)
+    public CreatePostCommandHandler(IPostRepository postRepo, IUserRepository userRepo, IPostNotificationService notificationService)
     {
         _postRepo = postRepo;
         _userRepo = userRepo;
-        _userRoleService = userRoleService;
         _notificationService = notificationService;
     }
 
     public async Task<long> Handle(CreatePostCommand request, CancellationToken ct)
     {
+        long userId = await _userRepo.GetUserIdByIdentityIdAsync(request.IdentityId);
+
         var post = new Post
         {
-            UserId = request.UserId,
+            UserId = userId,
             ShelterId = request.ShelterId,
             Text = request.Text
         };
 
         await _postRepo.AddAsync(post);
 
-        // Send SignalR notification
-        var user = await _userRepo.GetByIdAsync(request.UserId);
         string? userName = null;
-        if (user != null)
+
+        if (request.IdentityId != null)
         {
-            userName = await _userRoleService.GetEmailByIdentityIdAsync(user.IdentityId);
+            string firstName = await _userRepo.GetUserFirstNameByIdentityIdAsync(request.IdentityId);
+            string lastName = await _userRepo.GetUserLastNameByIdentityIdAsync(request.IdentityId);
+
+            userName = $"{firstName} {lastName}".Trim();
         }
 
         var postDto = new PostDto

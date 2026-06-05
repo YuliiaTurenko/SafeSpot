@@ -3,7 +3,7 @@ using MediatR;
 namespace SafeSpot.Application.Features.Comments.Commands.Create;
 
 public record CreateCommentCommand(
-    long? UserId,
+    string? IdentityId,
     long PostId,
     string Text
 ) : IRequest<long>;

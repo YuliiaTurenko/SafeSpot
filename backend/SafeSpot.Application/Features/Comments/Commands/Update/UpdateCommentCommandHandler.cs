@@ -25,6 +25,6 @@ public class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand>
         
         comment.Text = request.Text;
         
-        await _commentRepo.UpdateAsync(comment);
+        _commentRepo.Update(comment);
     }
 }
