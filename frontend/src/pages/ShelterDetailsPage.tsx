@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getShelterById } from "../api/shelterApi";
 import { getResourcesByShelterId } from "../api/shelterResourceApi";
@@ -35,6 +35,7 @@ export default function ShelterDetailsPage() {
 
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) return;
@@ -116,10 +117,20 @@ export default function ShelterDetailsPage() {
 
   return (
     <div className="min-h-screen bg-[#2F3E46] text-white p-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">{t("shelterDetails")}</h1>
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <button
+            onClick={() => navigate(-1)}
+            className="bg-[#52796F] hover:bg-[#2F3E46] text-white px-4 py-2 rounded-lg font-medium shadow-md transition-all mb-4"
+          >
+            ← {t("back")}
+          </button>
+          <h1 className="text-4xl font-bold">{t("shelterDetails")}</h1>
+        </div>
 
-        <LanguageButton />
+        <div className="absolute top-8 right-12">
+          <LanguageButton />
+        </div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
@@ -258,7 +269,7 @@ export default function ShelterDetailsPage() {
           <div className="bg-[#354F52] rounded-2xl p-6 mt-8">
             <h2 className="text-2xl font-semibold mb-4">{t("sensorsTitle")}</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {sensors.map((s) => (
                 <SensorCard
                   key={s.id}
