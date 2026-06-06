@@ -4,7 +4,7 @@ import {
   deleteSensor,
   getSensorsByShelterId,
   getShelterAnalytics,
-  getSensorReadings,
+  getLatestSensorReadings,
 } from "../api/sensorApi";
 import SensorCard from "../components/SensorCard";
 import SensorModal from "../components/SensorModal";
@@ -75,7 +75,7 @@ export default function AdminSensorsPage() {
   };
 
   const handleChartOpen = async (sensor: any) => {
-    const res = await getSensorReadings(sensor.id);
+    const res = await getLatestSensorReadings(sensor.id);
 
     setChartReadings(res.data);
 
@@ -195,7 +195,7 @@ export default function AdminSensorsPage() {
           open={chartOpen}
           onClose={() => setChartOpen(false)}
           sensor={selectedSensor}
-          readings={chartReadings}
+          initialReadings={chartReadings}
         />
 
         <NotificationToast shelterId={shelterIdNumber} />

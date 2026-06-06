@@ -128,6 +128,9 @@ i18n
           noSavedShelters: "No saved shelters",
           details: "Details",
           remove: "Remove",
+          latest: "Latest 100",
+          weekly: "Weekly",
+          monthly: "Montly",
 
           shelters: {
             statuses: {
@@ -290,6 +293,9 @@ i18n
           noSavedShelters: "У вас немає збережених укриттів",
           details: "Деталі",
           remove: "Видалити",
+          latest: "Останні 100",
+          weekly: "За тиждень",
+          monthly: "За місяць",
 
           shelters: {
             statuses: {

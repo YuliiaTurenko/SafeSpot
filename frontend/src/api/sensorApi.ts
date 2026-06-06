@@ -16,8 +16,14 @@ export const updateSensor = (data: UpdateSensorRequest) =>
 export const deleteSensor = (id: number) =>
   api.delete(`/sensors/${id}`);
 
-export const getSensorReadings = (sensorId: number) =>
+export const getLatestSensorReadings = (sensorId: number) =>
   api.get(`/sensor-readings/${sensorId}`);
+
+export const getWeeklySensorReadings = (sensorId: number) =>
+  api.get(`/sensor-readings/${sensorId}/weekly`);
+
+export const getMontlySensorReadings = (sensorId: number) =>
+  api.get(`/sensor-readings/${sensorId}/monthly`);
 
 export const getShelterAnalytics = (shelterId: number) =>
   api.get(`/sensor-analytics?shelterId=${shelterId}`);
