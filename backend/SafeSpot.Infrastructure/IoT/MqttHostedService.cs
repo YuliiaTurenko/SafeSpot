@@ -84,7 +84,6 @@ public class MqttHostedService : BackgroundService
 
             db.SensorReadings.Add(reading);
 
-            sensor.Status = SensorStatus.Active;
             sensor.LastSeenAt = DateTime.UtcNow;
             sensor.CurrentValue = payload.Value;
 
