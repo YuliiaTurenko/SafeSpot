@@ -13,7 +13,7 @@ import ShelterDetailsPage from "./pages/ShelterDetailsPage";
 import ShelterPostsPage from "./pages/ShelterPostsPage";
 import AdminSensorsPage from "./pages/AdminSensorsPage";
 import NotificationPage from "./pages/NotificationPage";
-import ModeratorManagementPage from "./pages/ModeratorManagementPage";
+import OperatorManagementPage from "./pages/OperatorManagementPage";
 import SavedSheltersPage from "./pages/SavedSheltersPage";
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
             <Route path="/complete-profile" element={<CompleteProfilePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/admin" element={<AdminPage />} />
-            <Route path="/admin/moderators" element={<ModeratorManagementPage />} />
+            <Route path="/admin/operators" element={<OperatorManagementPage />} />
             <Route path="/admin/shelter/:shelterId/sensors" element={<AdminSensorsPage />} />
             <Route path="/operator" element={<OperatorPage />} />
             <Route path="/profile" element={<ProfilePage />} />

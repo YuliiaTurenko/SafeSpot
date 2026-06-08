@@ -1,29 +1,23 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getPostsByShelterId, createPost, updatePost, deletePost } from "../api/postApi";
-import { getCommentsByPostId, createComment, updateComment, deleteComment } from "../api/commentApi";
+import {
+  getPostsByShelterId,
+  createPost,
+  updatePost,
+  deletePost,
+} from "../api/postApi";
+import {
+  getCommentsByPostId,
+  createComment,
+  updateComment,
+  deleteComment,
+} from "../api/commentApi";
 import { getShelterById } from "../api/shelterApi";
+import { Post } from "../api/models/Post";
+import { Comment } from "../api/models/Comment";
 import LanguageButton from "../components/LanguageButton";
 import { useTranslation } from "react-i18next";
 import { jwtDecode } from "jwt-decode";
-
-interface Post {
-  id: number;
-  userId: number;
-  userName: string | null;
-  shelterId: number;
-  text: string;
-  createdAt: string;
-}
-
-interface Comment {
-  id: number;
-  userId: number | null;
-  userName: string | null;
-  postId: number;
-  text: string;
-  createdAt: string;
-}
 
 export default function ShelterPostsPage() {
   const { id } = useParams();
@@ -45,20 +39,27 @@ export default function ShelterPostsPage() {
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentText, setCommentText] = useState("");
   const [editingComment, setEditingComment] = useState<Comment | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const postsPerPage = 8;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       const decoded: any = jwtDecode(token);
-      const roles = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-      const userId = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-      
+      const roles =
+        decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      const userId =
+        decoded[
+          "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+        ];
+
       if (Array.isArray(roles)) {
         setUserRole(roles[0]);
       } else {
         setUserRole(roles);
       }
-      
+
       setCurrentUserId(parseInt(userId));
     }
   }, []);
@@ -72,7 +73,9 @@ export default function ShelterPostsPage() {
   const loadPosts = async () => {
     try {
       const res = await getPostsByShelterId(Number(id));
+
       setPosts(res.data);
+      setCurrentPage(1);
     } finally {
       setLoading(false);
     }
@@ -92,7 +95,7 @@ export default function ShelterPostsPage() {
     if (!postText.trim()) return;
 
     await createPost({ shelterId: Number(id), text: postText });
-    
+
     setPostText("");
     setPostModalOpen(false);
     loadPosts();
@@ -100,9 +103,9 @@ export default function ShelterPostsPage() {
 
   const handleUpdatePost = async () => {
     if (!editingPost || !postText.trim()) return;
-    
+
     await updatePost({ postId: editingPost.id, text: postText });
-    
+
     setEditingPost(null);
     setPostText("");
     setPostModalOpen(false);
@@ -111,7 +114,7 @@ export default function ShelterPostsPage() {
 
   const handleDeletePost = async (postId: number) => {
     if (!confirm(t("deleteConfirm"))) return;
-    
+
     await deletePost(postId);
     loadPosts();
   };
@@ -124,18 +127,18 @@ export default function ShelterPostsPage() {
 
   const handleCreateComment = async () => {
     if (!commentText.trim() || !selectedPostId) return;
-    
+
     await createComment({ postId: selectedPostId, text: commentText });
-    
+
     setCommentText("");
     loadComments(selectedPostId);
   };
 
   const handleUpdateComment = async () => {
     if (!editingComment || !commentText.trim()) return;
-    
+
     await updateComment({ commentId: editingComment.id, text: commentText });
-    
+
     setEditingComment(null);
     setCommentText("");
     loadComments(selectedPostId!);
@@ -143,7 +146,7 @@ export default function ShelterPostsPage() {
 
   const handleDeleteComment = async (commentId: number) => {
     if (!confirm(t("deleteConfirm"))) return;
-    
+
     await deleteComment(commentId);
     loadComments(selectedPostId!);
   };
@@ -157,6 +160,13 @@ export default function ShelterPostsPage() {
       </div>
     );
   }
+
+  const totalPages = Math.ceil(posts.length / postsPerPage);
+
+  const pagedPosts = posts.slice(
+    (currentPage - 1) * postsPerPage,
+    currentPage * postsPerPage,
+  );
 
   return (
     <div className="min-h-screen bg-[#354F52] text-white p-6">
@@ -192,12 +202,13 @@ export default function ShelterPostsPage() {
       )}
 
       <div className="space-y-4">
-        {posts.map((post) => (
+        {pagedPosts.map((post) => (
           <div key={post.id} className="bg-[#2F3E46] p-5 rounded-xl">
             <div className="flex justify-between items-start mb-3">
               <div>
                 <p className="text-sm text-[#CAD2C5]">
-                  {post.userName || "Anonymous"} • {new Date(post.createdAt).toLocaleString()}
+                  {post.userName || "Anonymous"} •{" "}
+                  {new Date(post.createdAt).toLocaleString()}
                 </p>
                 <p className="mt-2">{post.text}</p>
               </div>
@@ -228,13 +239,37 @@ export default function ShelterPostsPage() {
               onClick={() => handleOpenComments(post.id)}
               className="text-[#84A98C] hover:text-[#6B9080] text-sm"
             >
-              {t("viewComments")} ({comments.filter(c => c.postId === post.id).length})
+              {t("viewComments")} (
+              {comments.filter((c) => c.postId === post.id).length})
             </button>
           </div>
         ))}
 
         {posts.length === 0 && <p className="text-[#CAD2C5]">{t("noPosts")}</p>}
       </div>
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-2 mt-8">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((p) => p - 1)}
+            className="bg-[#52796F] px-4 py-2 rounded disabled:opacity-50"
+          >
+            ←
+          </button>
+
+          <span>
+            {currentPage} / {totalPages}
+          </span>
+
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((p) => p + 1)}
+            className="bg-[#52796F] px-4 py-2 rounded disabled:opacity-50"
+          >
+            →
+          </button>
+        </div>
+      )}
 
       {postModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -295,7 +330,8 @@ export default function ShelterPostsPage() {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="text-sm text-[#CAD2C5]">
-                        {comment.userName || "Anonymous"} • {new Date(comment.createdAt).toLocaleString()}
+                        {comment.userName || "Anonymous"} •{" "}
+                        {new Date(comment.createdAt).toLocaleString()}
                       </p>
                       <p className="mt-1">{comment.text}</p>
                     </div>
@@ -323,7 +359,9 @@ export default function ShelterPostsPage() {
                 </div>
               ))}
 
-              {comments.length === 0 && <p className="text-[#CAD2C5]">{t("noComments")}</p>}
+              {comments.length === 0 && (
+                <p className="text-[#CAD2C5]">{t("noComments")}</p>
+              )}
             </div>
 
             <div className="border-t border-[#52796F]/30 pt-4">
@@ -334,7 +372,9 @@ export default function ShelterPostsPage() {
                 placeholder={t("enterComment")}
               />
               <button
-                onClick={editingComment ? handleUpdateComment : handleCreateComment}
+                onClick={
+                  editingComment ? handleUpdateComment : handleCreateComment
+                }
                 className="w-full mt-3 bg-[#84A98C] hover:bg-[#6B9080] text-white px-4 py-2 rounded-lg font-medium transition-all"
               >
                 {editingComment ? t("update") : t("send")}

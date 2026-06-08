@@ -18,6 +18,9 @@ export default function ShelterList({ onSelectShelter }: Props) {
   const [statusFilter, setStatusFilter] = useState<ShelterStatus | "all">(
     "all",
   );
+  const [selectedShelterId, setSelectedShelterId] = useState<number | null>(
+    null,
+  );
 
   const navigate = useNavigate();
 
@@ -93,7 +96,17 @@ export default function ShelterList({ onSelectShelter }: Props) {
 
       <div className="space-y-4">
         {filteredShelters.map((s) => (
-          <div key={s.id} className="bg-[#2F3E46] p-4 rounded-xl">
+          <div
+            key={s.id}
+            className={`
+              bg-[#2F3E46] p-4 rounded-xl border-2 transition-all
+              ${
+                selectedShelterId === s.id
+                  ? "border-[#151A3C]"
+                  : "border-transparent"
+              }
+            `}
+          >
             <div className="flex justify-between items-center">
               <div>
                 <h3>{s.address}</h3>
@@ -103,23 +116,27 @@ export default function ShelterList({ onSelectShelter }: Props) {
                 </p>
                 <p>
                   {" "}
-                  {t("status")}: {t(statusLabels[s.status as ShelterStatus])}{" "}
+                  {t("status")}:{" "}
+                  {t(statusLabels[s.status as ShelterStatus])}{" "}
                 </p>
               </div>
 
               <div className="flex gap-2 flex-wrap">
                 <button
-                  onClick={() => onSelectShelter(s.id)}
+                  onClick={() => {
+                    setSelectedShelterId(s.id);
+                    onSelectShelter(s.id);
+                  }}
                   className="bg-[#354F52] hover:bg-[#52796F] text-white px-3 py-2 rounded transition-colors"
                 >
-                  {t("select") || "Вибрати"}
+                  {t("select")}
                 </button>
 
                 <button
                   onClick={() => navigate(`/shelters/${s.id}/posts`)}
                   className="bg-[#354F52] hover:bg-[#52796F] text-white px-3 py-2 rounded transition-colors"
                 >
-                  {t("posts") || "Пости"}
+                  {t("posts")}
                 </button>
 
                 <button

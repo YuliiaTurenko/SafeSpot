@@ -32,10 +32,13 @@ export default function ShelterDetailsPage() {
 
   const [saved, setSaved] = useState(false);
   const [loadingSave, setLoadingSave] = useState(false);
+  const [announcementPage, setAnnouncementPage] = useState(1);
 
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const announcementsPerPage = 4;
 
   useEffect(() => {
     if (!id) return;
@@ -72,6 +75,7 @@ export default function ShelterDetailsPage() {
       setShelter(shelterRes.data);
       setResources(resourcesRes.data);
       setAnnouncements(announcementsRes.data);
+      setAnnouncementPage(1);
 
       const savedRes = await isShelterSaved(Number(id));
       setSaved(savedRes.data);
@@ -114,6 +118,15 @@ export default function ShelterDetailsPage() {
       </div>
     );
   }
+
+  const totalAnnouncementPages = Math.ceil(
+    announcements.length / announcementsPerPage,
+  );
+
+  const pagedAnnouncements = announcements.slice(
+    (announcementPage - 1) * announcementsPerPage,
+    announcementPage * announcementsPerPage,
+  );
 
   return (
     <div className="min-h-screen bg-[#2F3E46] text-white p-8">
@@ -210,7 +223,7 @@ export default function ShelterDetailsPage() {
             </div>
 
             <div className="space-y-4">
-              {announcements.map((announcement) => (
+              {pagedAnnouncements.map((announcement) => (
                 <div
                   key={announcement.id}
                   className="bg-[#2F3E46] p-4 rounded-xl"
@@ -233,6 +246,30 @@ export default function ShelterDetailsPage() {
 
               {announcements.length === 0 && <p>{t("noAnnouncements")}</p>}
             </div>
+
+            {totalAnnouncementPages > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-6">
+                <button
+                  disabled={announcementPage === 1}
+                  onClick={() => setAnnouncementPage((p) => p - 1)}
+                  className="bg-[#52796F] px-4 py-2 rounded disabled:opacity-50"
+                >
+                  ←
+                </button>
+
+                <span>
+                  {announcementPage} / {totalAnnouncementPages}
+                </span>
+
+                <button
+                  disabled={announcementPage === totalAnnouncementPages}
+                  onClick={() => setAnnouncementPage((p) => p + 1)}
+                  className="bg-[#52796F] px-4 py-2 rounded disabled:opacity-50"
+                >
+                  →
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

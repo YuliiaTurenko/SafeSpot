@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUsers, getModerators, assignModerator, revokeModerator } from "../api/adminApi";
+import { getUsers, getOperators, assignOperator, revokeOperator } from "../api/adminApi";
 import { getShelters } from "../api/shelterApi";
 import LanguageButton from "../components/LanguageButton";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,7 @@ interface User {
   email: string;
 }
 
-interface Moderator {
+interface Operator {
   id: number;
   firstName: string;
   lastName: string;
@@ -25,12 +25,12 @@ interface Shelter {
   address: string;
 }
 
-export default function ModeratorManagementPage() {
+export default function OperatorManagementPage() {
   const [users, setUsers] = useState<User[]>([]);
-  const [moderators, setModerators] = useState<Moderator[]>([]);
+  const [operators, setOperators] = useState<Operator[]>([]);
   const [shelters, setShelters] = useState<Shelter[]>([]);
   const [userSearch, setUserSearch] = useState("");
-  const [moderatorSearch, setModeratorSearch] = useState("");
+  const [operatorSearch, setOperatorSearch] = useState("");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedShelter, setSelectedShelter] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
@@ -40,13 +40,13 @@ export default function ModeratorManagementPage() {
   const load = async () => {
     try {
       setLoading(true);
-      const [usersRes, moderatorsRes, sheltersRes] = await Promise.all([
+      const [usersRes, operatorsRes, sheltersRes] = await Promise.all([
         getUsers(),
-        getModerators(),
+        getOperators(),
         getShelters(),
       ]);
       setUsers(usersRes.data);
-      setModerators(moderatorsRes.data);
+      setOperators(operatorsRes.data);
       setShelters(sheltersRes.data);
     } finally {
       setLoading(false);
@@ -57,9 +57,9 @@ export default function ModeratorManagementPage() {
     load();
   }, []);
 
-  const handleAssignModerator = async () => {
+  const handleAssignOperator = async () => {
     if (!selectedUser || selectedShelter === null) return;
-    await assignModerator({
+    await assignOperator({
       targetUserId: selectedUser.id,
       shelterId: selectedShelter,
     });
@@ -68,8 +68,8 @@ export default function ModeratorManagementPage() {
     load();
   };
 
-  const handleRevokeModerator = async (userId: number) => {
-    await revokeModerator({ targetUserId: userId });
+  const handleRevokeOperator = async (userId: number) => {
+    await revokeOperator({ targetUserId: userId });
     load();
   };
 
@@ -81,11 +81,11 @@ export default function ModeratorManagementPage() {
     );
   });
 
-  const filteredModerators = moderators.filter((moderator) => {
-    const searchLower = moderatorSearch.toLowerCase();
+  const filteredOperators = operators.filter((operator) => {
+    const searchLower = operatorSearch.toLowerCase();
     return (
-      moderator.firstName.toLowerCase().includes(searchLower) ||
-      moderator.lastName.toLowerCase().includes(searchLower)
+      operator.firstName.toLowerCase().includes(searchLower) ||
+      operator.lastName.toLowerCase().includes(searchLower)
     );
   });
 
@@ -107,7 +107,7 @@ export default function ModeratorManagementPage() {
         </div>
 
         <h1 className="text-3xl font-bold mb-6">
-          {t("dashboard")} - {t("moderators")}
+          {t("dashboard")} - {t("operators")}
         </h1>
 
         {loading ? (
@@ -115,7 +115,7 @@ export default function ModeratorManagementPage() {
         ) : (
           <div className="space-y-8">
             <div className="bg-[#2F3E46] border border-[#52796F]/30 p-6 rounded-xl shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">{t("assignModerators")}</h2>
+              <h2 className="text-2xl font-bold mb-4">{t("assignOperators")}</h2>
               
               <div className="space-y-4">
                 <input
@@ -159,44 +159,44 @@ export default function ModeratorManagementPage() {
                 </div>
 
                 <button
-                  onClick={handleAssignModerator}
+                  onClick={handleAssignOperator}
                   disabled={!selectedUser || selectedShelter === null}
                   className="w-full bg-[#84A98C] hover:bg-[#6B9080] disabled:bg-gray-500 
                   disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-all"
                 >
-                  {t("assignAsModeratorButton")}
+                  {t("assignAsOperatorButton")}
                 </button>
               </div>
             </div>
 
             <div className="bg-[#2F3E46] border border-[#52796F]/30 p-6 rounded-xl shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">{t("currentModerators")}</h2>
+              <h2 className="text-2xl font-bold mb-4">{t("currentOperators")}</h2>
               
               <input
                 type="text"
-                placeholder={t("searchModeratorsByName")}
-                value={moderatorSearch}
-                onChange={(e) => setModeratorSearch(e.target.value)}
+                placeholder={t("searchOperatorsByName")}
+                value={operatorSearch}
+                onChange={(e) => setOperatorSearch(e.target.value)}
                 className="w-full bg-white text-black p-3 rounded-xl border border-gray-200 mb-4"
               />
 
               <div className="space-y-3">
-                {filteredModerators.map((moderator) => (
+                {filteredOperators.map((operator) => (
                   <div
-                    key={moderator.id}
+                    key={operator.id}
                     className="bg-[#354F52] p-4 rounded-lg flex justify-between items-center"
                   >
                     <div>
                       <p className="font-medium">
-                        {moderator.firstName} {moderator.lastName}
+                        {operator.firstName} {operator.lastName}
                       </p>
-                      <p className="text-sm text-[#CAD2C5]">{moderator.email}</p>
+                      <p className="text-sm text-[#CAD2C5]">{operator.email}</p>
                       <p className="text-sm text-[#CAD2C5]">
-                        Shelters: {moderator.shelterIds.join(", ")}
+                        Shelters: {operator.shelterIds.join(", ")}
                       </p>
                     </div>
                     <button
-                      onClick={() => handleRevokeModerator(moderator.id)}
+                      onClick={() => handleRevokeOperator(operator.id)}
                       className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
                     >
                       {t("revoke")}

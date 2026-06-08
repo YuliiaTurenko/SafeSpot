@@ -5,10 +5,7 @@ import {
   getResourcesByShelterId,
   updateShelterResource,
 } from "../api/shelterResourceApi";
-import {
-  ResourceStatus,
-  ResourceType,
-} from "../api/models/ShelterResource";
+import { ResourceStatus, ResourceType } from "../api/models/ShelterResource";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -77,101 +74,103 @@ export default function ResourceList({ shelterId }: Props) {
 
   return (
     <div className="mt-10">
-      <h2 className="text-2xl font-bold mb-5">{t("resourcesTitle")}</h2>
+      <div className="bg-[#151A3C] rounded-2xl p-5">
+        <h2 className="text-2xl font-bold mb-5">{t("resourcesTitle")}</h2>
 
-      <div className="bg-[#2F3E46] p-5 rounded-2xl mb-5">
-        <div className="grid grid-cols-3 gap-3">
-          <select
-            value={type}
-            onChange={(e) => setType(Number(e.target.value))}
-            className="p-3 rounded bg-[#354F52]"
-          >
-            {Object.entries(ResourceType)
-              .filter(([k]) => isNaN(Number(k)))
-              .map(([key, value]) => (
-                <option key={value} value={value}>
-                  {key}
-                </option>
-              ))}
-          </select>
-
-          <select
-            value={status}
-            onChange={(e) => setStatus(Number(e.target.value))}
-            className="p-3 rounded bg-[#354F52]"
-          >
-            {Object.entries(ResourceStatus)
-              .filter(([k]) => isNaN(Number(k)))
-              .map(([key, value]) => (
-                <option key={value} value={value}>
-                  {key}
-                </option>
-              ))}
-          </select>
-
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
-            placeholder={t("amount")}
-            className="p-3 rounded bg-[#354F52]"
-          />
-        </div>
-
-        <div className="flex gap-3 mt-4">
-          <button
-            onClick={handleSubmit}
-            className="bg-[#84A98C] px-4 py-2 rounded"
-          >
-            {editingId ? t("save") : t("create")}
-          </button>
-
-          {editingId && (
-            <button
-              onClick={clearForm}
-              className="bg-gray-500 px-4 py-2 rounded"
+        <div className="bg-[#2F3E46] p-5 rounded-2xl mb-5">
+          <div className="grid grid-cols-3 gap-3">
+            <select
+              value={type}
+              onChange={(e) => setType(Number(e.target.value))}
+              className="p-3 rounded bg-[#354F52]"
             >
-              {t("cancel")}
-            </button>
-          )}
-        </div>
-      </div>
+              {Object.entries(ResourceType)
+                .filter(([k]) => isNaN(Number(k)))
+                .map(([key, value]) => (
+                  <option key={value} value={value}>
+                    {key}
+                  </option>
+                ))}
+            </select>
 
-      <div className="space-y-4">
-        {resources.map((r) => (
-          <div
-            key={r.id}
-            className="bg-[#2F3E46] p-4 rounded-xl flex justify-between"
-          >
-            <div>
-              <p>
-                {t("type")}: {ResourceType[r.type]}
-              </p>
-              <p>
-                {t("status")}: {ResourceStatus[r.status]}
-              </p>
-              <p>
-                {t("amount")}: {r.amount}
-              </p>
-            </div>
+            <select
+              value={status}
+              onChange={(e) => setStatus(Number(e.target.value))}
+              className="p-3 rounded bg-[#354F52]"
+            >
+              {Object.entries(ResourceStatus)
+                .filter(([k]) => isNaN(Number(k)))
+                .map(([key, value]) => (
+                  <option key={value} value={value}>
+                    {key}
+                  </option>
+                ))}
+            </select>
 
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={() => handleEdit(r)}
-                className="bg-[#678ABE] hover:bg-[#5C858D] text-white px-3 py-2 rounded transition-colors"
-              >
-                {t("edit")}
-              </button>
-
-              <button
-                onClick={() => handleDelete(r.id)}
-                className="bg-red-500 hover:bg-red-600 px-3 py-2 rounded transition-colors"
-              >
-                {t("delete")}
-              </button>
-            </div>
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              placeholder={t("amount")}
+              className="p-3 rounded bg-[#354F52]"
+            />
           </div>
-        ))}
+
+          <div className="flex gap-3 mt-4">
+            <button
+              onClick={handleSubmit}
+              className="bg-[#84A98C] px-4 py-2 rounded"
+            >
+              {editingId ? t("save") : t("create")}
+            </button>
+
+            {editingId && (
+              <button
+                onClick={clearForm}
+                className="bg-gray-500 px-4 py-2 rounded"
+              >
+                {t("cancel")}
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          {resources.map((r) => (
+            <div
+              key={r.id}
+              className="bg-[#2F3E46] p-4 rounded-xl flex justify-between"
+            >
+              <div>
+                <p>
+                  {t("type")}: {ResourceType[r.type]}
+                </p>
+                <p>
+                  {t("status")}: {ResourceStatus[r.status]}
+                </p>
+                <p>
+                  {t("amount")}: {r.amount}
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => handleEdit(r)}
+                  className="bg-[#678ABE] hover:bg-[#5C858D] text-white px-3 py-2 rounded transition-colors"
+                >
+                  {t("edit")}
+                </button>
+
+                <button
+                  onClick={() => handleDelete(r.id)}
+                  className="bg-red-500 hover:bg-red-600 px-3 py-2 rounded transition-colors"
+                >
+                  {t("delete")}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

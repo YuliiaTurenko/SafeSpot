@@ -46,8 +46,10 @@ export default function OperatorPage() {
         {selectedShelterId && (
           <>
             <NotificationToast shelterId={selectedShelterId} />
-            <AnnouncementList shelterId={selectedShelterId} />
+            
             <ResourceList shelterId={selectedShelterId} />
+
+            <AnnouncementList shelterId={selectedShelterId} />
           </>
         )}
       </div>
