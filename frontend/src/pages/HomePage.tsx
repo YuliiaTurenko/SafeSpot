@@ -46,10 +46,10 @@ export default function HomePage() {
               placeholder={t("searchShelters")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="bg-white text-black p-3 rounded-xl flex-1 border border-gray-200"
+              className="bg-white text-black p-3 w-full md:w-[500px] rounded-xl flex-1 border border-gray-200"
             />
             {search.length > 0 && filteredShelters.length > 0 && (
-              <div className="absolute mt-2 w-full md:w-[400px] bg-[#354F52] rounded-xl shadow-lg z-[1000] overflow-hidden">
+              <div className="absolute mt-2 w-full md:w-[500px] bg-[#354F52] rounded-xl shadow-lg z-[1000] overflow-hidden">
                 {filteredShelters.map((shelter: ShelterPreviewDto) => (
                   <button
                     key={shelter.id}

@@ -239,8 +239,7 @@ export default function ShelterPostsPage() {
               onClick={() => handleOpenComments(post.id)}
               className="text-[#84A98C] hover:text-[#6B9080] text-sm"
             >
-              {t("viewComments")} (
-              {comments.filter((c) => c.postId === post.id).length})
+              {t("viewComments")}
             </button>
           </div>
         ))}
@@ -369,7 +368,7 @@ export default function ShelterPostsPage() {
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 className="w-full bg-[#354F52] text-white p-3 rounded-lg border border-[#52796F]/30 min-h-[80px]"
-                placeholder={t("enterComment")}
+                placeholder={t("enterText")}
               />
               <button
                 onClick={

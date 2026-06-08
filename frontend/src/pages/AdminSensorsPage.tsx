@@ -109,10 +109,10 @@ export default function AdminSensorsPage() {
             </div>
 
             <button
-              onClick={() => navigate("/admin/moderators")}
+              onClick={() => navigate("/admin/operators")}
               className="bg-[#84A98C] hover:bg-[#6B9080] text-white px-4 py-2 rounded-lg font-medium transition-all"
             >
-              {t("manageModerators")}
+              {t("manageOperators")}
             </button>
 
             <div className="ml-1">

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { getMe, updateUser } from "../api/userApi";
 import { sendAdminRequest } from "../api/adminApi";
-import { Menu } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageButton from "../components/LanguageButton";
-import Sidebar from "../components/Sidebar";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
@@ -14,8 +13,8 @@ export default function ProfilePage() {
   const [showModal, setShowModal] = useState(false);
   const [status, setStatus] = useState("");
 
-  const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadUser();
@@ -55,24 +54,24 @@ export default function ProfilePage() {
   if (!user) return <div className="text-white p-6">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-[#354F52] text-white flex justify-center items-center">
-      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+    <div className="min-h-screen bg-[#354F52] text-white mx-auto p-6 text-white">
+      <div className="flex justify-between items-center mb-8">
+        <button
+          onClick={() => navigate(-1)}
+          className="bg-[#52796F] hover:bg-[#2F3E46] text-white px-4 py-2 rounded-lg font-medium shadow-md transition-all mb-4"
+        >
+          ← {t("back")}
+        </button>
 
-      <div className="bg-[#2F3E46] p-8 rounded-2xl w-full max-w-xl">
-        <div className="flex items-center gap-4 mb-6">
-          <button onClick={() => setIsOpen(true)}>
-            <Menu size={28} />
-          </button>
-        </div>
-
-        <div className="absolute top-8 right-12">
-          <LanguageButton />
-        </div>
-
-        <h2 className="text-5xl font-bold text-[#CAD2C5] mb-10 text-center">
+        <h1 className="text-3xl font-bold mb-10 text-center">
+          {" "}
           {t("profile")}
-        </h2>
+        </h1>
 
+        <LanguageButton />
+      </div>
+
+      <div className="max-w-xl mx-auto p-6">
         <input
           className="w-full mb-3 p-2 rounded bg-[#CAD2C5] text-black"
           value={firstName}

@@ -58,7 +58,7 @@ export default function ShelterList({ onSelectShelter }: Props) {
 
         <button
           onClick={() => setOpen(true)}
-          className="bg-[#84A98C] px-4 py-2 rounded"
+          className="bg-[#84A98C] px-4 py-2 rounded-lg"
         >
           {t("addShelter")}
         </button>
